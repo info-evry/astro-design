@@ -7,9 +7,10 @@
   /* Background Colors */
   --color-bg: #000000;
   --color-bg-subtle: #050505;
-  --color-surface: #0a0a0a;
-  --color-surface-elevated: #111111;
-  --color-surface-hover: #1a1a1a;
+  --color-surface: #111111;
+  --color-surface-elevated: #1a1a1a;
+  --color-surface-hover: #242424;
+  --color-surface-form: #0d0d0d;
 
   /* Text Colors */
   --color-text: #ffffff;
@@ -49,7 +50,7 @@
   --glow-cyan: 0 0 80px rgba(34, 211, 238, 0.3);
 
   /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.15);
+  --border-hover: rgba(255, 255, 255, 0.25);
 }
