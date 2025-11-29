@@ -1,0 +1,104 @@
+/* ===========================================
+   KPI Stats Component - Info Evry Design System
+   Modern stat cards in Vercel/Linear style
+   =========================================== */
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Stat Card - Modern KPI Style */
+.stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-align: center;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.stat-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-value {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card .stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Stat Card Variants */
+.stat-card.primary .stat-value {
+  color: var(--color-primary);
+}
+
+.stat-card.success .stat-value {
+  color: var(--color-success);
+}
+
+.stat-card.warning .stat-value {
+  color: var(--color-warning);
+}
+
+.stat-card.error .stat-value {
+  color: var(--color-error);
+}
+
+/* Inline Stats (for hero sections) */
+.stats-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+.stats-inline .stat-card {
+  background: transparent;
+  border: none;
+  padding: var(--space-4) var(--space-6);
+}
+
+.stats-inline .stat-card:hover {
+  transform: none;
+}
+
+.stats-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--border-subtle);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-inline {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .stats-inline .stat-card {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .stats-divider {
+    width: 80px;
+    height: 1px;
+  }
+
+  .stat-card .stat-value {
+    font-size: var(--text-2xl);
+  }
+}

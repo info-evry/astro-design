@@ -15,10 +15,13 @@
 /* Components */
 @import './components/buttons.css';
 @import './components/cards.css';
+@import './components/disclosure.css';
 @import './components/forms.css';
 @import './components/header.css';
 @import './components/hero.css';
+@import './components/kpi-stats.css';
 @import './components/modals.css';
+@import './components/page-hero.css';
 @import './components/sections.css';
 
 /* Utilities */
