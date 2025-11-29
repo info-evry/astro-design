@@ -4,9 +4,19 @@
   "description": "Shared design system for Info Evry Astro projects",
   "main": "src/index.css",
   "style": "src/index.css",
+  "type": "module",
   "files": [
-    "src"
+    "src",
+    "tools"
   ],
+  "scripts": {
+    "generate-colors": "bun run tools/generate-colors.ts",
+    "generate-colors:apply": "bun run tools/generate-colors.ts --output src/tokens/colors.css",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
   "keywords": [
     "design-system",
     "css",

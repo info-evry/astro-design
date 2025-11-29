@@ -1,19 +1,3 @@
-# OS
-.DS_Store
-Thumbs.db
-Desktop.ini
-
-# IDE
-.vscode/
-.idea/
-*.sublime-*
-
-# Misc
-*.local
-*.bak
-*.tmp
-*.swp
-*~
-
-# Claude Code
-.claude/
+node_modules/
+bun.lock
+dist/

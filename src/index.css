@@ -23,6 +23,8 @@
 @import './components/modals.css';
 @import './components/page-hero.css';
 @import './components/sections.css';
+@import './components/team-cards.css';
+@import './components/admin.css';
 
 /* Utilities */
 @import './utilities/animations.css';

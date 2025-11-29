@@ -377,3 +377,239 @@ select {
   padding: 0 var(--space-2);
   color: var(--color-text-secondary);
 }
+
+/* ===========================================
+   Member Cards - Dynamic form entry cards
+   Used for adding/removing multiple entries
+   =========================================== */
+
+.member-card {
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.member-card:last-child {
+  margin-bottom: 0;
+}
+
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.member-title {
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 600px) {
+  .member-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.member-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  transition: background var(--transition-fast);
+}
+
+.remove-btn:hover {
+  background: var(--color-error-light);
+}
+
+/* ===========================================
+   Option Grid - Selection cards (pizzas, etc)
+   =========================================== */
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.option-card {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.option-card:hover {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+.option-card.selected {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.1);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.option-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.option-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.option-card-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.option-card-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Legacy pizza grid (alias) */
+.pizza-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.pizza-option {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pizza-option:hover {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+.pizza-option.selected {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.1);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.pizza-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.pizza-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pizza-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.pizza-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ===========================================
+   Team Fields - Conditional form sections
+   =========================================== */
+
+.team-fields {
+  margin-top: var(--space-4);
+}
+
+.team-fields.hidden {
+  display: none;
+}
+
+/* ===========================================
+   Form Errors & Validation
+   =========================================== */
+
+.errors {
+  background: var(--color-error-light);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  color: var(--color-error);
+}
+
+.errors ul {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.errors li {
+  margin-bottom: var(--space-1);
+}
+
+.errors li:last-child {
+  margin-bottom: 0;
+}
+
+/* ===========================================
+   Capacity Warning
+   =========================================== */
+
+.capacity-warning {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-8);
+  color: var(--color-warning, #fbbf24);
+}
+
+.capacity-warning.capacity-full {
+  background: var(--color-error-light);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.capacity-warning-icon {
+  font-size: var(--text-xl);
+}
+
+.capacity-warning-text {
+  font-size: var(--text-sm);
+}

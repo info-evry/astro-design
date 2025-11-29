@@ -1,0 +1,218 @@
+/* ===========================================
+   Team Cards - Info Evry Design System
+   Public-facing team display cards
+   =========================================== */
+
+/* Teams Grid */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Empty State */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-12);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-4);
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Team Card */
+.team-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.team-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-default);
+  transform: translateY(-2px);
+}
+
+.team-card.clickable {
+  cursor: pointer;
+}
+
+.team-card.clickable:hover {
+  border-color: var(--color-primary);
+}
+
+.team-card.full {
+  opacity: 0.7;
+}
+
+.team-card.organisation {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+/* Team Card Content */
+.team-name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+  color: var(--color-text);
+}
+
+.team-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+  line-height: 1.5;
+}
+
+.team-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+}
+
+.team-members {
+  color: var(--color-text-secondary);
+}
+
+.team-spots {
+  font-weight: 500;
+  color: var(--color-success);
+}
+
+.team-spots.full {
+  color: var(--color-text-muted);
+}
+
+.team-spots.unlimited {
+  color: var(--color-primary);
+}
+
+/* Team View Hint */
+.team-view-hint {
+  position: absolute;
+  bottom: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.team-card:hover .team-view-hint {
+  opacity: 1;
+}
+
+/* ===========================================
+   Team View Modal Content
+   =========================================== */
+
+.team-view-section {
+  padding: var(--space-4);
+}
+
+.team-view-section.hidden {
+  display: none;
+}
+
+.team-view-desc {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.team-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-view-header h3 {
+  margin: 0;
+}
+
+/* Member List in Modal */
+.team-members-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.member-item.leader {
+  border-color: var(--color-primary);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.member-name {
+  font-weight: 500;
+}
+
+.member-details {
+  display: flex;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.member-email {
+  color: var(--color-primary);
+}
+
+.member-bac {
+  background: var(--border-default);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+}
+
+.member-food {
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .member-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .member-details {
+    flex-wrap: wrap;
+  }
+}
