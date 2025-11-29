@@ -1,6 +1,6 @@
 # @info-evry/astro-design
 
-Shared design system for Info Evry Astro projects.
+Shared design system for Asso Info Evry Astro projects.
 
 ## Usage
 
