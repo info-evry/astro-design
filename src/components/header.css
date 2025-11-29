@@ -4,7 +4,8 @@
    =========================================== */
 
 /* Header Base */
-.site-header {
+.site-header,
+.header {
   position: fixed;
   top: 0;
   left: 0;
@@ -225,9 +226,9 @@
 .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(4) { transition-delay: 250ms; }
 .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-cta { transition-delay: 300ms; }
 
-/* Body padding when header is present */
+/* Body padding when header is present - not needed when using hero sections */
 .has-header {
-  padding-top: 96px;
+  padding-top: 0;
 }
 
 /* Responsive */

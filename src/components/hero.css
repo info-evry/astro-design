@@ -1,0 +1,285 @@
+/* ===========================================
+   Hero Component - Info Evry Design System
+   Full-screen hero with animated orbs background
+   =========================================== */
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Animated Background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  animation: hero-float 25s ease-in-out infinite;
+}
+
+.orb-blue {
+  width: 500px;
+  height: 500px;
+  background: rgba(14, 165, 233, 0.5);
+  top: -150px;
+  right: -50px;
+}
+
+.orb-cyan {
+  width: 400px;
+  height: 400px;
+  background: rgba(34, 211, 238, 0.4);
+  bottom: -100px;
+  left: -50px;
+  animation-delay: -8s;
+}
+
+.orb-indigo {
+  width: 300px;
+  height: 300px;
+  background: rgba(99, 102, 241, 0.35);
+  top: 40%;
+  left: 30%;
+  animation-delay: -15s;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+}
+
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hero Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+  animation: hero-fade-in-up 0.6s ease forwards;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  animation: hero-pulse 2s ease-in-out infinite;
+}
+
+/* Hero Title */
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-6);
+}
+
+.hero-title.large {
+  font-size: clamp(3rem, 10vw, 6rem);
+}
+
+.title-line {
+  display: block;
+  opacity: 0;
+  animation: hero-fade-in-up 0.6s ease forwards;
+}
+
+.title-line:nth-child(1) { animation-delay: 100ms; }
+.title-line:nth-child(2) { animation-delay: 200ms; }
+.title-line:nth-child(3) { animation-delay: 300ms; }
+
+/* Hero Description */
+.hero-description {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  max-width: 540px;
+  margin-bottom: var(--space-10);
+  opacity: 0;
+  animation: hero-fade-in-up 0.6s ease 300ms forwards;
+}
+
+/* Hero Actions */
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: hero-fade-in-up 0.6s ease 500ms forwards;
+}
+
+/* ===========================================
+   KPI Stats - Vercel/Linear Style
+   =========================================== */
+
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+  opacity: 0;
+  animation: hero-fade-in-up 0.6s ease 400ms forwards;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+}
+
+.kpi-value {
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpi-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--border-subtle);
+}
+
+/* ===========================================
+   Hero Animations
+   =========================================== */
+
+@keyframes hero-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.02);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.98);
+  }
+}
+
+@keyframes hero-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ===========================================
+   Responsive
+   =========================================== */
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 100px;
+    min-height: auto;
+    padding-bottom: var(--space-16);
+  }
+
+  .hero-badge {
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-description {
+    font-size: var(--text-base);
+    padding: 0 var(--space-4);
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .kpi-divider {
+    width: 80px;
+    height: 1px;
+  }
+
+  .kpi-card {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .kpi-value {
+    font-size: var(--text-3xl);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 var(--space-4);
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .orb-blue {
+    width: 250px;
+    height: 250px;
+  }
+
+  .orb-cyan {
+    width: 200px;
+    height: 200px;
+  }
+
+  .orb-indigo {
+    width: 150px;
+    height: 150px;
+  }
+}
