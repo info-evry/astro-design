@@ -1,0 +1,22 @@
+{
+  "name": "@info-evry/astro-design",
+  "version": "1.0.0",
+  "description": "Shared design system for Info Evry Astro projects",
+  "main": "src/index.css",
+  "style": "src/index.css",
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "design-system",
+    "css",
+    "info-evry",
+    "astro"
+  ],
+  "author": "Info Evry",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/info-evry/astro-design.git"
+  }
+}

@@ -1,0 +1,55 @@
+/* ===========================================
+   Color Tokens - Info Evry Design System
+   Dark theme with Electric Blue accent
+   =========================================== */
+
+:root {
+  /* Background Colors */
+  --color-bg: #000000;
+  --color-bg-subtle: #050505;
+  --color-surface: #0a0a0a;
+  --color-surface-elevated: #111111;
+  --color-surface-hover: #1a1a1a;
+
+  /* Text Colors */
+  --color-text: #ffffff;
+  --color-text-secondary: #a1a1a1;
+  --color-text-muted: #666666;
+
+  /* Primary - Electric Blue */
+  --color-primary: #0ea5e9;
+  --color-primary-light: #38bdf8;
+  --color-primary-dark: #0284c7;
+  --color-primary-glow: rgba(14, 165, 233, 0.4);
+
+  /* Accent Colors */
+  --color-cyan: #22d3ee;
+  --color-indigo: #6366f1;
+  --color-green: #10b981;
+  --color-orange: #f59e0b;
+
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-success-light: rgba(16, 185, 129, 0.15);
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
+  --color-error: #ef4444;
+  --color-error-light: rgba(239, 68, 68, 0.15);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #22d3ee 100%);
+  --gradient-blue: linear-gradient(135deg, #0ea5e9 0%, #22d3ee 100%);
+  --gradient-blue-intense: linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #38bdf8 100%);
+  --gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --gradient-radial: radial-gradient(ellipse at center, var(--color-surface) 0%, var(--color-bg) 100%);
+
+  /* Glow Effects */
+  --glow-primary: 0 0 80px rgba(14, 165, 233, 0.4);
+  --glow-blue: 0 0 80px rgba(14, 165, 233, 0.35);
+  --glow-cyan: 0 0 80px rgba(34, 211, 238, 0.3);
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.15);
+}
