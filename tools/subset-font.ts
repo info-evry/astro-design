@@ -134,7 +134,7 @@ function symbolsToChars(symbolNames: Set<string>, includeLatinText: boolean = fa
 }
 
 async function subsetFont(characters: string, outputPath: string) {
-  const inputFont = join(designRoot, "src/fonts/Cupertino-Pro.woff2");
+  const inputFont = join(designRoot, "src/fonts/Cupertino-Pro-Full.woff2");
   const charFile = join(designRoot, "tools/.subset-chars.txt");
 
   // Write characters to temp file
@@ -191,7 +191,7 @@ async function main() {
   if (symbolNames.size === 0) {
     console.log("⚠️  No SFSymbol usage found. Copying full font instead.");
     await $`mkdir -p ${join(targetDir, "public/fonts")}`;
-    await $`cp ${join(designRoot, "src/fonts/Cupertino-Pro.woff2")} ${outputPath}`;
+    await $`cp ${join(designRoot, "src/fonts/Cupertino-Pro-Full.woff2")} ${outputPath}`;
     return;
   }
 
