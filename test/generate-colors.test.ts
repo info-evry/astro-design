@@ -2,7 +2,7 @@
  * Tests for the color scheme generator
  */
 
-import { describe, test, expect } from 'bun:test';
+import { describe, test, expect } from 'vitest';
 import { generateColorScheme, generateCSS, generateJSON } from '../tools/generate-colors.js';
 
 describe('generateColorScheme', () => {
