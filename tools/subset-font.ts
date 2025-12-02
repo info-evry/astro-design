@@ -75,6 +75,12 @@ async function extractSymbolNames(files: string[]): Promise<Set<string>> {
       for (const match of iconMatches) {
         symbols.add(match[1]);
       }
+
+      // Match ctaIcon attribute in MobileNav: ctaIcon="..." or ctaIcon={"..."}
+      const ctaIconMatches = content.matchAll(/ctaIcon=["'{]([^"'}]+)["'}]/g);
+      for (const match of ctaIconMatches) {
+        symbols.add(match[1]);
+      }
     } catch (e) {
       console.warn(`Warning: Could not read ${file}`);
     }
