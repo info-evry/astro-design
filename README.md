@@ -224,4 +224,4 @@ bun test --watch
 
 ## License
 
-MIT - Asso Info Evry
+AGPL-3.0 - Asso Info Evry
