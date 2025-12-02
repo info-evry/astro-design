@@ -2,6 +2,13 @@
    Reset & Base - Info Evry Design System
    =========================================== */
 
+/* SF Symbols Font (for icons) */
+@font-face {
+  font-family: 'SF Symbols';
+  src: url('/fonts/Cupertino-Pro.woff2') format('woff2');
+  font-display: swap;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
