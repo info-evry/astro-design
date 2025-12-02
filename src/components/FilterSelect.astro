@@ -1,0 +1,99 @@
+---
+/**
+ * FilterSelect - Inline select/dropdown for filtering
+ * A compact, styled select without form-group wrapper or validation
+ */
+export interface Option {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface Props {
+  id: string;
+  name?: string;
+  options: Option[];
+  value?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  class?: string;
+  /** Compact size for inline usage */
+  size?: 'default' | 'sm';
+}
+
+const {
+  id,
+  name = id,
+  options,
+  value,
+  placeholder,
+  disabled = false,
+  class: className = '',
+  size = 'default',
+} = Astro.props;
+
+const selectClass = ['filter-select', size === 'sm' && 'filter-select-sm', className].filter(Boolean).join(' ');
+---
+
+<select
+  id={id}
+  name={name}
+  disabled={disabled}
+  class={selectClass}
+>
+  {placeholder && <option value="" selected={!value}>{placeholder}</option>}
+  {options.map((opt) => (
+    <option
+      value={opt.value}
+      selected={opt.value === value}
+      disabled={opt.disabled}
+    >
+      {opt.label}
+    </option>
+  ))}
+</select>
+
+<style>
+  .filter-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: var(--space-2) var(--space-8) var(--space-2) var(--space-3);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: var(--text-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-3) center;
+    background-size: 12px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    min-width: 140px;
+  }
+
+  .filter-select:hover {
+    border-color: var(--border-hover);
+  }
+
+  .filter-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
+  }
+
+  .filter-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .filter-select-sm {
+    padding: var(--space-1) var(--space-6) var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+    min-width: 100px;
+    background-position: right var(--space-2) center;
+    background-size: 10px;
+  }
+</style>
