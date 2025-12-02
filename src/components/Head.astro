@@ -1,0 +1,83 @@
+---
+/**
+ * Shared Head Component - Info Evry Design System
+ *
+ * Reusable <head> content for all pages including:
+ * - Primary meta tags (charset, viewport, title, description)
+ * - SEO and social sharing (Open Graph, Twitter)
+ * - Preload hints for critical assets
+ * - Favicon configuration
+ */
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonicalUrl: string;
+  siteName?: string;
+  author?: string;
+  themeColor?: string;
+  locale?: string;
+}
+
+const {
+  title,
+  description = "",
+  image = "og.jpg",
+  noindex = false,
+  canonicalUrl,
+  siteName = "Asso Info Evry",
+  author = "Association des Étudiants en Informatique de l'Université d'Évry Val-d'Essonne",
+  themeColor = "#001BA5",
+  locale = "fr_FR"
+} = Astro.props;
+
+// Resolve image URL relative to canonical URL base
+const siteBase = canonicalUrl.replace(/\/[^/]*$/, '/');
+const ogImageUrl = new URL(image, siteBase).href;
+---
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title}>
+<meta name="description" content={description}>
+<meta name="author" content={author}>
+<meta name="theme-color" content={themeColor}>
+<meta name="color-scheme" content="dark">
+{noindex && <meta name="robots" content="noindex, nofollow">}
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalUrl}>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content={canonicalUrl}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image" content={ogImageUrl}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content={locale}>
+<meta property="og:site_name" content={siteName}>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content={canonicalUrl}>
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={ogImageUrl}>
+
+<!-- Preload critical assets -->
+<link rel="preload" href="/fonts/Cupertino-Pro.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
