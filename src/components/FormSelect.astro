@@ -1,0 +1,84 @@
+---
+/**
+ * FormSelect - Reusable form select/dropdown component
+ */
+export interface Option {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface Props {
+  id: string;
+  name?: string;
+  label?: string;
+  options: Option[];
+  value?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  error?: string;
+  hint?: string;
+  class?: string;
+}
+
+const {
+  id,
+  name = id,
+  label,
+  options,
+  value,
+  placeholder,
+  required = false,
+  disabled = false,
+  error,
+  hint,
+  class: className = '',
+} = Astro.props;
+
+const selectClass = [error && 'invalid', className].filter(Boolean).join(' ');
+---
+
+<div class="form-group">
+  {label && (
+    <label for={id}>
+      {label}
+      {required && <span class="required-mark" aria-hidden="true">*</span>}
+    </label>
+  )}
+  <select
+    id={id}
+    name={name}
+    required={required}
+    disabled={disabled}
+    class={selectClass || undefined}
+    aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
+    aria-invalid={error ? 'true' : undefined}
+  >
+    {placeholder && <option value="" disabled selected={!value}>{placeholder}</option>}
+    {options.map((opt) => (
+      <option
+        value={opt.value}
+        selected={opt.value === value}
+        disabled={opt.disabled}
+      >
+        {opt.label}
+      </option>
+    ))}
+  </select>
+  {hint && !error && <p id={`${id}-hint`} class="hint-text">{hint}</p>}
+  {error && <p id={`${id}-error`} class="error-text" role="alert">{error}</p>}
+</div>
+
+<style>
+  .required-mark {
+    color: var(--color-error, #ef4444);
+    margin-left: 2px;
+  }
+
+  .hint-text {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-top: var(--space-1);
+  }
+</style>
