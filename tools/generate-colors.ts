@@ -353,6 +353,7 @@ export function generateCSS(scheme: ColorScheme): string {
  */
 export function generateJSON(scheme: ColorScheme): string {
   return JSON.stringify({
+    brand: scheme.brand,
     primary: scheme.primary,
     primaryLight: scheme.primaryLight,
     primaryDark: scheme.primaryDark,
