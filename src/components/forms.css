@@ -81,7 +81,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
 /* Invalid State */
@@ -115,7 +115,7 @@ input[type="checkbox"]:hover {
 input[type="checkbox"]:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
 input[type="checkbox"]:checked {
@@ -164,7 +164,7 @@ input[type="radio"]:hover {
 input[type="radio"]:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
 input[type="radio"]:checked {
@@ -205,7 +205,7 @@ input[type="radio"]:disabled {
 }
 
 .radio-label:hover {
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(0, 27, 165, 0.1);
 }
 
 /* Toggle Switch */
@@ -259,7 +259,7 @@ input[type="radio"]:disabled {
 }
 
 .toggle input:focus + .toggle-slider {
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
 /* Custom Select */
@@ -464,12 +464,12 @@ select {
 
 .option-card:hover {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 27, 165, 0.05);
 }
 
 .option-card.selected {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(0, 27, 165, 0.1);
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
@@ -515,12 +515,12 @@ select {
 
 .pizza-option:hover {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 27, 165, 0.05);
 }
 
 .pizza-option.selected {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(0, 27, 165, 0.1);
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 

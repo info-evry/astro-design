@@ -1,10 +1,17 @@
 {
   "name": "@info-evry/astro-design",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shared design system for Info Evry Astro projects",
   "main": "src/index.css",
   "style": "src/index.css",
   "type": "module",
+  "exports": {
+    ".": "./src/index.css",
+    "./components/*": "./src/components/*.astro",
+    "./Header.astro": "./src/components/Header.astro",
+    "./Footer.astro": "./src/components/Footer.astro",
+    "./HeroBackground.astro": "./src/components/HeroBackground.astro"
+  },
   "files": [
     "src",
     "tools"

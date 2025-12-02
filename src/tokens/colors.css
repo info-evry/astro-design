@@ -1,6 +1,7 @@
 /* ===========================================
    Color Tokens - Info Evry Design System
-   Dark theme with Electric Blue accent
+   Brand color: #001BA5
+   Primary (contrast-adjusted): #5c77ff
    =========================================== */
 
 :root {
@@ -17,15 +18,18 @@
   --color-text-secondary: #a1a1a1;
   --color-text-muted: #666666;
 
-  /* Primary - Electric Blue */
-  --color-primary: #0ea5e9;
-  --color-primary-light: #38bdf8;
-  --color-primary-dark: #0284c7;
-  --color-primary-glow: rgba(14, 165, 233, 0.4);
+  /* Brand Color (original, for logos/icons) */
+  --color-brand: #001BA5;
+
+  /* Primary Color (contrast-adjusted for dark theme) */
+  --color-primary: #5c77ff;
+  --color-primary-light: #8fa2ff;
+  --color-primary-dark: #1f44ff;
+  --color-primary-glow: rgba(92, 119, 255, 0.4);
 
   /* Accent Colors */
-  --color-cyan: #22d3ee;
-  --color-indigo: #6366f1;
+  --color-cyan: #a88ef6;
+  --color-indigo: #3f2dfa;
   --color-green: #10b981;
   --color-orange: #f59e0b;
 
@@ -38,16 +42,16 @@
   --color-error-light: rgba(239, 68, 68, 0.15);
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #22d3ee 100%);
-  --gradient-blue: linear-gradient(135deg, #0ea5e9 0%, #22d3ee 100%);
-  --gradient-blue-intense: linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #38bdf8 100%);
-  --gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --gradient-primary: linear-gradient(135deg, #1f44ff 0%, #5c77ff 50%, #a88ef6 100%);
+  --gradient-blue: linear-gradient(135deg, #5c77ff 0%, #a88ef6 100%);
+  --gradient-blue-intense: linear-gradient(135deg, #1037ff 0%, #5c77ff 50%, #8fa2ff 100%);
+  --gradient-accent: linear-gradient(135deg, #5c77ff 0%, #3f2dfa 100%);
   --gradient-radial: radial-gradient(ellipse at center, var(--color-surface) 0%, var(--color-bg) 100%);
 
   /* Glow Effects */
-  --glow-primary: 0 0 80px rgba(14, 165, 233, 0.4);
-  --glow-blue: 0 0 80px rgba(14, 165, 233, 0.35);
-  --glow-cyan: 0 0 80px rgba(34, 211, 238, 0.3);
+  --glow-primary: 0 0 80px rgba(92, 119, 255, 0.4);
+  --glow-blue: 0 0 80px rgba(92, 119, 255, 0.35);
+  --glow-cyan: 0 0 80px rgba(168, 142, 246, 0.3);
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);

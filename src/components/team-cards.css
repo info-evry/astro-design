@@ -61,7 +61,7 @@
 
 .team-card.organisation {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 27, 165, 0.05);
 }
 
 /* Team Card Content */
@@ -171,7 +171,7 @@
 
 .member-item.leader {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 27, 165, 0.05);
 }
 
 .member-info {

@@ -48,7 +48,7 @@
 
 .stat-card:hover {
   border-color: var(--color-primary);
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 27, 165, 0.05);
 }
 
 .stat-value {
@@ -441,7 +441,7 @@
    =========================================== */
 
 .member-row.selected {
-  background: rgba(14, 165, 233, 0.15);
+  background: rgba(0, 27, 165, 0.15);
 }
 
 .select-all-label {
@@ -472,7 +472,7 @@
 }
 
 .btn-icon:hover {
-  background: rgba(14, 165, 233, 0.15);
+  background: rgba(0, 27, 165, 0.15);
   color: var(--color-primary);
 }
 

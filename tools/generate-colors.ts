@@ -23,7 +23,8 @@ interface HSL {
 }
 
 interface ColorScheme {
-  primary: string;
+  brand: string;        // Original brand color (for icons, logos)
+  primary: string;      // Contrast-adjusted for dark theme
   primaryLight: string;
   primaryDark: string;
   primaryGlow: string;
@@ -219,36 +220,50 @@ function shouldUseWhiteText(bgHex: string): boolean {
 
 /**
  * Generate a complete color scheme from a primary color
+ * For dark themes, automatically boosts low-lightness colors for proper contrast
  */
 export function generateColorScheme(primaryHex: string): ColorScheme {
-  const primary = primaryHex.startsWith('#') ? primaryHex : `#${primaryHex}`;
+  const brandColor = primaryHex.startsWith('#') ? primaryHex : `#${primaryHex}`;
 
   // Validate the color
-  hexToRgb(primary);
+  const brandRgb = hexToRgb(brandColor);
+  const brandHsl = rgbToHsl(brandRgb);
 
-  // Generate light and dark variants
-  const primaryLight = lighten(primary, 0.15);
+  // For dark themes, boost lightness if too low for good contrast
+  // Target ~68% lightness for better visibility on dark backgrounds (thin strokes, icons, text)
+  let primary: string;
+  if (brandHsl.l < 0.65) {
+    const boostedHsl = { ...brandHsl, l: 0.68 };
+    primary = rgbToHex(hslToRgb(boostedHsl));
+  } else {
+    primary = brandColor;
+  }
+
+  // Generate light and dark variants from the adjusted primary
+  const primaryLight = lighten(primary, 0.10);
   const primaryDark = darken(primary, 0.12);
 
-  // Generate cyan (shifted toward cyan/teal)
+  // Get HSL of the adjusted primary
   const rgb = hexToRgb(primary);
   const hsl = rgbToHsl(rgb);
 
-  // Cyan is typically around 180-190 degrees
-  const cyanHsl = { ...hsl };
-  cyanHsl.h = 180 + (hsl.h % 30); // Shift toward cyan
-  cyanHsl.s = Math.min(1, hsl.s * 1.1);
-  cyanHsl.l = Math.min(0.85, hsl.l + 0.1);
-  const cyan = rgbToHex(hslToRgb(cyanHsl));
+  // Secondary color: soft periwinkle/lavender (slight hue shift toward violet, lighter)
+  // More harmonious with blue than cyan
+  const secondaryHsl = { ...hsl };
+  secondaryHsl.h = (hsl.h + 25) % 360; // Slight shift toward violet
+  secondaryHsl.s = Math.min(1, hsl.s * 0.85); // Slightly less saturated
+  secondaryHsl.l = Math.min(0.78, hsl.l + 0.08); // Lighter
+  const cyan = rgbToHex(hslToRgb(secondaryHsl)); // Keep variable name for compatibility
 
-  // Indigo is around 240-250 degrees
+  // Indigo: deeper, richer variant
   const indigoHsl = { ...hsl };
-  indigoHsl.h = 240 + (hsl.h % 20);
-  indigoHsl.s = Math.min(1, hsl.s * 0.9);
-  indigoHsl.l = hsl.l * 0.95;
+  indigoHsl.h = (hsl.h + 15) % 360; // Slight shift toward purple
+  indigoHsl.s = Math.min(1, hsl.s * 0.95);
+  indigoHsl.l = hsl.l * 0.85;
   const indigo = rgbToHex(hslToRgb(indigoHsl));
 
   return {
+    brand: brandColor,
     primary,
     primaryLight,
     primaryDark,
@@ -262,7 +277,7 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
     glowPrimary: `0 0 80px ${hexToRgba(primary, 0.4)}`,
     glowBlue: `0 0 80px ${hexToRgba(primary, 0.35)}`,
     glowCyan: `0 0 80px ${hexToRgba(cyan, 0.3)}`,
-    themeColor: primary,
+    themeColor: brandColor,  // Use brand color for meta theme-color
   };
 }
 
@@ -272,7 +287,8 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
 export function generateCSS(scheme: ColorScheme): string {
   return `/* ===========================================
    Color Tokens - Info Evry Design System
-   Generated from primary color: ${scheme.primary}
+   Brand color: ${scheme.brand}
+   Primary (contrast-adjusted): ${scheme.primary}
    =========================================== */
 
 :root {
@@ -289,7 +305,10 @@ export function generateCSS(scheme: ColorScheme): string {
   --color-text-secondary: #a1a1a1;
   --color-text-muted: #666666;
 
-  /* Primary Color */
+  /* Brand Color (original, for logos/icons) */
+  --color-brand: ${scheme.brand};
+
+  /* Primary Color (contrast-adjusted for dark theme) */
   --color-primary: ${scheme.primary};
   --color-primary-light: ${scheme.primaryLight};
   --color-primary-dark: ${scheme.primaryDark};

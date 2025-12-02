@@ -1,0 +1,93 @@
+---
+/**
+ * Badge Component - Info Evry Design System
+ *
+ * A versatile badge/pill component with optional pulsing dot.
+ * Used for status indicators, edition labels, count badges, etc.
+ *
+ * Props:
+ * - text: Badge text content (required)
+ * - variant: 'default' | 'hero' | 'count' | 'status' (default: 'default')
+ * - showDot: Show animated pulsing dot (default: false)
+ * - animated: Enable entrance animation (default: false)
+ */
+
+interface Props {
+  text: string;
+  variant?: 'default' | 'hero' | 'count' | 'status';
+  showDot?: boolean;
+  animated?: boolean;
+}
+
+const { text, variant = 'default', showDot = false, animated = false } = Astro.props;
+---
+
+<span class:list={["badge", `badge-${variant}`, { animated }]}>
+  {showDot && <span class="badge-dot"></span>}
+  <span>{text}</span>
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  .badge.animated {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  /* Hero variant - larger padding for hero sections */
+  .badge-hero {
+    padding: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  /* Count variant - compact for number badges */
+  .badge-count {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+    min-width: 1.5rem;
+    justify-content: center;
+  }
+
+  /* Status variant - for status indicators */
+  .badge-status {
+    background: var(--border-default);
+    border-color: transparent;
+    color: var(--color-text);
+  }
+
+  /* Pulsing dot */
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

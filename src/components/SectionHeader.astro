@@ -1,0 +1,64 @@
+---
+/**
+ * Section Header Component - Info Evry Design System
+ *
+ * A reusable section header with optional label, title, and description.
+ * Uses the section header styles from sections.css.
+ *
+ * Props:
+ * - label: Small uppercase label above the title (optional)
+ * - title: Main section title (required)
+ * - description: Description text below the title (optional)
+ * - centered: Whether to center the header (default: true)
+ */
+
+interface Props {
+  label?: string;
+  title: string;
+  description?: string;
+  centered?: boolean;
+}
+
+const { label, title, description, centered = true } = Astro.props;
+---
+
+<header class:list={["section-header", { centered }]}>
+  {label && <span class="section-label">{label}</span>}
+  <h2 class="section-title">{title}</h2>
+  {description && <p class="section-description">{description}</p>}
+</header>
+
+<style>
+  .section-header {
+    margin-bottom: var(--space-16);
+  }
+
+  .section-header.centered {
+    text-align: center;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-4);
+  }
+
+  .section-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 42rem;
+  }
+
+  .section-header.centered .section-description {
+    margin-inline: auto;
+  }
+</style>
