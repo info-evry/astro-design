@@ -1,0 +1,71 @@
+---
+/**
+ * SFSymbol Component - Render SF Symbols icons
+ *
+ * Uses the Cupertino-Pro font which contains SF Symbols glyphs.
+ * Symbol names are mapped to Unicode characters via sfsymbols.json.
+ *
+ * Usage:
+ *   <SFSymbol name="house" />
+ *   <SFSymbol name="person.fill" size="lg" />
+ *   <SFSymbol name="gear" weight="semibold" />
+ */
+import symbolsMap from '../symbols/sfsymbols.json';
+
+interface Props {
+  name: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  class?: string;
+}
+
+const {
+  name,
+  size = 'md',
+  weight = 'regular',
+  class: className = ''
+} = Astro.props;
+
+// Find the symbol character from the mapping
+// symbolsMap is an array of [name, char] tuples
+const symbolEntry = (symbolsMap as [string, string][]).find(([n]) => n === name);
+const char = symbolEntry ? symbolEntry[1] : '?';
+
+const classes = [
+  'sf-symbol',
+  `sf-${size}`,
+  weight !== 'regular' && `sf-${weight}`,
+  className
+].filter(Boolean).join(' ');
+---
+
+<span class={classes} aria-hidden="true">{char}</span>
+
+<style is:global>
+  @font-face {
+    font-family: 'SF Symbols';
+    src: url('/fonts/Cupertino-Pro.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  .sf-symbol {
+    font-family: 'SF Symbols', system-ui, sans-serif;
+    font-style: normal;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Sizes */
+  .sf-xs { font-size: 0.75rem; }
+  .sf-sm { font-size: 0.875rem; }
+  .sf-md { font-size: 1rem; }
+  .sf-lg { font-size: 1.25rem; }
+  .sf-xl { font-size: 1.5rem; }
+  .sf-2xl { font-size: 2rem; }
+
+  /* Weights */
+  .sf-medium { font-weight: 500; }
+  .sf-semibold { font-weight: 600; }
+  .sf-bold { font-weight: 700; }
+</style>

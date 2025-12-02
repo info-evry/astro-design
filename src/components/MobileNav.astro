@@ -1,0 +1,148 @@
+---
+/**
+ * MobileNav Component - Floating tab bar for mobile navigation
+ *
+ * A fixed bottom navigation bar that appears only on mobile devices.
+ * Uses SF Symbols for icons.
+ *
+ * Usage:
+ *   <MobileNav items={[
+ *     { href: '/', label: 'Accueil', icon: 'house' },
+ *     { href: '/about', label: 'À propos', icon: 'info.circle' },
+ *   ]} />
+ */
+import SFSymbol from './SFSymbol.astro';
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: string;  // SF Symbol name
+  active?: boolean;
+}
+
+interface Props {
+  items: NavItem[];
+  ctaHref?: string;
+  ctaLabel?: string;
+  ctaIcon?: string;
+}
+
+const {
+  items,
+  ctaHref,
+  ctaLabel,
+  ctaIcon = 'plus.circle.fill'
+} = Astro.props;
+
+// Get current URL to highlight active item
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="mobile-nav-bar" aria-label="Navigation mobile">
+  <div class="mobile-nav-items">
+    {items.map((item) => {
+      const isActive = item.active !== undefined
+        ? item.active
+        : currentPath === item.href || currentPath.startsWith(item.href + '/');
+      return (
+        <a
+          href={item.href}
+          class:list={['mobile-nav-item', { active: isActive }]}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          <SFSymbol name={item.icon} size="lg" />
+          <span class="mobile-nav-label">{item.label}</span>
+        </a>
+      );
+    })}
+    {ctaHref && (
+      <a href={ctaHref} class="mobile-nav-item mobile-nav-cta">
+        <SFSymbol name={ctaIcon} size="lg" />
+        <span class="mobile-nav-label">{ctaLabel}</span>
+      </a>
+    )}
+  </div>
+</nav>
+
+<style>
+  .mobile-nav-bar {
+    display: none;
+    position: fixed;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    right: var(--space-4);
+    z-index: var(--z-fixed);
+    padding: var(--space-2) var(--space-3);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 9999px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .mobile-nav-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: var(--space-1);
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+    min-width: 48px;
+  }
+
+  .mobile-nav-item:hover {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--color-primary-light);
+    background: rgba(0, 27, 165, 0.2);
+  }
+
+  .mobile-nav-cta {
+    color: var(--color-primary-light);
+  }
+
+  .mobile-nav-cta:hover {
+    color: var(--color-text);
+    background: rgba(0, 27, 165, 0.15);
+  }
+
+  .mobile-nav-label {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* Show on mobile only */
+  @media (max-width: 768px) {
+    .mobile-nav-bar {
+      display: block;
+    }
+  }
+
+  /* Adjust bottom padding for pages with mobile nav */
+  :global(body:has(.mobile-nav-bar)) {
+    padding-bottom: calc(80px + var(--space-4));
+  }
+
+  @media (min-width: 769px) {
+    :global(body:has(.mobile-nav-bar)) {
+      padding-bottom: 0;
+    }
+  }
+</style>
