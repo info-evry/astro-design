@@ -83,8 +83,38 @@ async function extractSymbolNames(files: string[]): Promise<Set<string>> {
   return symbols;
 }
 
-function symbolsToChars(symbolNames: Set<string>): string {
+/**
+ * Generate Latin character ranges for text rendering
+ * Includes ASCII, Latin-1 Supplement, and Latin Extended-A
+ */
+function getLatinChars(): string {
   const chars: string[] = [];
+
+  // ASCII printable (0x0020-0x007E)
+  for (let i = 0x0020; i <= 0x007E; i++) {
+    chars.push(String.fromCharCode(i));
+  }
+
+  // Latin-1 Supplement (0x00A0-0x00FF) - includes é, è, à, ç, etc.
+  for (let i = 0x00A0; i <= 0x00FF; i++) {
+    chars.push(String.fromCharCode(i));
+  }
+
+  // Latin Extended-A (0x0100-0x017F) - includes œ, Œ, etc.
+  for (let i = 0x0100; i <= 0x017F; i++) {
+    chars.push(String.fromCharCode(i));
+  }
+
+  return chars.join("");
+}
+
+function symbolsToChars(symbolNames: Set<string>, includeLatinText: boolean = false): string {
+  const chars: string[] = [];
+
+  // Include Latin text characters if requested
+  if (includeLatinText) {
+    chars.push(getLatinChars());
+  }
 
   for (const name of symbolNames) {
     const char = symbolsLookup.get(name);
@@ -95,8 +125,10 @@ function symbolsToChars(symbolNames: Set<string>): string {
     }
   }
 
-  // Always include space and common characters for text rendering
-  chars.push(" ");
+  // Always include space
+  if (!chars.includes(" ")) {
+    chars.push(" ");
+  }
 
   return chars.join("");
 }
@@ -163,8 +195,9 @@ async function main() {
     return;
   }
 
-  // Convert to characters
-  const chars = symbolsToChars(symbolNames);
+  // Convert to characters - always include Latin for text rendering
+  const chars = symbolsToChars(symbolNames, true);
+  console.log(`   Character set includes: Latin + ${symbolNames.size} SF Symbols`);
 
   // Create output directory
   await $`mkdir -p ${join(targetDir, "public/fonts")}`.quiet();

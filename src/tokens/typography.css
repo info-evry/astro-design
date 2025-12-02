@@ -1,11 +1,11 @@
 /* ===========================================
    Typography Tokens - Info Evry Design System
-   Inter font with modular scale
+   Cupertino font with modular scale
    =========================================== */
 
 :root {
   /* Font Families */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Cupertino', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Font Sizes */
