@@ -1,32 +1,21 @@
 /**
  * Tests for SF Symbols integration
+ *
+ * Uses direct imports instead of fs.readFileSync to work in both
+ * Bun and Cloudflare Workers test environments.
  */
 
 import { describe, test, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const designRoot = join(__dirname, '..');
+import symbolsMap from '../src/symbols/sfsymbols.json';
 
 describe('SF Symbols JSON mapping', () => {
-  const symbolsPath = join(designRoot, 'src/symbols/sfsymbols.json');
-  let symbolsMap: [string, string][];
-
-  test('symbols JSON file exists and is valid', () => {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    symbolsMap = JSON.parse(content);
-
+  test('symbols map is valid array of tuples', () => {
     expect(Array.isArray(symbolsMap)).toBe(true);
     expect(symbolsMap.length).toBeGreaterThan(0);
   });
 
   test('each symbol entry is a [name, char] tuple', () => {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    symbolsMap = JSON.parse(content);
-
-    for (const entry of symbolsMap.slice(0, 100)) {
+    for (const entry of (symbolsMap as [string, string][]).slice(0, 100)) {
       expect(Array.isArray(entry)).toBe(true);
       expect(entry).toHaveLength(2);
       expect(typeof entry[0]).toBe('string');
@@ -37,12 +26,8 @@ describe('SF Symbols JSON mapping', () => {
   });
 
   test('common symbols are present', () => {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    symbolsMap = JSON.parse(content);
+    const lookup = new Map(symbolsMap as [string, string][]);
 
-    const lookup = new Map(symbolsMap);
-
-    // Check for commonly used symbols
     const commonSymbols = [
       'house',
       'house.fill',
@@ -64,10 +49,7 @@ describe('SF Symbols JSON mapping', () => {
   });
 
   test('symbols used across all sites are present', () => {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    symbolsMap = JSON.parse(content);
-
-    const lookup = new Map(symbolsMap);
+    const lookup = new Map(symbolsMap as [string, string][]);
 
     // Symbols used in MobileNav and components across all sites
     const usedSymbols = [
@@ -102,40 +84,11 @@ describe('SF Symbols JSON mapping', () => {
   });
 
   test('symbol characters are valid unicode', () => {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    symbolsMap = JSON.parse(content);
-
     // Check a sample of symbols have valid unicode characters
-    for (const [name, char] of symbolsMap.slice(0, 50)) {
-      // Characters should be unicode symbols (codepoint > 0x1000 typically for SF Symbols)
+    for (const [name, char] of (symbolsMap as [string, string][]).slice(0, 50)) {
       const codePoint = char.codePointAt(0);
       expect(codePoint, `Symbol "${name}" should have valid codepoint`).toBeDefined();
       expect(codePoint).toBeGreaterThan(0);
     }
-  });
-});
-
-describe('Font file', () => {
-  test('Cupertino-Pro font file exists', () => {
-    const fontPath = join(designRoot, 'src/fonts/Cupertino-Pro.woff2');
-    const content = readFileSync(fontPath);
-
-    expect(content.length).toBeGreaterThan(0);
-    // woff2 files start with 'wOF2' magic bytes
-    expect(content[0]).toBe(0x77); // 'w'
-    expect(content[1]).toBe(0x4F); // 'O'
-    expect(content[2]).toBe(0x46); // 'F'
-    expect(content[3]).toBe(0x32); // '2'
-  });
-});
-
-describe('Subset font tool', () => {
-  test('subset-font.ts script exists', () => {
-    const scriptPath = join(designRoot, 'tools/subset-font.ts');
-    const content = readFileSync(scriptPath, 'utf-8');
-
-    expect(content).toContain('pyftsubset');
-    expect(content).toContain('SFSymbol');
-    expect(content).toContain('sfsymbols.json');
   });
 });
