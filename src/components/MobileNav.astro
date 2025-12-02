@@ -71,14 +71,14 @@ const currentPath = Astro.url.pathname;
     bottom: var(--space-4);
     left: var(--space-4);
     right: var(--space-4);
-    z-index: var(--z-fixed);
+    z-index: 1000; /* Above everything except modals */
     padding: var(--space-2) var(--space-3);
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 9999px;
     border: 1px solid var(--border-subtle);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   }
 
   .mobile-nav-items {
@@ -135,9 +135,18 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  /* Adjust bottom padding for pages with mobile nav */
-  :global(body:has(.mobile-nav-bar)) {
-    padding-bottom: calc(80px + var(--space-4));
+  /* When MobileNav is present, hide the header's hamburger menu on mobile */
+  @media (max-width: 768px) {
+    :global(body:has(.mobile-nav-bar) .mobile-menu-btn),
+    :global(body:has(.mobile-nav-bar) .mobile-menu-checkbox),
+    :global(body:has(.mobile-nav-bar) .mobile-nav) {
+      display: none !important;
+    }
+
+    /* Adjust bottom padding for pages with mobile nav */
+    :global(body:has(.mobile-nav-bar)) {
+      padding-bottom: calc(80px + var(--space-4));
+    }
   }
 
   @media (min-width: 769px) {
