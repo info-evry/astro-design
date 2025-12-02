@@ -141,7 +141,7 @@ async function main() {
   }
 
   const targetDir = resolve(process.cwd(), projectPath);
-  const outputPath = join(targetDir, "public/fonts/Cupertino-Pro-subset.woff2");
+  const outputPath = join(targetDir, "public/fonts/Cupertino-Pro.woff2");
 
   console.log(`🔍 Scanning for SFSymbol usage in ${targetDir}...`);
 

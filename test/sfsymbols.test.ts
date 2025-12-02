@@ -63,14 +63,15 @@ describe('SF Symbols JSON mapping', () => {
     }
   });
 
-  test('symbols used in MobileNav are present', () => {
+  test('symbols used across all sites are present', () => {
     const content = readFileSync(symbolsPath, 'utf-8');
     symbolsMap = JSON.parse(content);
 
     const lookup = new Map(symbolsMap);
 
-    // Symbols used in the MobileNav across sites
+    // Symbols used in MobileNav and components across all sites
     const usedSymbols = [
+      // MobileNav
       'house',
       'moon.stars',
       'person.3',
@@ -79,10 +80,24 @@ describe('SF Symbols JSON mapping', () => {
       'book',
       'person.text.rectangle',
       'plus.circle.fill',
+      // astro-asso components
+      'person.2.fill',
+      'checkmark.circle.fill',
+      'calendar.badge.clock',
+      'book.fill',
+      'folder.fill',
+      'bubble.left.fill',
+      'paperplane.fill',
+      'chevron.right',
+      'checkmark',
+      'envelope.fill',
+      'clock.fill',
+      'star.fill',
+      'calendar',
     ];
 
     for (const name of usedSymbols) {
-      expect(lookup.has(name), `Symbol "${name}" should exist (used in MobileNav)`).toBe(true);
+      expect(lookup.has(name), `Symbol "${name}" should exist (used in components)`).toBe(true);
     }
   });
 
