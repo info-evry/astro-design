@@ -64,7 +64,7 @@
   font-weight: 500;
   color: var(--color-text-secondary);
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.04em;
   transition: color var(--transition-fast);
   position: relative;
@@ -179,7 +179,7 @@
   font-weight: 600;
   color: var(--color-text);
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.04em;
   opacity: 0;
   transform: translateY(20px);
