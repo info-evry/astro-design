@@ -9,7 +9,10 @@ describe('generateColorScheme', () => {
   test('generates scheme from valid hex color with #', () => {
     const scheme = generateColorScheme('#0ea5e9');
 
-    expect(scheme.primary).toBe('#0ea5e9');
+    // Brand should be the original color
+    expect(scheme.brand).toBe('#0ea5e9');
+    // Primary is boosted for dark theme visibility
+    expect(scheme.primary).toBeTruthy();
     expect(scheme.primaryLight).toBeTruthy();
     expect(scheme.primaryDark).toBeTruthy();
     expect(scheme.cyan).toBeTruthy();
@@ -19,7 +22,7 @@ describe('generateColorScheme', () => {
   test('generates scheme from valid hex color without #', () => {
     const scheme = generateColorScheme('0ea5e9');
 
-    expect(scheme.primary).toBe('#0ea5e9');
+    expect(scheme.brand).toBe('#0ea5e9');
   });
 
   test('throws error for invalid hex color', () => {
@@ -74,10 +77,25 @@ describe('generateColorScheme', () => {
     expect(scheme.glowCyan).toContain('rgba');
   });
 
-  test('themeColor matches primary', () => {
+  test('themeColor matches brand color (original input)', () => {
     const scheme = generateColorScheme('#ff5722');
 
-    expect(scheme.themeColor).toBe(scheme.primary);
+    // themeColor should be the original brand color for meta tags
+    expect(scheme.themeColor).toBe(scheme.brand);
+  });
+
+  test('boosts dark colors for better visibility', () => {
+    // Dark blue - should be boosted
+    const darkScheme = generateColorScheme('#001ba5');
+    expect(darkScheme.brand).toBe('#001ba5');
+    // Primary should be different (boosted) from brand
+    expect(darkScheme.primary).not.toBe(darkScheme.brand);
+
+    // Light color - should not be boosted
+    const lightScheme = generateColorScheme('#87ceeb');
+    expect(lightScheme.brand).toBe('#87ceeb');
+    // Primary should be the same as brand (already light enough)
+    expect(lightScheme.primary).toBe(lightScheme.brand);
   });
 
   test('works with different colors', () => {
@@ -85,24 +103,28 @@ describe('generateColorScheme', () => {
 
     for (const color of colors) {
       const scheme = generateColorScheme(color);
-      expect(scheme.primary.toLowerCase()).toBe(color.toLowerCase());
+      // Brand should always match input
+      expect(scheme.brand.toLowerCase()).toBe(color.toLowerCase());
       expect(scheme.primaryLight).toBeTruthy();
       expect(scheme.primaryDark).toBeTruthy();
     }
   });
 
   test('handles edge case colors', () => {
-    // Pure white
+    // Pure white - already light, no boost needed
     const white = generateColorScheme('#ffffff');
+    expect(white.brand).toBe('#ffffff');
     expect(white.primary).toBe('#ffffff');
 
-    // Pure black
+    // Pure black - will be boosted significantly
     const black = generateColorScheme('#000000');
-    expect(black.primary).toBe('#000000');
+    expect(black.brand).toBe('#000000');
+    // Primary will be boosted to ~68% lightness (gray)
+    expect(black.primary).not.toBe('#000000');
 
-    // Pure red
+    // Pure red - medium lightness, will be boosted
     const red = generateColorScheme('#ff0000');
-    expect(red.primary).toBe('#ff0000');
+    expect(red.brand).toBe('#ff0000');
   });
 });
 
@@ -119,7 +141,7 @@ describe('generateCSS', () => {
     expect(css).toContain('--glow-primary:');
   });
 
-  test('includes the primary color in output', () => {
+  test('includes the brand color in output', () => {
     const scheme = generateColorScheme('#e91e63');
     const css = generateCSS(scheme);
 
@@ -154,12 +176,12 @@ describe('generateCSS', () => {
 });
 
 describe('generateJSON', () => {
-  test('generates valid JSON', () => {
+  test('generates valid JSON with brand color', () => {
     const scheme = generateColorScheme('#0ea5e9');
     const json = generateJSON(scheme);
 
     const parsed = JSON.parse(json);
-    expect(parsed.primary).toBe('#0ea5e9');
+    expect(parsed.brand).toBe('#0ea5e9');
   });
 
   test('includes essential color values', () => {
@@ -167,6 +189,7 @@ describe('generateJSON', () => {
     const json = generateJSON(scheme);
 
     const parsed = JSON.parse(json);
+    expect(parsed).toHaveProperty('brand');
     expect(parsed).toHaveProperty('primary');
     expect(parsed).toHaveProperty('primaryLight');
     expect(parsed).toHaveProperty('primaryDark');
@@ -181,6 +204,7 @@ describe('color utility functions', () => {
     const scheme = generateColorScheme('#0ea5e9');
 
     const hexRegex = /^#[0-9a-f]{6}$/i;
+    expect(scheme.brand).toMatch(hexRegex);
     expect(scheme.primary).toMatch(hexRegex);
     expect(scheme.primaryLight).toMatch(hexRegex);
     expect(scheme.primaryDark).toMatch(hexRegex);
