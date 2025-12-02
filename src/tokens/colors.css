@@ -16,7 +16,7 @@
   /* Text Colors */
   --color-text: #ffffff;
   --color-text-secondary: #a1a1a1;
-  --color-text-muted: #666666;
+  --color-text-muted: #8a8a8a; /* WCAG AA: 5.5:1 contrast against #000 */
 
   /* Brand Color (original, for logos/icons) */
   --color-brand: #001BA5;

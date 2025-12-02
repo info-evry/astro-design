@@ -47,8 +47,8 @@ const currentYear = new Date().getFullYear();
 
       {footerLinks.length > 0 && (
         <div class="footer-links">
-          <h4 class="footer-heading">Liens utiles</h4>
-          <nav class="footer-nav">
+          <span class="footer-heading">Liens utiles</span>
+          <nav class="footer-nav" aria-label="Liens utiles">
             {footerLinks.map(link => (
               <a href={link.href} class="footer-link" target="_blank" rel="noopener noreferrer">
                 {link.label}
@@ -60,7 +60,7 @@ const currentYear = new Date().getFullYear();
 
       {socialLinks.length > 0 && (
         <div class="footer-connect">
-          <h4 class="footer-heading">Réseaux</h4>
+          <span class="footer-heading">Réseaux</span>
           <div class="connect-grid">
             {socialLinks.map(social => (
               <a
@@ -133,6 +133,7 @@ const currentYear = new Date().getFullYear();
   }
 
   .footer-heading {
+    display: block;
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--color-text);
