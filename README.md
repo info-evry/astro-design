@@ -98,7 +98,7 @@ src/
 
 ### Typography
 
-- **Font**: Inter (loaded from rsms.me)
+- **Font**: Cupertino Pro (self-hosted, subset for Latin characters)
 - **Sizes**: `--text-xs` (12px) to `--text-6xl` (72px)
 - **Tracking**: `--tracking-tight`, `--tracking-normal`, `--tracking-wide`
 
