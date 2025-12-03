@@ -19,22 +19,26 @@ interface Props {
   author?: string;
   themeColor?: string;
   locale?: string;
+  preloadFonts?: Array<{ href: string; type?: string; }|string>;
+  colorScheme?: string;
 }
 
 const {
   title,
-  description = "",
+  description = "Asso Info Evry – Association des Étudiants en Informatique de l'Université d'Évry Val-d'Essonne",
   image = "og.jpg",
   noindex = false,
   canonicalUrl,
   siteName = "Asso Info Evry",
   author = "Association des Étudiants en Informatique de l'Université d'Évry Val-d'Essonne",
   themeColor = "#001BA5",
-  locale = "fr_FR"
+  locale = "fr_FR",
+  preloadFonts = [],
+  colorScheme = "dark"
 } = Astro.props;
 
 // Resolve image URL relative to canonical URL base
-const siteBase = canonicalUrl.replace(/\/[^/]*$/, '/');
+const siteBase = new URL('./', canonicalUrl).href;
 const ogImageUrl = new URL(image, siteBase).href;
 ---
 
@@ -47,7 +51,7 @@ const ogImageUrl = new URL(image, siteBase).href;
 <meta name="description" content={description}>
 <meta name="author" content={author}>
 <meta name="theme-color" content={themeColor}>
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content={colorScheme}>
 {noindex && <meta name="robots" content="noindex, nofollow">}
 
 <!-- Canonical URL -->
@@ -72,7 +76,14 @@ const ogImageUrl = new URL(image, siteBase).href;
 <meta name="twitter:image" content={ogImageUrl}>
 
 <!-- Preload critical assets -->
-<link rel="preload" href="/fonts/Cupertino-Pro.woff2" as="font" type="font/woff2" crossorigin>
+{preloadFonts.map(font => {
+  if (typeof font === "string") {
+    return <link rel="preload" href={font} as="font" type="font/woff2" crossorigin />;
+  } else {
+    const { href, type = "font/woff2" } = font;
+    return <link rel="preload" href={href} as="font" type={type} crossorigin />;
+  }
+})}
 <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml">
 
 <!-- Favicon -->

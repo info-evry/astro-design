@@ -28,15 +28,15 @@
   --color-primary-glow: rgba(92, 119, 255, 0.4);
 
   /* Accent Colors */
-  --color-cyan: #a88ef6;
+  --color-purple: #a88ef6;
   --color-indigo: #3f2dfa;
   --color-green: #10b981;
   --color-orange: #f59e0b;
 
   /* Semantic Colors */
-  --color-success: #10b981;
+  --color-success: var(--color-green);
   --color-success-light: rgba(16, 185, 129, 0.15);
-  --color-warning: #f59e0b;
+  --color-warning: var(--color-orange);
   --color-warning-light: rgba(245, 158, 11, 0.15);
   --color-error: #ef4444;
   --color-error-light: rgba(239, 68, 68, 0.15);
@@ -51,7 +51,7 @@
   /* Glow Effects */
   --glow-primary: 0 0 80px rgba(92, 119, 255, 0.4);
   --glow-blue: 0 0 80px rgba(92, 119, 255, 0.35);
-  --glow-cyan: 0 0 80px rgba(168, 142, 246, 0.3);
+  --glow-purple: 0 0 80px rgba(168, 142, 246, 0.3);
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);

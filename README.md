@@ -44,7 +44,7 @@ src/
 │   ├── typography.css    # Fonts & text sizes
 │   └── effects.css       # Radius, shadows, transitions
 ├── base/
-│   └── reset.css         # CSS reset, SF Symbols font-face
+│   └── reset.css         # CSS reset, SF Symbols font-face declaration
 ├── components/
 │   ├── buttons.css       # Button variants
 │   ├── cards.css         # Card components (glass, surface)
@@ -60,7 +60,7 @@ src/
 ├── utilities/
 │   ├── animations.css    # Keyframes & animation classes
 │   └── helpers.css       # Utility classes
-├── components/           # Astro components
+├── astro-components/           # Astro components
 │   ├── Header.astro      # Site header with mobile menu
 │   ├── Footer.astro      # Site footer
 │   ├── MobileNav.astro   # Mobile tab bar navigation
@@ -98,7 +98,7 @@ src/
 
 ### Typography
 
-- **Font**: Cupertino Pro (self-hosted, subset for Latin characters)
+- **Font**: SF Pro (self-hosted, subset for Latin characters)
 - **Sizes**: `--text-xs` (12px) to `--text-6xl` (72px)
 - **Tracking**: `--tracking-tight`, `--tracking-normal`, `--tracking-wide`
 
