@@ -61,8 +61,36 @@ async function findAstroFiles(dir: string): Promise<string[]> {
   return files;
 }
 
+// Admin action symbols that are always needed (used inline in JS templates)
+const ADMIN_SYMBOLS = [
+  'pencil',           // Edit action
+  'trash',            // Delete action
+  'trash.fill',       // Delete action (filled)
+  'xmark',            // Close/remove
+  'xmark.circle',     // Close/remove (circled)
+  'xmark.circle.fill', // Close/remove (filled)
+  'checkmark',        // Approve/confirm
+  'checkmark.circle', // Approve (circled)
+  'checkmark.circle.fill', // Approve (filled)
+  'plus',             // Add
+  'plus.circle',      // Add (circled)
+  'plus.circle.fill', // Add (filled)
+  'chevron.right',    // Disclosure indicator
+  'chevron.down',     // Disclosure indicator
+  'chevron.left',     // Back
+  'chevron.up',       // Collapse
+  'gear',             // Settings
+  'person',           // User
+  'person.fill',      // User (filled)
+];
+
 async function extractSymbolNames(files: string[]): Promise<Set<string>> {
   const symbols = new Set<string>();
+
+  // Always include admin action symbols
+  for (const sym of ADMIN_SYMBOLS) {
+    symbols.add(sym);
+  }
 
   // Regex to match 'icon' property in MobileNav items
   const ICON_PROP_REGEX = /icon:\s*["']([^"']+)["']/g;
