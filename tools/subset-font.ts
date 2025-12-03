@@ -21,13 +21,16 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import symbolsMap from "../src/symbols/sfsymbols.json";
 
+// Matches SFSymbol component usage in Astro/TSX/JSX files.
+// Example matched strings:
+//   <SFSymbol name="symbolName" ...>
+//   <SFSymbol ... name={'symbolName'} ...>
+// The first capture group ([^"'}]+) extracts the symbol name value.
+const SFSYMBOL_NAME_REGEX = /<SFSymbol[^>]*name=["'{]([^"'}]+)["'}]/g;
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const designRoot = resolve(__dirname, "..");
 
-interface SymbolEntry {
-  name: string;
-  char: string;
-}
 
 // Convert symbols map to lookup
 const symbolsLookup = new Map<string, string>(
@@ -50,6 +53,7 @@ async function findAstroFiles(dir: string): Promise<string[]> {
       }
     } catch (e) {
       // Directory might not exist
+      console.warn(`Warning: Could not scan directory '${currentDir}':`, e);
     }
   }
 
@@ -60,24 +64,28 @@ async function findAstroFiles(dir: string): Promise<string[]> {
 async function extractSymbolNames(files: string[]): Promise<Set<string>> {
   const symbols = new Set<string>();
 
+  // Regex to match 'icon' property in MobileNav items
+  const ICON_PROP_REGEX = /icon:\s*["']([^"']+)["']/g;
+  const CTA_ICON_PATTERN = /ctaIcon=["'{]([^"'}]+)["'}]/g;
+
   for (const file of files) {
     try {
       const content = await Bun.file(file).text();
 
       // Match SFSymbol component usage: <SFSymbol name="..." or name={"..."}
-      const matches = content.matchAll(/<SFSymbol[^>]*name=["'{]([^"'}]+)["'}]/g);
+      const matches = content.matchAll(SFSYMBOL_NAME_REGEX);
       for (const match of matches) {
         symbols.add(match[1]);
       }
 
       // Also match symbol prop in MobileNav items
-      const iconMatches = content.matchAll(/icon:\s*["']([^"']+)["']/g);
+      const iconMatches = content.matchAll(ICON_PROP_REGEX);
       for (const match of iconMatches) {
         symbols.add(match[1]);
       }
 
       // Match ctaIcon attribute in MobileNav: ctaIcon="..." or ctaIcon={"..."}
-      const ctaIconMatches = content.matchAll(/ctaIcon=["'{]([^"'}]+)["'}]/g);
+      const ctaIconMatches = content.matchAll(CTA_ICON_PATTERN);
       for (const match of ctaIconMatches) {
         symbols.add(match[1]);
       }
