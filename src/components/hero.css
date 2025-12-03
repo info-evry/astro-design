@@ -38,10 +38,10 @@
   right: -50px;
 }
 
-.orb-cyan {
+.orb-purple {
   width: 400px;
   height: 400px;
-  background: color-mix(in srgb, var(--color-cyan) 40%, transparent);
+  background: color-mix(in srgb, var(--color-purple) 40%, transparent);
   bottom: -100px;
   left: -50px;
   animation-delay: -8s;
@@ -273,7 +273,7 @@
     height: 250px;
   }
 
-  .orb-cyan {
+  .orb-purple {
     width: 200px;
     height: 200px;
   }

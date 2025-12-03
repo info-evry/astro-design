@@ -15,7 +15,7 @@ describe('generateColorScheme', () => {
     expect(scheme.primary).toBeTruthy();
     expect(scheme.primaryLight).toBeTruthy();
     expect(scheme.primaryDark).toBeTruthy();
-    expect(scheme.cyan).toBeTruthy();
+    expect(scheme.purple).toBeTruthy();
     expect(scheme.indigo).toBeTruthy();
   });
 
@@ -74,7 +74,7 @@ describe('generateColorScheme', () => {
 
     expect(scheme.glowPrimary).toContain('0 0 80px');
     expect(scheme.glowBlue).toContain('rgba');
-    expect(scheme.glowCyan).toContain('rgba');
+    expect(scheme.glowPurple).toContain('rgba');
   });
 
   test('themeColor matches brand color (original input)', () => {
@@ -193,7 +193,7 @@ describe('generateJSON', () => {
     expect(parsed).toHaveProperty('primary');
     expect(parsed).toHaveProperty('primaryLight');
     expect(parsed).toHaveProperty('primaryDark');
-    expect(parsed).toHaveProperty('cyan');
+    expect(parsed).toHaveProperty('purple');
     expect(parsed).toHaveProperty('indigo');
     expect(parsed).toHaveProperty('themeColor');
   });
@@ -208,7 +208,7 @@ describe('color utility functions', () => {
     expect(scheme.primary).toMatch(hexRegex);
     expect(scheme.primaryLight).toMatch(hexRegex);
     expect(scheme.primaryDark).toMatch(hexRegex);
-    expect(scheme.cyan).toMatch(hexRegex);
+    expect(scheme.purple).toMatch(hexRegex);
     expect(scheme.indigo).toMatch(hexRegex);
   });
 });

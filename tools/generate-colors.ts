@@ -28,7 +28,7 @@ interface ColorScheme {
   primaryLight: string;
   primaryDark: string;
   primaryGlow: string;
-  cyan: string;
+  purple: string;
   indigo: string;
   gradientPrimary: string;
   gradientBlue: string;
@@ -36,7 +36,7 @@ interface ColorScheme {
   gradientAccent: string;
   glowPrimary: string;
   glowBlue: string;
-  glowCyan: string;
+  glowPurple: string;
   themeColor: string;
 }
 
@@ -253,7 +253,7 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
   secondaryHsl.h = (hsl.h + 25) % 360; // Slight shift toward violet
   secondaryHsl.s = Math.min(1, hsl.s * 0.85); // Slightly less saturated
   secondaryHsl.l = Math.min(0.78, hsl.l + 0.08); // Lighter
-  const cyan = rgbToHex(hslToRgb(secondaryHsl)); // Keep variable name for compatibility
+  const purple = rgbToHex(hslToRgb(secondaryHsl));
 
   // Indigo: deeper, richer variant
   const indigoHsl = { ...hsl };
@@ -268,15 +268,15 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
     primaryLight,
     primaryDark,
     primaryGlow: hexToRgba(primary, 0.4),
-    cyan,
+    purple,
     indigo,
-    gradientPrimary: `linear-gradient(135deg, ${primaryDark} 0%, ${primary} 50%, ${cyan} 100%)`,
-    gradientBlue: `linear-gradient(135deg, ${primary} 0%, ${cyan} 100%)`,
+    gradientPrimary: `linear-gradient(135deg, ${primaryDark} 0%, ${primary} 50%, ${purple} 100%)`,
+    gradientBlue: `linear-gradient(135deg, ${primary} 0%, ${purple} 100%)`,
     gradientBlueIntense: `linear-gradient(135deg, ${darken(primary, 0.15)} 0%, ${primary} 50%, ${primaryLight} 100%)`,
     gradientAccent: `linear-gradient(135deg, ${primary} 0%, ${indigo} 100%)`,
     glowPrimary: `0 0 80px ${hexToRgba(primary, 0.4)}`,
     glowBlue: `0 0 80px ${hexToRgba(primary, 0.35)}`,
-    glowCyan: `0 0 80px ${hexToRgba(cyan, 0.3)}`,
+    glowPurple: `0 0 80px ${hexToRgba(purple, 0.3)}`,
     themeColor: brandColor,  // Use brand color for meta theme-color
   };
 }
@@ -315,7 +315,7 @@ export function generateCSS(scheme: ColorScheme): string {
   --color-primary-glow: ${scheme.primaryGlow};
 
   /* Accent Colors */
-  --color-cyan: ${scheme.cyan};
+  --color-purple: ${scheme.purple};
   --color-indigo: ${scheme.indigo};
   --color-green: #10b981;
   --color-orange: #f59e0b;
@@ -338,7 +338,7 @@ export function generateCSS(scheme: ColorScheme): string {
   /* Glow Effects */
   --glow-primary: ${scheme.glowPrimary};
   --glow-blue: ${scheme.glowBlue};
-  --glow-cyan: ${scheme.glowCyan};
+  --glow-purple: ${scheme.glowPurple};
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);
@@ -357,7 +357,7 @@ export function generateJSON(scheme: ColorScheme): string {
     primary: scheme.primary,
     primaryLight: scheme.primaryLight,
     primaryDark: scheme.primaryDark,
-    cyan: scheme.cyan,
+    purple: scheme.purple,
     indigo: scheme.indigo,
     themeColor: scheme.themeColor,
   }, null, 2);
@@ -410,7 +410,7 @@ Examples:
     console.log(`\nGenerated color scheme from: ${scheme.primary}`);
     console.log(`  Primary Light: ${scheme.primaryLight}`);
     console.log(`  Primary Dark:  ${scheme.primaryDark}`);
-    console.log(`  Cyan:          ${scheme.cyan}`);
+    console.log(`  Purple:        ${scheme.purple}`);
     console.log(`  Indigo:        ${scheme.indigo}`);
     console.log('');
 
