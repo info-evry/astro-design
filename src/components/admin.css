@@ -865,3 +865,78 @@
     width: 100%;
   }
 }
+
+/* ===========================================
+   Icon Buttons - SF Symbol action buttons
+   =========================================== */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
+  padding: 0;
+}
+
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.icon-btn-sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.875rem;
+}
+
+.icon-btn-md {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+/* Variants */
+.icon-btn-secondary {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  border: 1px solid var(--border-subtle);
+}
+
+.icon-btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--border-default);
+}
+
+.icon-btn-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.icon-btn-danger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.icon-btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+}
+
+.icon-btn-ghost:hover:not(:disabled) {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+}
+
+/* Action buttons group */
+.action-buttons {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}

@@ -1,71 +1,92 @@
 ---
 /**
- * SFSymbol Component - Render SF Symbols icons
+ * SF Symbol Icon Component - Info Evry Design System
  *
- * Uses the Cupertino-Pro font which contains SF Symbols glyphs.
- * Symbol names are mapped to Unicode characters via sfsymbols.json.
- *
- * Usage:
- *   <SFSymbol name="house" />
- *   <SFSymbol name="person.fill" size="lg" />
- *   <SFSymbol name="gear" weight="semibold" />
+ * Renders SF Symbols using the Cupertino font.
+ * Usage: <SFSymbol name="pencil" size="md" />
  */
-import symbolsMap from '../symbols/sfsymbols.json';
 
 interface Props {
   name: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   class?: string;
+  label?: string;
 }
 
-const {
-  name,
-  size = 'md',
-  weight = 'regular',
-  class: className = ''
-} = Astro.props;
+// Common SF Symbols - using actual Unicode codepoints
+const symbols: Record<string, string> = {
+  // Actions
+  'pencil': '􀈊',
+  'pencil.circle': '􀈋',
+  'pencil.circle.fill': '􀈌',
+  'square.and.pencil': '􀈎',
+  'trash': '􀈑',
+  'trash.fill': '􀈒',
+  'xmark': '􀆄',
+  'xmark.circle': '􀁠',
+  'xmark.circle.fill': '􀁡',
+  'plus': '􀅼',
+  'plus.circle': '􀁌',
+  'plus.circle.fill': '􀁍',
+  'minus': '􀅽',
+  'minus.circle': '􀁎',
+  'minus.circle.fill': '􀁏',
+  // Navigation
+  'chevron.right': '􀆊',
+  'chevron.left': '􀆉',
+  'chevron.down': '􀆈',
+  'chevron.up': '􀆇',
+  'arrow.left': '􀄪',
+  'arrow.right': '􀄫',
+  // Status
+  'checkmark': '􀆅',
+  'checkmark.circle': '􀁣',
+  'checkmark.circle.fill': '􀁢',
+  'exclamationmark.triangle': '􀇿',
+  'exclamationmark.triangle.fill': '􀈀',
+  'exclamationmark.circle': '􀁞',
+  'exclamationmark.circle.fill': '􀁟',
+  // Common
+  'gear': '􀍟',
+  'person': '􀉩',
+  'person.fill': '􀉪',
+  'house': '􀎞',
+  'house.fill': '􀎟',
+};
 
-// Find the symbol character from the mapping
-// symbolsMap is an array of [name, char] tuples
-const symbolEntry = (symbolsMap as [string, string][]).find(([n]) => n === name);
-const char = symbolEntry ? symbolEntry[1] : '?';
+const { name, size = 'md', class: className = '', label } = Astro.props;
 
-const classes = [
-  'sf-symbol',
-  `sf-${size}`,
-  weight !== 'regular' && `sf-${weight}`,
-  className
-].filter(Boolean).join(' ');
+const sizeClasses: Record<string, string> = {
+  'xs': 'sf-symbol-xs',
+  'sm': 'sf-symbol-sm',
+  'md': 'sf-symbol-md',
+  'lg': 'sf-symbol-lg',
+  'xl': 'sf-symbol-xl',
+};
+
+const symbol = symbols[name] || name;
 ---
 
-<span class={classes} aria-hidden="true">{char}</span>
+<span
+  class:list={['sf-symbol', sizeClasses[size], className]}
+  aria-hidden={!label}
+  aria-label={label}
+  role={label ? 'img' : undefined}
+>{symbol}</span>
 
-<style is:global>
-  @font-face {
-    font-family: 'SF Symbols';
-    src: url('/fonts/Cupertino-Pro.woff2') format('woff2');
-    font-display: swap;
-  }
-
+<style>
   .sf-symbol {
-    font-family: 'SF Symbols', system-ui, sans-serif;
-    font-style: normal;
+    font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
-    display: inline-block;
     vertical-align: middle;
   }
 
-  /* Sizes */
-  .sf-xs { font-size: 0.75rem; }
-  .sf-sm { font-size: 0.875rem; }
-  .sf-md { font-size: 1rem; }
-  .sf-lg { font-size: 1.25rem; }
-  .sf-xl { font-size: 1.5rem; }
-  .sf-2xl { font-size: 2rem; }
-
-  /* Weights */
-  .sf-medium { font-weight: 500; }
-  .sf-semibold { font-weight: 600; }
-  .sf-bold { font-weight: 700; }
+  .sf-symbol-xs { font-size: 0.75rem; }
+  .sf-symbol-sm { font-size: 0.875rem; }
+  .sf-symbol-md { font-size: 1rem; }
+  .sf-symbol-lg { font-size: 1.25rem; }
+  .sf-symbol-xl { font-size: 1.5rem; }
 </style>

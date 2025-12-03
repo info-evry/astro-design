@@ -1,0 +1,157 @@
+---
+/**
+ * Icon Button Component - Info Evry Design System
+ *
+ * A button that displays only an SF Symbol icon.
+ * Usage: <IconButton icon="pencil" variant="secondary" onclick="editItem()" />
+ */
+
+interface Props {
+  icon: string;
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  label: string;
+  onclick?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  class?: string;
+}
+
+// SF Symbols mapping
+const symbols: Record<string, string> = {
+  'pencil': '􀈊',
+  'pencil.circle': '􀈋',
+  'pencil.circle.fill': '􀈌',
+  'square.and.pencil': '􀈎',
+  'trash': '􀈑',
+  'trash.fill': '􀈒',
+  'xmark': '􀆄',
+  'xmark.circle': '􀁠',
+  'xmark.circle.fill': '􀁡',
+  'plus': '􀅼',
+  'plus.circle': '􀁌',
+  'plus.circle.fill': '􀁍',
+  'minus': '􀅽',
+  'minus.circle': '􀁎',
+  'minus.circle.fill': '􀁏',
+  'chevron.right': '􀆊',
+  'chevron.left': '􀆉',
+  'checkmark': '􀆅',
+  'checkmark.circle.fill': '􀁢',
+  'gear': '􀍟',
+};
+
+const {
+  icon,
+  variant = 'secondary',
+  size = 'md',
+  label,
+  onclick,
+  type = 'button',
+  disabled = false,
+  class: className = '',
+} = Astro.props;
+
+const symbol = symbols[icon] || icon;
+---
+
+<button
+  type={type}
+  class:list={[
+    'icon-btn',
+    `icon-btn-${variant}`,
+    `icon-btn-${size}`,
+    className
+  ]}
+  aria-label={label}
+  title={label}
+  onclick={onclick}
+  disabled={disabled}
+>
+  <span class="icon-btn-symbol">{symbol}</span>
+</button>
+
+<style>
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
+  }
+
+  .icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Sizes */
+  .icon-btn-sm {
+    width: 28px;
+    height: 28px;
+    font-size: 0.875rem;
+  }
+
+  .icon-btn-md {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .icon-btn-lg {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+  }
+
+  /* Variants */
+  .icon-btn-primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .icon-btn-primary:hover:not(:disabled) {
+    background: var(--color-primary-light);
+  }
+
+  .icon-btn-secondary {
+    background: var(--color-surface-elevated);
+    color: var(--color-text);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .icon-btn-secondary:hover:not(:disabled) {
+    background: var(--color-surface-hover);
+    border-color: var(--border-default);
+  }
+
+  .icon-btn-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-error);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .icon-btn-danger:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .icon-btn-ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+  }
+
+  .icon-btn-ghost:hover:not(:disabled) {
+    background: var(--color-surface-elevated);
+    color: var(--color-text);
+  }
+
+  .icon-btn-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
