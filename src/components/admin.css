@@ -775,6 +775,13 @@
   text-decoration: underline;
 }
 
+.bureau-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
 /* ===========================================
    Text utilities
    =========================================== */
@@ -882,18 +889,40 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius);
   cursor: pointer;
   transition: all var(--transition-fast);
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1;
   background: var(--color-surface-elevated);
   color: var(--color-text);
+}
+
+/* Icon button sizes - consistent with IconButton.astro component */
+.icon-btn-sm,
+.icon-btn.sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.875rem;
+}
+
+.icon-btn-md,
+.icon-btn.md {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+.icon-btn-lg,
+.icon-btn.lg {
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
 }
 
 .icon-btn:hover:not(:disabled) {
@@ -936,4 +965,18 @@
 .members-table {
   width: 100%;
   table-layout: auto;
+}
+
+/* ===========================================
+   Table Container - Responsive wrapper
+   =========================================== */
+
+.table-container {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-container > table {
+  min-width: 100%;
 }
