@@ -2,7 +2,7 @@
  * SF Symbols Astro Integration
  *
  * Replaces @sfs:symbol.name@ shortcodes with actual Unicode characters.
- * Works as a Vite plugin that transforms HTML/Astro files during build.
+ * Handles both static shortcodes (at build time) and dynamic ones (after SSR).
  *
  * Usage in astro.config.mjs:
  *   import { sfSymbols } from './design/src/integrations/sf-symbols';
@@ -17,8 +17,8 @@
 
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
-import { readFileSync, existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -57,7 +57,32 @@ function replaceShortcodes(content: string, symbolsMap: Map<string, string>): st
   });
 }
 
-// Vite plugin for SF Symbols replacement
+// Find all HTML files recursively in a directory
+function findHtmlFiles(dir: string): string[] {
+  const files: string[] = [];
+
+  function scan(currentDir: string) {
+    try {
+      const entries = readdirSync(currentDir);
+      for (const entry of entries) {
+        const fullPath = join(currentDir, entry);
+        const stat = statSync(fullPath);
+        if (stat.isDirectory()) {
+          scan(fullPath);
+        } else if (entry.endsWith('.html')) {
+          files.push(fullPath);
+        }
+      }
+    } catch {
+      // Directory might not exist
+    }
+  }
+
+  scan(dir);
+  return files;
+}
+
+// Vite plugin for SF Symbols replacement (handles static shortcodes)
 function sfSymbolsVitePlugin(): Plugin {
   let symbolsMap: Map<string, string>;
 
@@ -90,29 +115,77 @@ function sfSymbolsVitePlugin(): Plugin {
         map: null,
       };
     },
-
-    // Also transform the final HTML output
-    transformIndexHtml(html) {
-      if (!SFS_PATTERN.test(html)) {
-        return html;
-      }
-      SFS_PATTERN.lastIndex = 0;
-      return replaceShortcodes(html, symbolsMap);
-    },
   };
 }
 
 // Astro integration
 export function sfSymbols(): AstroIntegration {
+  let symbolsMap: Map<string, string>;
+
   return {
     name: 'astro-sf-symbols',
     hooks: {
       'astro:config:setup': ({ updateConfig }) => {
+        symbolsMap = loadSymbolsMap();
         updateConfig({
           vite: {
             plugins: [sfSymbolsVitePlugin()],
           },
         });
+      },
+
+      // Post-process all generated HTML files after build
+      'astro:build:done': async ({ dir }) => {
+        const distDir = fileURLToPath(dir);
+        console.log(`[sf-symbols] Build done, checking ${distDir}`);
+
+        const htmlFiles = findHtmlFiles(distDir);
+
+        console.log(`[sf-symbols] Post-processing ${htmlFiles.length} HTML files`);
+
+        // Ensure symbols map is loaded
+        if (!symbolsMap || symbolsMap.size === 0) {
+          symbolsMap = loadSymbolsMap();
+          console.log(`[sf-symbols] Loaded ${symbolsMap.size} symbol mappings (post-build)`);
+        }
+
+        let totalReplacements = 0;
+
+        for (const file of htmlFiles) {
+          const content = readFileSync(file, 'utf-8');
+
+          // Reset regex lastIndex before testing
+          SFS_PATTERN.lastIndex = 0;
+
+          // Check if file contains shortcodes
+          if (!SFS_PATTERN.test(content)) {
+            continue;
+          }
+
+          // Reset regex lastIndex again for replacement
+          SFS_PATTERN.lastIndex = 0;
+
+          // Count replacements
+          let fileReplacements = 0;
+          const processed = content.replace(SFS_PATTERN, (match, symbolName) => {
+            const char = symbolsMap.get(symbolName);
+            if (char) {
+              fileReplacements++;
+              return char;
+            }
+            console.warn(`[sf-symbols] Unknown symbol: ${symbolName} in ${file}`);
+            return match;
+          });
+
+          if (fileReplacements > 0) {
+            writeFileSync(file, processed);
+            totalReplacements += fileReplacements;
+          }
+        }
+
+        if (totalReplacements > 0) {
+          console.log(`[sf-symbols] Replaced ${totalReplacements} shortcodes in HTML files`);
+        }
       },
     },
   };
