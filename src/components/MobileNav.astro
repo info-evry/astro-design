@@ -3,7 +3,7 @@
  * MobileNav Component - Floating tab bar for mobile navigation
  *
  * A fixed bottom navigation bar that appears only on mobile devices.
- * Uses SF Symbols shortcodes for icons.
+ * Uses SF Symbols for icons via server-side lookup.
  *
  * Usage:
  *   <MobileNav items={[
@@ -11,6 +11,8 @@
  *     { href: '/about', label: 'À propos', icon: 'info.circle' },
  *   ]} />
  */
+
+import { getSymbol } from '../utils/symbols';
 
 interface NavItem {
   href: string;
@@ -49,14 +51,14 @@ const currentPath = Astro.url.pathname;
           class:list={['mobile-nav-item', { active: isActive }]}
           aria-current={isActive ? 'page' : undefined}
         >
-          <span class="sfs sfs-lg" data-sfs={`@sfs:${item.icon}@`} aria-hidden="true"></span>
+          <span class="mobile-nav-icon" aria-hidden="true">{getSymbol(item.icon)}</span>
           <span class="mobile-nav-label">{item.label}</span>
         </a>
       );
     })}
     {ctaHref && (
       <a href={ctaHref} class="mobile-nav-item mobile-nav-cta">
-        <span class="sfs sfs-lg" data-sfs={`@sfs:${ctaIcon}@`} aria-hidden="true"></span>
+        <span class="mobile-nav-icon" aria-hidden="true">{getSymbol(ctaIcon)}</span>
         <span class="mobile-nav-label">{ctaLabel}</span>
       </a>
     )}
@@ -117,6 +119,15 @@ const currentPath = Astro.url.pathname;
   .mobile-nav-cta:hover {
     color: var(--color-text);
     background: rgba(0, 27, 165, 0.15);
+  }
+
+  .mobile-nav-icon {
+    font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
+    font-size: 1.25rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-nav-label {

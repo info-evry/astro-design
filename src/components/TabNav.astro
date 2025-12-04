@@ -3,10 +3,12 @@
  * TabNav - Tabbed navigation component for switching between views
  * Uses aria-controls and aria-selected for accessibility
  */
+import { getSymbol } from '../utils/symbols';
+
 export interface Tab {
   id: string;
   label: string;
-  icon?: string;
+  icon?: string;  // SF Symbol name (e.g., 'house', 'info.circle')
   badge?: number | string;
 }
 
@@ -39,7 +41,7 @@ const navClass = ['tab-nav', `tab-nav-${variant}`, className].filter(Boolean).jo
       class:list={['tab-item', { active: tab.id === activeTab }]}
       data-tab={tab.id}
     >
-      {tab.icon && <span class="tab-icon">{tab.icon}</span>}
+      {tab.icon && <span class="tab-icon">{getSymbol(tab.icon)}</span>}
       <span class="tab-label">{tab.label}</span>
       {tab.badge !== undefined && (
         <span class="tab-badge">{tab.badge}</span>
@@ -92,7 +94,9 @@ const navClass = ['tab-nav', `tab-nav-${variant}`, className].filter(Boolean).jo
   }
 
   .tab-icon {
+    font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
     font-size: 1.1em;
+    line-height: 1;
   }
 
   .tab-badge {
