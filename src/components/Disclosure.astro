@@ -1,0 +1,140 @@
+---
+/**
+ * Disclosure - Collapsible panel component
+ * Supports glassmorphism styling with header actions
+ */
+export interface Props {
+  /** Unique identifier for the disclosure group */
+  id: string;
+  /** Title displayed in the header */
+  title: string;
+  /** Whether the disclosure is initially open */
+  open?: boolean;
+  /** Optional badge content (e.g., count) */
+  badge?: number | string;
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  open = false,
+  badge,
+  class: className = '',
+} = Astro.props;
+
+const groupClass = ['disclosure-group', open && 'open', className].filter(Boolean).join(' ');
+---
+
+<div class={groupClass} data-disclosure={id}>
+  <div class="disclosure-header" data-disclosure-toggle={id}>
+    <h2>
+      <span class="disclosure-chevron" aria-hidden="true">&#xE08F;</span>
+      {title}
+      {badge !== undefined && <span class="disclosure-badge">{badge}</span>}
+    </h2>
+    <div class="header-actions">
+      <slot name="actions" />
+    </div>
+  </div>
+  <div class="disclosure-body">
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Handle disclosure toggle clicks
+  document.querySelectorAll('[data-disclosure-toggle]').forEach(header => {
+    header.addEventListener('click', (e) => {
+      // Don't toggle if clicking on header-actions
+      if ((e.target as Element).closest('.header-actions')) return;
+
+      const id = header.getAttribute('data-disclosure-toggle');
+      const group = document.querySelector(`[data-disclosure="${id}"]`);
+      if (group) {
+        group.classList.toggle('open');
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Disclosure Group - Glassmorphism Style */
+  .disclosure-group {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow: hidden;
+  }
+
+  .disclosure-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition-fast);
+  }
+
+  .disclosure-group.open .disclosure-header {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .disclosure-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .disclosure-header h2 {
+    margin: 0;
+    font-size: var(--text-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .disclosure-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-family: 'SF Symbols', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    transition: transform var(--transition-base);
+  }
+
+  .disclosure-group.open .disclosure-chevron {
+    transform: rotate(90deg);
+  }
+
+  .disclosure-badge {
+    background: rgba(0, 27, 165, 0.15);
+    color: var(--color-primary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .disclosure-body {
+    display: none;
+    padding: var(--space-5);
+  }
+
+  .disclosure-group.open .disclosure-body {
+    display: block;
+  }
+</style>

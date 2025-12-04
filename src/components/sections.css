@@ -10,6 +10,22 @@
   padding: 0 var(--container-padding);
 }
 
+/* Wide container for admin pages */
+.container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Full-width container */
+.container-full {
+  width: 100%;
+  max-width: var(--container-full);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
 /* Section */
 .section {
   padding: var(--space-24) 0;

@@ -1,0 +1,127 @@
+---
+/**
+ * SearchInput - Inline search input for filtering lists and tables
+ * A compact, styled search input with search icon
+ */
+export interface Props {
+  id: string;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  disabled?: boolean;
+  class?: string;
+  /** Size variant */
+  size?: 'default' | 'sm' | 'lg';
+}
+
+const {
+  id,
+  name = id,
+  placeholder = 'Rechercher...',
+  value = '',
+  disabled = false,
+  class: className = '',
+  size = 'default',
+} = Astro.props;
+
+const inputClass = ['search-input', `search-input-${size}`, className].filter(Boolean).join(' ');
+---
+
+<div class="search-input-wrapper">
+  <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+  <input
+    type="search"
+    id={id}
+    name={name}
+    placeholder={placeholder}
+    value={value}
+    disabled={disabled}
+    class={inputClass}
+  />
+</div>
+
+<style>
+  .search-input-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: var(--space-3);
+    pointer-events: none;
+    font-size: var(--text-sm);
+    opacity: 0.5;
+  }
+
+  .search-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-8);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: var(--text-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    width: 100%;
+    min-width: 200px;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-input:hover {
+    border-color: var(--border-hover);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
+  }
+
+  .search-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Clear button styling for search inputs */
+  .search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23666' d='M7 5.586L10.536 2.05a1 1 0 011.414 1.414L8.414 7l3.536 3.536a1 1 0 01-1.414 1.414L7 8.414l-3.536 3.536a1 1 0 01-1.414-1.414L5.586 7 2.05 3.464A1 1 0 013.464 2.05L7 5.586z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Size variants */
+  .search-input-sm {
+    padding: var(--space-1) var(--space-2) var(--space-1) var(--space-6);
+    font-size: var(--text-xs);
+    min-width: 150px;
+  }
+
+  .search-input-sm + .search-icon,
+  .search-input-wrapper:has(.search-input-sm) .search-icon {
+    left: var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .search-input-lg {
+    padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+    font-size: var(--text-base);
+    min-width: 280px;
+  }
+
+  .search-input-wrapper:has(.search-input-lg) .search-icon {
+    left: var(--space-4);
+    font-size: var(--text-base);
+  }
+</style>

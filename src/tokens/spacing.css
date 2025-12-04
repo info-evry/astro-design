@@ -21,5 +21,7 @@
 
   /* Container */
   --container-max: 1200px;
+  --container-wide: 1400px;
+  --container-full: 1600px;
   --container-padding: var(--space-6);
 }
