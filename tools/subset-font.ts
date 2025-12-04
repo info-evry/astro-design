@@ -2,8 +2,8 @@
 /**
  * SF Symbols Font Subsetting Tool
  *
- * Scans Astro files for SFSymbol usage and creates a subset font
- * containing only the characters actually used.
+ * Scans Astro/HTML/TSX/JSX files for @sfs:symbol.name@ shortcodes
+ * and creates a subset font containing only the characters actually used.
  *
  * Prerequisites:
  *   pip install fonttools brotli
@@ -21,23 +21,22 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import symbolsMap from "../src/symbols/sfsymbols.json";
 
-// Matches SFSymbol component usage in Astro/TSX/JSX files.
+// Matches @sfs:symbol.name@ shortcode pattern
 // Example matched strings:
-//   <SFSymbol name="symbolName" ...>
-//   <SFSymbol ... name={'symbolName'} ...>
-// The first capture group ([^"'}]+) extracts the symbol name value.
-const SFSYMBOL_NAME_REGEX = /<SFSymbol[^>]*name=["'{]([^"'}]+)["'}]/g;
+//   @sfs:checkmark@
+//   @sfs:pencil.circle.fill@
+//   @sfs:person.2.fill@
+const SFS_SHORTCODE_REGEX = /@sfs:([a-zA-Z0-9._-]+)@/g;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const designRoot = resolve(__dirname, "..");
-
 
 // Convert symbols map to lookup
 const symbolsLookup = new Map<string, string>(
   (symbolsMap as [string, string][]).map(([name, char]) => [name, char])
 );
 
-async function findAstroFiles(dir: string): Promise<string[]> {
+async function findSourceFiles(dir: string): Promise<string[]> {
   const files: string[] = [];
 
   async function scan(currentDir: string) {
@@ -47,7 +46,12 @@ async function findAstroFiles(dir: string): Promise<string[]> {
         const fullPath = join(currentDir, entry.name);
         if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
           await scan(fullPath);
-        } else if (entry.isFile() && (entry.name.endsWith(".astro") || entry.name.endsWith(".tsx") || entry.name.endsWith(".jsx"))) {
+        } else if (entry.isFile() && (
+          entry.name.endsWith(".astro") ||
+          entry.name.endsWith(".tsx") ||
+          entry.name.endsWith(".jsx") ||
+          entry.name.endsWith(".html")
+        )) {
           files.push(fullPath);
         }
       }
@@ -84,6 +88,10 @@ const ADMIN_SYMBOLS = [
   'person.fill',      // User (filled)
 ];
 
+// Additional patterns to scan for (used in MobileNav items, etc.)
+const ICON_PROP_REGEX = /icon:\s*["']([^"']+)["']/g;
+const CTA_ICON_PATTERN = /ctaIcon=["'{]([^"'}]+)["'}]/g;
+
 async function extractSymbolNames(files: string[]): Promise<Set<string>> {
   const symbols = new Set<string>();
 
@@ -92,27 +100,23 @@ async function extractSymbolNames(files: string[]): Promise<Set<string>> {
     symbols.add(sym);
   }
 
-  // Regex to match 'icon' property in MobileNav items
-  const ICON_PROP_REGEX = /icon:\s*["']([^"']+)["']/g;
-  const CTA_ICON_PATTERN = /ctaIcon=["'{]([^"'}]+)["'}]/g;
-
   for (const file of files) {
     try {
       const content = await Bun.file(file).text();
 
-      // Match SFSymbol component usage: <SFSymbol name="..." or name={"..."}
-      const matches = content.matchAll(SFSYMBOL_NAME_REGEX);
-      for (const match of matches) {
+      // Match @sfs:symbol.name@ shortcodes
+      const sfsMatches = content.matchAll(SFS_SHORTCODE_REGEX);
+      for (const match of sfsMatches) {
         symbols.add(match[1]);
       }
 
-      // Also match symbol prop in MobileNav items
+      // Also match icon prop in MobileNav items: icon: 'house'
       const iconMatches = content.matchAll(ICON_PROP_REGEX);
       for (const match of iconMatches) {
         symbols.add(match[1]);
       }
 
-      // Match ctaIcon attribute in MobileNav: ctaIcon="..." or ctaIcon={"..."}
+      // Match ctaIcon attribute: ctaIcon="xxx" or ctaIcon={"xxx"}
       const ctaIconMatches = content.matchAll(CTA_ICON_PATTERN);
       for (const match of ctaIconMatches) {
         symbols.add(match[1]);
@@ -217,21 +221,21 @@ async function main() {
   const targetDir = resolve(process.cwd(), projectPath);
   const outputPath = join(targetDir, "public/fonts/Cupertino-Pro.woff2");
 
-  console.log(`🔍 Scanning for SFSymbol usage in ${targetDir}...`);
+  console.log(`🔍 Scanning for @sfs:xxx@ shortcodes in ${targetDir}...`);
 
-  // Find all Astro files in the project and design system
-  const projectFiles = await findAstroFiles(targetDir);
-  const designFiles = await findAstroFiles(join(designRoot, "src"));
+  // Find all source files in the project and design system
+  const projectFiles = await findSourceFiles(targetDir);
+  const designFiles = await findSourceFiles(join(designRoot, "src"));
   const allFiles = [...projectFiles, ...designFiles];
 
   console.log(`   Found ${allFiles.length} files to scan`);
 
-  // Extract symbol names
+  // Extract symbol names from shortcodes
   const symbolNames = await extractSymbolNames(allFiles);
   console.log(`   Found ${symbolNames.size} unique symbols: ${[...symbolNames].join(", ")}`);
 
   if (symbolNames.size === 0) {
-    console.log("⚠️  No SFSymbol usage found. Copying full font instead.");
+    console.log("⚠️  No @sfs:xxx@ shortcodes found. Copying full font instead.");
     await $`mkdir -p ${join(targetDir, "public/fonts")}`;
     await $`cp ${join(designRoot, "src/fonts/Cupertino-Pro-Full.woff2")} ${outputPath}`;
     return;

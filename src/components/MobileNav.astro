@@ -3,7 +3,7 @@
  * MobileNav Component - Floating tab bar for mobile navigation
  *
  * A fixed bottom navigation bar that appears only on mobile devices.
- * Uses SF Symbols for icons.
+ * Uses SF Symbols shortcodes for icons.
  *
  * Usage:
  *   <MobileNav items={[
@@ -11,12 +11,11 @@
  *     { href: '/about', label: 'À propos', icon: 'info.circle' },
  *   ]} />
  */
-import SFSymbol from './SFSymbol.astro';
 
 interface NavItem {
   href: string;
   label: string;
-  icon: string;  // SF Symbol name
+  icon: string;  // SF Symbol name (e.g., 'house', 'info.circle')
   active?: boolean;
 }
 
@@ -50,14 +49,14 @@ const currentPath = Astro.url.pathname;
           class:list={['mobile-nav-item', { active: isActive }]}
           aria-current={isActive ? 'page' : undefined}
         >
-          <SFSymbol name={item.icon} size="lg" />
+          <span class="sfs sfs-lg" data-sfs={`@sfs:${item.icon}@`} aria-hidden="true"></span>
           <span class="mobile-nav-label">{item.label}</span>
         </a>
       );
     })}
     {ctaHref && (
       <a href={ctaHref} class="mobile-nav-item mobile-nav-cta">
-        <SFSymbol name={ctaIcon} size="lg" />
+        <span class="sfs sfs-lg" data-sfs={`@sfs:${ctaIcon}@`} aria-hidden="true"></span>
         <span class="mobile-nav-label">{ctaLabel}</span>
       </a>
     )}

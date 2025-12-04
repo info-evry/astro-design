@@ -18,6 +18,38 @@
   font-display: swap;
 }
 
+/* ===========================================
+   SF Symbols Shortcode Styles
+   Usage: <span class="sfs" data-sfs="@sfs:symbol.name@"></span>
+   After build: <span class="sfs" data-sfs="UNICODE_CHAR"></span>
+   =========================================== */
+
+/* Base styles for SF Symbol elements */
+[data-sfs]::before {
+  content: attr(data-sfs);
+  font-family: 'SF Symbols', 'Cupertino', system-ui, sans-serif;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* SF Symbol container - use .sfs class for inline icons */
+.sfs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Size variants */
+.sfs-xs::before, [data-sfs-size="xs"]::before { font-size: 0.75rem; }
+.sfs-sm::before, [data-sfs-size="sm"]::before { font-size: 0.875rem; }
+.sfs-md::before, [data-sfs-size="md"]::before { font-size: 1rem; }
+.sfs-lg::before, [data-sfs-size="lg"]::before { font-size: 1.25rem; }
+.sfs-xl::before, [data-sfs-size="xl"]::before { font-size: 1.5rem; }
+.sfs-2xl::before, [data-sfs-size="2xl"]::before { font-size: 2rem; }
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

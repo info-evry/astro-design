@@ -60,19 +60,20 @@ src/
 ├── utilities/
 │   ├── animations.css    # Keyframes & animation classes
 │   └── helpers.css       # Utility classes
-├── astro-components/           # Astro components
+├── components/           # Astro components
 │   ├── Header.astro      # Site header with mobile menu
 │   ├── Footer.astro      # Site footer
 │   ├── MobileNav.astro   # Mobile tab bar navigation
 │   ├── HeroBackground.astro # Animated hero background
 │   ├── SectionHeader.astro # Section title component
-│   ├── SFSymbol.astro    # SF Symbols icon component
 │   ├── FormInput.astro   # Form input with label
 │   ├── FormSelect.astro  # Form select with label
 │   ├── FormTextarea.astro # Form textarea with label
 │   ├── FilterSelect.astro # Filter dropdown
 │   ├── DataTable.astro   # Data table component
 │   └── Badge.astro       # Status badge
+├── integrations/
+│   └── sf-symbols.ts     # Vite plugin for SF Symbols shortcodes
 ├── symbols/
 │   └── sfsymbols.json    # SF Symbols character mappings
 └── index.css             # Main entry point
@@ -111,7 +112,6 @@ src/
 import Header from '../design/src/components/Header.astro';
 import Footer from '../design/src/components/Footer.astro';
 import MobileNav from '../design/src/components/MobileNav.astro';
-import SFSymbol from '../design/src/components/SFSymbol.astro';
 ---
 
 <Header
@@ -128,7 +128,8 @@ import SFSymbol from '../design/src/components/SFSymbol.astro';
   ctaIcon="person.badge.plus"
 />
 
-<SFSymbol name="checkmark.circle.fill" size="lg" />
+<!-- SF Symbols using shortcodes -->
+<span class="sfs sfs-lg" data-sfs="@sfs:checkmark.circle.fill@"></span>
 
 <Footer />
 ```
@@ -187,15 +188,62 @@ import SFSymbol from '../design/src/components/SFSymbol.astro';
 
 ## SF Symbols
 
-The design system includes SF Symbols support via the `SFSymbol.astro` component:
+The design system includes SF Symbols support via shortcodes that are replaced at build time.
 
-```astro
-<SFSymbol name="person.3" />
-<SFSymbol name="checkmark.circle.fill" size="lg" />
-<SFSymbol name="xmark" size="sm" />
+### Setup
+
+Add the integration to your `astro.config.mjs`:
+
+```js
+import sfSymbols from './design/src/integrations/sf-symbols';
+
+export default defineConfig({
+  integrations: [sfSymbols()],
+});
 ```
 
-Available sizes: `sm`, `base` (default), `lg`, `xl`
+### Usage
+
+Use the `@sfs:symbol.name@` shortcode format in data attributes:
+
+```html
+<!-- Inline icon -->
+<span class="sfs sfs-md" data-sfs="@sfs:checkmark@"></span>
+
+<!-- Different sizes -->
+<span class="sfs sfs-sm" data-sfs="@sfs:xmark@"></span>
+<span class="sfs sfs-lg" data-sfs="@sfs:person.2.fill@"></span>
+<span class="sfs sfs-xl" data-sfs="@sfs:calendar@"></span>
+<span class="sfs sfs-2xl" data-sfs="@sfs:star.fill@"></span>
+```
+
+### How It Works
+
+1. Shortcodes like `@sfs:checkmark@` are written in the HTML
+2. At build time, the Vite plugin replaces them with actual Unicode characters
+3. CSS uses `::before { content: attr(data-sfs); }` to display the symbol
+4. Font subsetting scans for shortcodes and creates an optimized font file
+
+### Available Sizes
+
+| Class | Font Size |
+|-------|-----------|
+| `sfs-xs` | 0.75rem |
+| `sfs-sm` | 0.875rem |
+| `sfs-md` | 1rem |
+| `sfs-lg` | 1.25rem |
+| `sfs-xl` | 1.5rem |
+| `sfs-2xl` | 2rem |
+
+### Dynamic Symbols (in components)
+
+For dynamic icon names (e.g., in MobileNav), use template expressions:
+
+```astro
+<span class="sfs sfs-lg" data-sfs={`@sfs:${item.icon}@`}></span>
+```
+
+The shortcode will be resolved after SSR when the actual symbol name is known.
 
 ## Testing
 
