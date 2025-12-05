@@ -1,0 +1,100 @@
+/* ===========================================
+   Team Blocks (Expandable) - Info Evry Design System
+   =========================================== */
+
+.team-block {
+  width: 100%;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.team-block:last-child {
+  margin-bottom: 0;
+}
+
+.team-block-header {
+  background: rgba(255, 255, 255, 0.03);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.team-block.open .team-block-header {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-block-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.team-block-header h3 {
+  margin: 0;
+  font-size: var(--text-base);
+}
+
+.team-block-info {
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.team-block-body {
+  padding: var(--space-4);
+  display: none;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.team-block.open .team-block-body {
+  display: block;
+}
+
+.team-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* Legacy class alias */
+.team-header {
+  background: rgba(255, 255, 255, 0.03);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.team-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.team-header h3 {
+  margin: 0;
+  font-size: var(--text-base);
+}
+
+.team-header .team-info {
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.team-body {
+  padding: var(--space-4);
+  display: none;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.team-block.open .team-body {
+  display: block;
+}

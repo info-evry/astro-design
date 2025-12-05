@@ -1,0 +1,100 @@
+/* ===========================================
+   Stats Grid & Cards - Info Evry Design System
+   =========================================== */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-align: center;
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  border-color: var(--color-primary);
+  background: rgba(0, 27, 165, 0.05);
+}
+
+.stat-value {
+  display: block;
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Stat card variants */
+.stat-card-highlight {
+  background: rgba(0, 27, 165, 0.1);
+  border-color: var(--color-primary);
+}
+
+.stat-card-sm {
+  padding: var(--space-3);
+}
+
+.stat-card-sm .stat-value {
+  font-size: var(--text-xl);
+}
+
+.stat-sublabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ===========================================
+   Quick Actions
+   =========================================== */
+
+.quick-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .quick-actions {
+    flex-direction: column;
+  }
+
+  .quick-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ===========================================
+   Food Stats
+   =========================================== */
+
+.food-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.food-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.food-item .count {
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-right: var(--space-1);
+}

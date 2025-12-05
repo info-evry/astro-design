@@ -1,0 +1,261 @@
+/* ===========================================
+   Data Tables - Info Evry Design System
+   =========================================== */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.data-table th {
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+.data-table tr:hover td {
+  background: var(--color-bg);
+}
+
+.data-table a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.data-table a:hover {
+  text-decoration: underline;
+}
+
+.data-table .checkbox-col {
+  width: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding-left: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+.data-table .checkbox-col input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.data-table .actions-col {
+  width: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Members Table (alias) */
+.members-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.members-table th,
+.members-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.members-table th {
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+.members-table tr:hover td {
+  background: var(--color-bg);
+}
+
+.members-table a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.members-table a:hover {
+  text-decoration: underline;
+}
+
+.members-table .checkbox-col {
+  width: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding-left: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+.members-table .checkbox-col input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.members-table .actions-col {
+  width: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.members-table .actions-col .btn + .btn {
+  margin-left: var(--space-1);
+}
+
+/* ===========================================
+   Badges
+   =========================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  min-height: 20px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  gap: var(--space-1);
+}
+
+.badge-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.badge-leader {
+  background: var(--color-primary);
+  color: white;
+}
+
+.badge-secondary {
+  background: var(--border-default);
+  color: var(--color-text);
+}
+
+.badge-bac {
+  background: var(--border-default);
+  color: var(--color-text);
+}
+
+.badge-success {
+  background: var(--color-success);
+  color: white;
+}
+
+.badge-warning {
+  background: var(--color-warning, #fbbf24);
+  color: black;
+}
+
+.badge-error {
+  background: var(--color-error);
+  color: white;
+}
+
+/* ===========================================
+   Selection States
+   =========================================== */
+
+.member-row.selected {
+  background: rgba(0, 27, 165, 0.15);
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+  font-weight: normal;
+}
+
+/* ===========================================
+   Full-width tables with intelligent column sizing
+   =========================================== */
+
+.data-table,
+.members-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Ensure text columns can expand to fill space */
+.data-table td,
+.members-table td {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fixed width columns */
+.data-table .checkbox-col,
+.members-table .checkbox-col {
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+}
+
+.data-table .actions-col,
+.members-table .actions-col {
+  width: 100px;
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+.data-table .status-col,
+.members-table .status-col {
+  width: 120px;
+  min-width: 100px;
+}
+
+.data-table .time-col,
+.members-table .time-col {
+  width: 80px;
+  min-width: 60px;
+}
+
+.data-table .badge-col,
+.members-table .badge-col {
+  width: 100px;
+  min-width: 80px;
+}
+
+/* Team name column - truncate long names */
+.data-table .team-col,
+.members-table .team-col {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===========================================
+   Table Container - Responsive wrapper
+   =========================================== */
+
+.table-container {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-container > table {
+  width: 100%;
+  min-width: 600px;
+}
+
+/* ===========================================
+   Responsive
+   =========================================== */
+
+@media (max-width: 768px) {
+  .members-table,
+  .data-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
