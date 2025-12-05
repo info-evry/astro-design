@@ -1061,13 +1061,15 @@
 .data-table,
 .members-table {
   width: 100%;
-  table-layout: auto;
+  table-layout: fixed;
 }
 
 /* Ensure text columns can expand to fill space */
 .data-table td,
 .members-table td {
   word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Fixed width columns */
@@ -1080,7 +1082,7 @@
 
 .data-table .actions-col,
 .members-table .actions-col {
-  width: auto;
+  width: 100px;
   min-width: 80px;
   white-space: nowrap;
 }
@@ -1103,6 +1105,15 @@
   min-width: 80px;
 }
 
+/* Team name column - truncate long names */
+.data-table .team-col,
+.members-table .team-col {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ===========================================
    Table Container - Responsive wrapper
    =========================================== */
@@ -1114,7 +1125,8 @@
 }
 
 .table-container > table {
-  min-width: 100%;
+  width: 100%;
+  min-width: 600px;
 }
 
 /* ===========================================
