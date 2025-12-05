@@ -5,47 +5,18 @@
  * This is used for dynamic symbol rendering in Astro components where
  * build-time shortcode replacement doesn't work (e.g., template literals).
  *
+ * Uses static JSON import for Cloudflare Workers compatibility.
+ *
  * Usage:
  *   import { getSymbol } from '../utils/symbols';
  *   const icon = getSymbol('house'); // Returns '􀎞' or the input if not found
  */
 
-import { readFileSync, existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+// Static import - bundled at build time, works in Cloudflare Workers
+import symbolsData from '../symbols/sfsymbols.json';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// Cache the symbols map
-let symbolsMap: Map<string, string> | null = null;
-
-/**
- * Load the symbols map from sfsymbols.json
- */
-function loadSymbolsMap(): Map<string, string> {
-  if (symbolsMap) {
-    return symbolsMap;
-  }
-
-  const symbolsPath = resolve(__dirname, '../symbols/sfsymbols.json');
-
-  if (!existsSync(symbolsPath)) {
-    console.warn('[symbols] Warning: sfsymbols.json not found at', symbolsPath);
-    symbolsMap = new Map();
-    return symbolsMap;
-  }
-
-  try {
-    const content = readFileSync(symbolsPath, 'utf-8');
-    const entries = JSON.parse(content) as [string, string][];
-    symbolsMap = new Map(entries);
-    return symbolsMap;
-  } catch (error) {
-    console.error('[symbols] Error loading sfsymbols.json:', error);
-    symbolsMap = new Map();
-    return symbolsMap;
-  }
-}
+// Build the map once at module load time
+const symbolsMap: Map<string, string> = new Map(symbolsData as [string, string][]);
 
 /**
  * Get the Unicode character for an SF Symbol name
@@ -53,8 +24,7 @@ function loadSymbolsMap(): Map<string, string> {
  * @returns The Unicode character, or the input name if not found
  */
 export function getSymbol(name: string): string {
-  const map = loadSymbolsMap();
-  return map.get(name) || name;
+  return symbolsMap.get(name) || name;
 }
 
 /**
@@ -63,8 +33,12 @@ export function getSymbol(name: string): string {
  * @returns true if the symbol exists
  */
 export function hasSymbol(name: string): boolean {
-  const map = loadSymbolsMap();
-  return map.has(name);
+  return symbolsMap.has(name);
 }
 
-export { loadSymbolsMap };
+/**
+ * Get the symbols map (for advanced use cases)
+ */
+export function getSymbolsMap(): Map<string, string> {
+  return symbolsMap;
+}
