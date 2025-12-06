@@ -43,19 +43,7 @@ const groupClass = ['disclosure-group', open && 'open', className].filter(Boolea
 </div>
 
 <script>
-  // Handle disclosure toggle clicks
-  document.querySelectorAll('[data-disclosure-toggle]').forEach(header => {
-    header.addEventListener('click', (e) => {
-      // Don't toggle if clicking on header-actions
-      if ((e.target as Element).closest('.header-actions')) return;
-
-      const id = header.getAttribute('data-disclosure-toggle');
-      const group = document.querySelector(`[data-disclosure="${id}"]`);
-      if (group) {
-        group.classList.toggle('open');
-      }
-    });
-  });
+  import '../scripts/disclosure';
 </script>
 
 <style>
