@@ -71,3 +71,32 @@
 .disclosure-group.open .disclosure-body {
   display: block;
 }
+
+/* ===========================================
+   Compact Variant
+   Less padding and smaller text for dense UIs
+   =========================================== */
+
+.disclosure-group.compact {
+  margin-bottom: var(--space-2);
+}
+
+.disclosure-group.compact .disclosure-header {
+  padding: var(--space-2) var(--space-3);
+}
+
+.disclosure-group.compact .disclosure-header h2,
+.disclosure-group.compact .disclosure-header h3 {
+  font-size: var(--text-base);
+  gap: var(--space-1);
+}
+
+.disclosure-group.compact .disclosure-chevron {
+  width: 14px;
+  height: 14px;
+  font-size: 0.625rem;
+}
+
+.disclosure-group.compact .disclosure-body {
+  padding: var(--space-3);
+}
