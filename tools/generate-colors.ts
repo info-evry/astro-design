@@ -443,8 +443,8 @@ Examples:
     } else {
       console.log(format === 'json' ? json : css);
     }
-  } catch (err) {
-    console.error('Error:', err instanceof Error ? err.message : err);
+  } catch (error) {
+    console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

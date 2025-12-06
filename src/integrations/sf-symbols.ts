@@ -39,8 +39,8 @@ function loadSymbolsMap(): Map<string, string> {
     const content = readFileSync(symbolsPath, 'utf-8');
     const entries = JSON.parse(content) as [string, string][];
     return new Map(entries);
-  } catch (err) {
-    console.error('[sf-symbols] Error loading sfsymbols.json:', err);
+  } catch (error) {
+    console.error('[sf-symbols] Error loading sfsymbols.json:', error);
     return new Map();
   }
 }

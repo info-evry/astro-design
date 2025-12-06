@@ -55,9 +55,9 @@ async function findSourceFiles(dir: string): Promise<string[]> {
           files.push(fullPath);
         }
       }
-    } catch (err) {
+    } catch (error) {
       // Directory might not exist
-      console.warn(`Warning: Could not scan directory '${currentDir}':`, err);
+      console.warn(`Warning: Could not scan directory '${currentDir}':`, error);
     }
   }
 
@@ -202,10 +202,10 @@ async function subsetFont(characters: string, outputPath: string) {
     // Clean up temp file
     await Bun.write(charFile, "");
 
-  } catch (err: any) {
+  } catch (error: any) {
     console.error("❌ Failed to create font subset.");
     console.error("   Make sure pyftsubset is installed: pip install fonttools brotli");
-    throw err;
+    throw error;
   }
 }
 
@@ -252,7 +252,7 @@ async function main() {
   await subsetFont(chars, outputPath);
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((error) => {
+  console.error(error);
   process.exit(1);
 });

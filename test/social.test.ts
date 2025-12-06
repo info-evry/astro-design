@@ -19,7 +19,7 @@ describe('socialIcons', () => {
   });
 
   test('each icon should be a valid SVG path string', () => {
-    for (const [name, path] of Object.entries(socialIcons)) {
+    for (const path of Object.values(socialIcons)) {
       expect(typeof path).toBe('string');
       expect(path.length).toBeGreaterThan(0);
       expect(path).toContain('<path');
@@ -29,7 +29,7 @@ describe('socialIcons', () => {
   });
 
   test('icons should contain path data', () => {
-    for (const [name, path] of Object.entries(socialIcons)) {
+    for (const path of Object.values(socialIcons)) {
       // Path data should have coordinates (numbers)
       expect(path).toMatch(/d="[A-Za-z0-9.\s-]+"/);
     }
