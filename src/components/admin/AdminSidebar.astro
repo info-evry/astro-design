@@ -1,0 +1,135 @@
+---
+/**
+ * AdminSidebar - Vertical navigation sidebar for admin panels
+ *
+ * @prop {Array<{id: string, label: string, icon?: string}>} tabs - Navigation tabs
+ * @prop {string} [activeTab] - Initially active tab ID
+ * @prop {string} [id='admin-sidebar'] - Container ID
+ */
+
+interface Tab {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  activeTab?: string;
+  id?: string;
+}
+
+const { tabs, activeTab = tabs[0]?.id, id = 'admin-sidebar' } = Astro.props;
+---
+
+<nav class="admin-sidebar" id={id}>
+  <ul class="admin-sidebar-nav">
+    {tabs.map((tab) => (
+      <li>
+        <button
+          type="button"
+          class={`admin-sidebar-item ${tab.id === activeTab ? 'active' : ''}`}
+          data-tab={tab.id}
+        >
+          {tab.icon && <span class="admin-sidebar-icon">{tab.icon}</span>}
+          <span class="admin-sidebar-label">{tab.label}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .admin-sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--color-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: var(--space-4);
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .admin-sidebar-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .admin-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: none;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .admin-sidebar-item:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  .admin-sidebar-item.active {
+    background: rgba(0, 27, 165, 0.1);
+    color: var(--color-primary);
+  }
+
+  .admin-sidebar-icon {
+    font-size: 1.125rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .admin-sidebar-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Mobile: Convert to horizontal tabs */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      width: 100%;
+      min-width: unset;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: var(--space-2);
+      overflow-x: auto;
+    }
+
+    .admin-sidebar-nav {
+      flex-direction: row;
+      gap: var(--space-1);
+      min-width: max-content;
+    }
+
+    .admin-sidebar-item {
+      padding: var(--space-2) var(--space-3);
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .admin-sidebar-icon {
+      font-size: 1.25rem;
+    }
+
+    .admin-sidebar-label {
+      font-size: var(--text-xs);
+    }
+  }
+</style>

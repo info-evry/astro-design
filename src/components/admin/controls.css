@@ -317,3 +317,48 @@
   background: rgba(239, 68, 68, 0.2);
   border-color: rgba(239, 68, 68, 0.3);
 }
+
+/* ===========================================
+   Filter Pills - Radio/checkbox pill groups
+   =========================================== */
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-pill:hover {
+  border-color: var(--border-default);
+  background: var(--color-surface-hover);
+}
+
+.filter-pill.active {
+  border-color: var(--color-primary);
+  background: rgba(0, 27, 165, 0.1);
+  color: var(--color-primary);
+}
+
+.filter-pill input[type="radio"],
+.filter-pill input[type="checkbox"] {
+  display: none;
+}
+
+.filter-pill:has(input:checked) {
+  border-color: var(--color-primary);
+  background: rgba(0, 27, 165, 0.1);
+  color: var(--color-primary);
+}

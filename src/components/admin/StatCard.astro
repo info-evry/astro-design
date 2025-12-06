@@ -1,0 +1,42 @@
+---
+/**
+ * StatCard - Reusable statistic card component
+ *
+ * @prop {string | number} value - The main value to display
+ * @prop {string} label - The label below the value
+ * @prop {string} [sublabel] - Optional sublabel (e.g., currency amounts)
+ * @prop {'default' | 'highlight' | 'small'} [variant='default'] - Card variant
+ * @prop {string} [id] - Optional ID for JavaScript targeting
+ * @prop {string} [valueId] - Optional ID for the value element
+ */
+
+interface Props {
+  value: string | number;
+  label: string;
+  sublabel?: string;
+  variant?: 'default' | 'highlight' | 'small';
+  id?: string;
+  valueId?: string;
+}
+
+const {
+  value,
+  label,
+  sublabel,
+  variant = 'default',
+  id,
+  valueId
+} = Astro.props;
+
+const cardClasses = [
+  'stat-card',
+  variant === 'highlight' && 'stat-card-highlight',
+  variant === 'small' && 'stat-card-sm',
+].filter(Boolean).join(' ');
+---
+
+<div class={cardClasses} id={id}>
+  <div class="stat-value" id={valueId}>{value}</div>
+  <div class="stat-label">{label}</div>
+  {sublabel && <div class="stat-sublabel">{sublabel}</div>}
+</div>

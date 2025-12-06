@@ -1,0 +1,40 @@
+---
+/**
+ * FilterPills - Radio/checkbox pill group for filtering
+ *
+ * @prop {string} name - Input name attribute (for radio grouping)
+ * @prop {Array<{value: string, label: string, checked?: boolean, id?: string}>} options - Filter options
+ * @prop {'radio' | 'checkbox'} [type='radio'] - Input type
+ * @prop {string} [id] - Container ID for JavaScript targeting
+ */
+
+interface FilterOption {
+  value: string;
+  label: string;
+  checked?: boolean;
+  id?: string;
+}
+
+interface Props {
+  name: string;
+  options: FilterOption[];
+  type?: 'radio' | 'checkbox';
+  id?: string;
+}
+
+const { name, options, type = 'radio', id } = Astro.props;
+---
+
+<div class="filter-pills" id={id}>
+  {options.map((option) => (
+    <label class="filter-pill" id={option.id}>
+      <input
+        type={type}
+        name={name}
+        value={option.value}
+        checked={option.checked}
+      />
+      <Fragment set:html={option.label} />
+    </label>
+  ))}
+</div>

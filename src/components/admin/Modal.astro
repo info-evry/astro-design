@@ -1,0 +1,56 @@
+---
+/**
+ * Modal - Reusable modal dialog component
+ *
+ * @prop {string} id - Modal ID for JavaScript targeting
+ * @prop {string} [title] - Modal title
+ * @prop {string} [subtitle] - Optional subtitle
+ * @prop {'default' | 'lg' | 'sm'} [size='default'] - Modal size
+ * @prop {boolean} [hidden=true] - Initially hidden
+ *
+ * @slot default - Modal body content
+ * @slot actions - Modal action buttons
+ */
+
+interface Props {
+  id: string;
+  title?: string;
+  subtitle?: string;
+  size?: 'default' | 'lg' | 'sm';
+  hidden?: boolean;
+}
+
+const {
+  id,
+  title,
+  subtitle,
+  size = 'default',
+  hidden = true
+} = Astro.props;
+
+const modalClasses = [
+  'modal',
+  hidden && 'hidden'
+].filter(Boolean).join(' ');
+
+const contentClasses = [
+  'modal-content',
+  size === 'lg' && 'modal-lg',
+  size === 'sm' && 'modal-sm'
+].filter(Boolean).join(' ');
+---
+
+<div id={id} class={modalClasses}>
+  <div class={contentClasses}>
+    {title && <h3>{title}</h3>}
+    {subtitle && <p class="modal-subtitle" id={`${id}-subtitle`}>{subtitle}</p>}
+
+    <slot />
+
+    {Astro.slots.has('actions') && (
+      <div class="modal-actions">
+        <slot name="actions" />
+      </div>
+    )}
+  </div>
+</div>
