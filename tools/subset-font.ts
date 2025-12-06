@@ -55,9 +55,9 @@ async function findSourceFiles(dir: string): Promise<string[]> {
           files.push(fullPath);
         }
       }
-    } catch (e) {
+    } catch (err) {
       // Directory might not exist
-      console.warn(`Warning: Could not scan directory '${currentDir}':`, e);
+      console.warn(`Warning: Could not scan directory '${currentDir}':`, err);
     }
   }
 
@@ -121,7 +121,7 @@ async function extractSymbolNames(files: string[]): Promise<Set<string>> {
       for (const match of ctaIconMatches) {
         symbols.add(match[1]);
       }
-    } catch (e) {
+    } catch {
       console.warn(`Warning: Could not read ${file}`);
     }
   }
@@ -137,17 +137,17 @@ function getLatinChars(): string {
   const chars: string[] = [];
 
   // ASCII printable (0x0020-0x007E)
-  for (let i = 0x0020; i <= 0x007E; i++) {
+  for (let i = 0x00_20; i <= 0x00_7E; i++) {
     chars.push(String.fromCharCode(i));
   }
 
   // Latin-1 Supplement (0x00A0-0x00FF) - includes é, è, à, ç, etc.
-  for (let i = 0x00A0; i <= 0x00FF; i++) {
+  for (let i = 0x00_A0; i <= 0x00_FF; i++) {
     chars.push(String.fromCharCode(i));
   }
 
   // Latin Extended-A (0x0100-0x017F) - includes œ, Œ, etc.
-  for (let i = 0x0100; i <= 0x017F; i++) {
+  for (let i = 0x01_00; i <= 0x01_7F; i++) {
     chars.push(String.fromCharCode(i));
   }
 
@@ -202,10 +202,10 @@ async function subsetFont(characters: string, outputPath: string) {
     // Clean up temp file
     await Bun.write(charFile, "");
 
-  } catch (error: any) {
+  } catch (err: any) {
     console.error("❌ Failed to create font subset.");
     console.error("   Make sure pyftsubset is installed: pip install fonttools brotli");
-    throw error;
+    throw err;
   }
 }
 

@@ -19,10 +19,14 @@
   "scripts": {
     "generate-colors": "bun run tools/generate-colors.ts",
     "generate-colors:apply": "bun run tools/generate-colors.ts --output src/tokens/colors.css",
-    "test": "bun test"
+    "test": "bun test",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@vitest/coverage-v8": "2.1.9",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
   },
   "keywords": [
     "design-system",

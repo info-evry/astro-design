@@ -49,18 +49,24 @@ function hexToRgb(hex: string): RGB {
     throw new Error(`Invalid hex color: ${hex}`);
   }
   return {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16),
+    r: Number.parseInt(result[1], 16),
+    g: Number.parseInt(result[2], 16),
+    b: Number.parseInt(result[3], 16),
   };
+}
+
+/**
+ * Convert a single channel value to hex
+ */
+function channelToHex(n: number): string {
+  return Math.round(Math.max(0, Math.min(255, n))).toString(16).padStart(2, '0');
 }
 
 /**
  * Convert RGB to hex
  */
 function rgbToHex(rgb: RGB): string {
-  const toHex = (n: number) => Math.round(Math.max(0, Math.min(255, n))).toString(16).padStart(2, '0');
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+  return `#${channelToHex(rgb.r)}${channelToHex(rgb.g)}${channelToHex(rgb.b)}`;
 }
 
 /**
@@ -84,18 +90,34 @@ function rgbToHsl(rgb: RGB): HSL {
 
   let h = 0;
   switch (max) {
-    case r:
+    case r: {
       h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
       break;
-    case g:
+    }
+    case g: {
       h = ((b - r) / d + 2) / 6;
       break;
-    case b:
+    }
+    case b: {
       h = ((r - g) / d + 4) / 6;
       break;
+    }
   }
 
   return { h: h * 360, s, l };
+}
+
+/**
+ * Helper for HSL to RGB conversion
+ */
+function hue2rgb(p: number, q: number, t: number): number {
+  let tNorm = t;
+  if (tNorm < 0) tNorm += 1;
+  if (tNorm > 1) tNorm -= 1;
+  if (tNorm < 1 / 6) return p + (q - p) * 6 * tNorm;
+  if (tNorm < 1 / 2) return q;
+  if (tNorm < 2 / 3) return p + (q - p) * (2 / 3 - tNorm) * 6;
+  return p;
 }
 
 /**
@@ -109,15 +131,6 @@ function hslToRgb(hsl: HSL): RGB {
     const val = Math.round(l * 255);
     return { r: val, g: val, b: val };
   }
-
-  const hue2rgb = (p: number, q: number, t: number) => {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1 / 6) return p + (q - p) * 6 * t;
-    if (t < 1 / 2) return q;
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-    return p;
-  };
 
   const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
   const p = 2 * l - q;
@@ -152,7 +165,7 @@ function darken(hex: string, percent: number): string {
 /**
  * Saturate a color by a percentage
  */
-function saturate(hex: string, percent: number): string {
+function _saturate(hex: string, percent: number): string {
   const rgb = hexToRgb(hex);
   const hsl = rgbToHsl(rgb);
   hsl.s = Math.min(1, hsl.s + percent);
@@ -172,21 +185,21 @@ function shiftHue(hex: string, degrees: number): string {
 /**
  * Get complementary color (opposite on color wheel)
  */
-function getComplementary(hex: string): string {
+function _getComplementary(hex: string): string {
   return shiftHue(hex, 180);
 }
 
 /**
  * Get analogous color (adjacent on color wheel)
  */
-function getAnalogous(hex: string, degrees: number = 30): string {
+function _getAnalogous(hex: string, degrees: number = 30): string {
   return shiftHue(hex, degrees);
 }
 
 /**
  * Get triadic colors
  */
-function getTriadic(hex: string): [string, string] {
+function _getTriadic(hex: string): [string, string] {
   return [shiftHue(hex, 120), shiftHue(hex, 240)];
 }
 
@@ -205,7 +218,7 @@ function getLuminance(hex: string): number {
   const rgb = hexToRgb(hex);
   const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(v => {
     v /= 255;
-    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    return v <= 0.039_28 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
   });
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
@@ -213,7 +226,7 @@ function getLuminance(hex: string): number {
 /**
  * Check if text should be white or dark on this background
  */
-function shouldUseWhiteText(bgHex: string): boolean {
+function _shouldUseWhiteText(bgHex: string): boolean {
   const luminance = getLuminance(bgHex);
   return luminance < 0.5;
 }
@@ -240,7 +253,7 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
   }
 
   // Generate light and dark variants from the adjusted primary
-  const primaryLight = lighten(primary, 0.10);
+  const primaryLight = lighten(primary, 0.1);
   const primaryDark = darken(primary, 0.12);
 
   // Get HSL of the adjusted primary
@@ -373,12 +386,11 @@ if (import.meta.main) {
   let format: 'css' | 'json' | 'both' = 'css';
 
   // Parse arguments
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
+  for (const [index, arg] of args.entries()) {
     if (arg === '--output' || arg === '-o') {
-      outputPath = args[++i];
+      outputPath = args[index + 1] ?? null;
     } else if (arg === '--format' || arg === '-f') {
-      format = args[++i] as 'css' | 'json' | 'both';
+      format = (args[index + 1] ?? 'css') as 'css' | 'json' | 'both';
     } else if (arg === '--help' || arg === '-h') {
       console.log(`
 Color Scheme Generator for Info Evry Design System
@@ -431,8 +443,8 @@ Examples:
     } else {
       console.log(format === 'json' ? json : css);
     }
-  } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+  } catch (err) {
+    console.error('Error:', err instanceof Error ? err.message : err);
     process.exit(1);
   }
 }

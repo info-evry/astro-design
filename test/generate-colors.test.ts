@@ -37,8 +37,8 @@ describe('generateColorScheme', () => {
     const primaryMatch = scheme.primary.match(/[a-f\d]{2}/gi)!;
     const lightMatch = scheme.primaryLight.match(/[a-f\d]{2}/gi)!;
 
-    const primarySum = primaryMatch.reduce((sum, hex) => sum + parseInt(hex, 16), 0);
-    const lightSum = lightMatch.reduce((sum, hex) => sum + parseInt(hex, 16), 0);
+    const primarySum = primaryMatch.reduce((sum, hex) => sum + Number.parseInt(hex, 16), 0);
+    const lightSum = lightMatch.reduce((sum, hex) => sum + Number.parseInt(hex, 16), 0);
 
     expect(lightSum).toBeGreaterThan(primarySum);
   });
@@ -49,8 +49,8 @@ describe('generateColorScheme', () => {
     const primaryMatch = scheme.primary.match(/[a-f\d]{2}/gi)!;
     const darkMatch = scheme.primaryDark.match(/[a-f\d]{2}/gi)!;
 
-    const primarySum = primaryMatch.reduce((sum, hex) => sum + parseInt(hex, 16), 0);
-    const darkSum = darkMatch.reduce((sum, hex) => sum + parseInt(hex, 16), 0);
+    const primarySum = primaryMatch.reduce((sum, hex) => sum + Number.parseInt(hex, 16), 0);
+    const darkSum = darkMatch.reduce((sum, hex) => sum + Number.parseInt(hex, 16), 0);
 
     expect(darkSum).toBeLessThan(primarySum);
   });
