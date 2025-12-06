@@ -265,6 +265,7 @@ bun test --watch
 
 ## Related Repositories
 
+- [astro-core](https://github.com/info-evry/astro-core) - Shared code library (Router, helpers)
 - [astro-asso](https://github.com/info-evry/astro-asso) - Main association website
 - [astro-ndi](https://github.com/info-evry/astro-ndi) - NDI registration platform
 - [astro-join](https://github.com/info-evry/astro-join) - Membership portal
