@@ -8,7 +8,7 @@
  * Call this function after DOM is ready
  */
 export function initDisclosures(): void {
-  document.querySelectorAll('[data-disclosure-toggle]').forEach(header => {
+  for (const header of document.querySelectorAll('[data-disclosure-toggle]')) {
     header.addEventListener('click', (e) => {
       // Don't toggle if clicking on header-actions
       if ((e.target as Element).closest('.header-actions')) return;
@@ -19,7 +19,7 @@ export function initDisclosures(): void {
         group.classList.toggle('open');
       }
     });
-  });
+  }
 }
 
 // Auto-initialize when DOM is ready
