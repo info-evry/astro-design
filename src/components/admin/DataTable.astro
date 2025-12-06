@@ -1,0 +1,138 @@
+---
+/**
+ * DataTable - Reusable data table component with search and sort
+ *
+ * @prop {Array<{key: string, label: string, sortable?: boolean, width?: string, class?: string}>} columns - Column definitions
+ * @prop {string} [id] - Table container ID for JavaScript targeting
+ * @prop {string} [tableId] - Table element ID
+ * @prop {string} [tbodyId] - Table body ID for dynamic content
+ * @prop {boolean} [searchable=false] - Enable search input
+ * @prop {string} [searchPlaceholder] - Search input placeholder text
+ * @prop {string} [searchId] - Search input ID
+ * @prop {string} [emptyMessage] - Message when table is empty
+ */
+
+interface Column {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  width?: string;
+  class?: string;
+}
+
+interface Props {
+  columns: Column[];
+  id?: string;
+  tableId?: string;
+  tbodyId?: string;
+  searchable?: boolean;
+  searchPlaceholder?: string;
+  searchId?: string;
+  emptyMessage?: string;
+}
+
+const {
+  columns,
+  id,
+  tableId,
+  tbodyId,
+  searchable = false,
+  searchPlaceholder = 'Rechercher...',
+  searchId,
+  emptyMessage = 'Aucune donnée'
+} = Astro.props;
+---
+
+<div class="table-wrapper" id={id}>
+  {searchable && (
+    <div class="table-search">
+      <input
+        type="search"
+        class="input"
+        placeholder={searchPlaceholder}
+        id={searchId}
+      />
+    </div>
+  )}
+  
+  <slot name="header-actions" />
+  
+  <div class="table-container">
+    <table class="data-table" id={tableId}>
+      <thead>
+        <tr>
+          {columns.map((col) => (
+            <th
+              class:list={[col.class, col.sortable && 'sortable']}
+              style={col.width ? `width: ${col.width}` : undefined}
+              data-sort-key={col.sortable ? col.key : undefined}
+            >
+              {col.label}
+              {col.sortable && <span class="sort-indicator" />}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody id={tbodyId}>
+        <slot />
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="table-empty hidden" data-empty-state>
+    <slot name="empty-state">
+      <p>{emptyMessage}</p>
+    </slot>
+  </div>
+</div>
+
+<style>
+  .table-wrapper {
+    width: 100%;
+  }
+  
+  .table-search {
+    margin-bottom: var(--space-3);
+  }
+  
+  .table-search input {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .sortable:hover {
+    background: var(--color-bg-muted, var(--color-bg));
+  }
+  
+  .sort-indicator::after {
+    content: '↕';
+    margin-left: var(--space-1);
+    opacity: 0.3;
+    font-size: 0.8em;
+  }
+  
+  .sortable[data-sort="asc"] .sort-indicator::after {
+    content: '↑';
+    opacity: 1;
+  }
+  
+  .sortable[data-sort="desc"] .sort-indicator::after {
+    content: '↓';
+    opacity: 1;
+  }
+  
+  .table-empty {
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+  
+  .table-empty.hidden {
+    display: none;
+  }
+</style>
