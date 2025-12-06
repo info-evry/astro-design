@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   test:
@@ -30,29 +29,8 @@ jobs:
       - name: Run tests
         run: bun test
 
-  sonarcloud:
-    name: SonarCloud Analysis
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=info-evry
-            -Dsonar.projectKey=info-evry_astro-design
-            -Dsonar.sources=src
-            -Dsonar.tests=test
-            -Dsonar.exclusions=**/node_modules/**,**/dist/**
-
   snyk:
-    name: Snyk Security Scan
+    name: Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -72,3 +50,19 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install and audit
+        run: |
+          bun install
+          bun audit || echo "::warning::Vulnerabilities found"
