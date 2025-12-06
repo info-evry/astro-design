@@ -3,6 +3,7 @@
    Entry Point
    =========================================== */
 
+@import './layout.css';
 @import './header.css';
 @import './stats.css';
 @import './tables.css';
