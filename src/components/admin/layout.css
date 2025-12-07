@@ -3,11 +3,19 @@
    Sidebar + Main Content Grid Layout
    =========================================== */
 
+/* Remove container padding for admin pages (full width) */
+.admin.container,
+.admin.container-wide,
+.admin.container-full {
+  max-width: none;
+  padding: 0;
+}
+
 /* Grid Layout Container */
 .admin-layout {
   display: grid;
   grid-template-columns: 220px 1fr;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 80px);
   gap: 0;
 }
 
@@ -130,33 +138,48 @@
 }
 
 /* ===========================================
-   Responsive - Mobile Layout
+   Responsive - Mobile Layout (Tab Bar Navigation)
    =========================================== */
 
 @media (max-width: 768px) {
   .admin-layout {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
   }
 
   .admin-sidebar {
-    position: static;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border-subtle);
-    padding: var(--space-2);
+    padding: var(--space-2) 0;
     overflow-x: auto;
+    overflow-y: hidden;
+    background: var(--color-surface);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .admin-sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .admin-sidebar-nav {
     flex-direction: row;
-    gap: var(--space-1);
+    gap: 0;
     min-width: max-content;
+    padding: 0 var(--space-2);
   }
 
   .admin-sidebar-item {
     padding: var(--space-2) var(--space-3);
     flex-direction: column;
     gap: var(--space-1);
+    min-width: 64px;
+    border-radius: var(--radius);
   }
 
   .admin-sidebar-icon {
@@ -165,6 +188,20 @@
 
   .admin-sidebar-label {
     font-size: var(--text-xs);
+    text-align: center;
+  }
+
+  .admin-sidebar-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .admin-sidebar-item {
+    position: relative;
   }
 
   .admin-main {
