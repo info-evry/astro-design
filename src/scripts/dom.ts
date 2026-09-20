@@ -70,9 +70,10 @@ export function formatCurrency(cents: number): string {
  */
 export function formatDate(
   value: Date | string | number,
-  options: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
+  options?: Intl.DateTimeFormatOptions
 ): string {
+  const formatOptions: Intl.DateTimeFormatOptions = options ?? { dateStyle: 'medium' };
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleDateString('fr-FR', options);
+  return date.toLocaleDateString('fr-FR', formatOptions);
 }

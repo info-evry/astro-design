@@ -19,6 +19,10 @@ export function toggleDisclosure(id: string): void {
  */
 export function initDisclosures(): void {
   for (const header of document.querySelectorAll('[data-disclosure-toggle]')) {
+    // Idempotent: <Disclosure> self-initialises and a page bootstrap may call
+    // this again; binding twice would open-then-close on every click.
+    if ((header as HTMLElement).dataset.disclosureBound === 'true') continue;
+    (header as HTMLElement).dataset.disclosureBound = 'true';
     header.addEventListener('click', (e) => {
       // Don't toggle if clicking on header-actions
       if ((e.target as Element).closest('.header-actions')) return;

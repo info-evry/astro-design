@@ -24,7 +24,9 @@ export function readBaseUrl(): string {
   const content = document
     .querySelector('meta[name="base-url"]')
     ?.getAttribute('content');
-  return (content ?? '').replace(/\/+$/, '');
+  let base = content ?? '';
+  while (base.endsWith('/')) base = base.slice(0, -1);
+  return base;
 }
 
 export interface CreateApiClientOptions {

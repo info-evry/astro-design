@@ -35,7 +35,7 @@ export function statCardHtml(options: StatCardHtmlOptions): string {
 
   return (
     `<div class="${classes.join(' ')}"${idAttr}>` +
-    `<div class="stat-value"${valueIdAttr}>${escapeHtml(value)}</div>` +
+    `<div class="stat-value"${valueIdAttr}>${escapeHtml(String(value ?? ''))}</div>` +
     `<div class="stat-label">${escapeHtml(label)}</div>` +
     sublabelHtml +
     `</div>`

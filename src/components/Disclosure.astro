@@ -1,4 +1,5 @@
 ---
+import { getSymbol } from '../utils/symbols';
 /**
  * Disclosure - Collapsible panel component
  * Supports glassmorphism styling with header actions
@@ -29,7 +30,7 @@ const groupClass = ['disclosure-group', open && 'open', className].filter(Boolea
 <div class={groupClass} data-disclosure={id}>
   <div class="disclosure-header" data-disclosure-toggle={id}>
     <h2>
-      <span class="disclosure-chevron" aria-hidden="true">&#xE08F;</span>
+      <span class="disclosure-chevron sf-symbol" aria-hidden="true">{getSymbol('chevron.right')}</span>
       {title}
       {badge !== undefined && <span class="disclosure-badge">{badge}</span>}
     </h2>
