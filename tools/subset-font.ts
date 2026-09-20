@@ -46,12 +46,10 @@ async function findSourceFiles(dir: string): Promise<string[]> {
         const fullPath = join(currentDir, entry.name);
         if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
           await scan(fullPath);
-        } else if (entry.isFile() && (
-          entry.name.endsWith(".astro") ||
-          entry.name.endsWith(".tsx") ||
-          entry.name.endsWith(".jsx") ||
-          entry.name.endsWith(".html")
-        )) {
+        } else if (entry.isFile() && /\.(astro|tsx|jsx|html|js|mjs|ts)$/.test(entry.name) && !entry.name.endsWith(".d.ts")) {
+          // Client-side .js/.ts modules build admin markup in template
+          // literals and reference symbols too; they must be scanned or
+          // their glyphs are missing from the subset.
           files.push(fullPath);
         }
       }
@@ -119,6 +117,11 @@ async function extractSymbolNames(files: string[]): Promise<Set<string>> {
       // Match ctaIcon attribute: ctaIcon="xxx" or ctaIcon={"xxx"}
       const ctaIconMatches = content.matchAll(CTA_ICON_PATTERN);
       for (const match of ctaIconMatches) {
+        symbols.add(match[1]);
+      }
+
+      // Match server-side lookups: getSymbol('house') / getSymbol("house")
+      for (const match of content.matchAll(/getSymbol\(\s*['"]([a-zA-Z0-9._-]+)['"]\s*\)/g)) {
         symbols.add(match[1]);
       }
     } catch {

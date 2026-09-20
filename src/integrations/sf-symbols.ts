@@ -45,8 +45,25 @@ function loadSymbolsMap(): Map<string, string> {
   }
 }
 
+/**
+ * Decide whether a Vite module id should have its shortcodes replaced.
+ * Ids can carry query strings (`Foo.astro?astro&type=script&index=0&lang.ts`),
+ * so strip them before testing the extension. Client-side `.js`/`.ts`
+ * modules are included: admin dashboards build markup in template
+ * literals and the SSR output never goes through the HTML post-build hook.
+ */
+export function shouldTransformId(id: string): boolean {
+  const file = id.split('?')[0];
+  if (!/\.(astro|html|tsx|jsx|ts|js|mjs)$/.test(file)) {
+    return false;
+  }
+  // Third-party code never uses the shortcode; workspace packages are
+  // resolved to their real path under projects/, not node_modules.
+  return !file.includes('/node_modules/');
+}
+
 // Replace shortcodes with Unicode characters
-function replaceShortcodes(content: string, symbolsMap: Map<string, string>): string {
+export function replaceShortcodes(content: string, symbolsMap: Map<string, string>): string {
   return content.replace(SFS_PATTERN, (match, symbolName) => {
     const char = symbolsMap.get(symbolName);
     if (char) {
@@ -96,8 +113,7 @@ function sfSymbolsVitePlugin(): Plugin {
     },
 
     transform(code, id) {
-      // Only process Astro and HTML files
-      if (!id.endsWith('.astro') && !id.endsWith('.html') && !id.endsWith('.tsx') && !id.endsWith('.jsx')) {
+      if (!shouldTransformId(id)) {
         return null;
       }
 
@@ -194,4 +210,4 @@ export function sfSymbols(): AstroIntegration {
 export default sfSymbols;
 
 // Export utilities for use in other scripts
-export { SFS_PATTERN, loadSymbolsMap, replaceShortcodes };
+export { SFS_PATTERN, loadSymbolsMap };

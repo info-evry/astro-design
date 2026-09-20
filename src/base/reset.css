@@ -33,8 +33,10 @@
   vertical-align: middle;
 }
 
-/* SF Symbol container - use .sfs class for inline icons */
-.sfs {
+/* SF Symbol container - .sfs or .sf-symbol for inline icons */
+.sfs,
+.sf-symbol {
+  font-family: var(--font-sans);
   display: inline-flex;
   align-items: center;
   justify-content: center;

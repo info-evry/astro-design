@@ -7,10 +7,14 @@
   "type": "module",
   "exports": {
     ".": "./src/index.css",
-    "./components/*": "./src/components/*.astro",
-    "./Header.astro": "./src/components/Header.astro",
-    "./Footer.astro": "./src/components/Footer.astro",
-    "./HeroBackground.astro": "./src/components/HeroBackground.astro"
+    "./components/*.astro": "./src/components/*.astro",
+    "./components/admin/index.css": "./src/components/admin/index.css",
+    "./icons/social": "./src/icons/social.ts",
+    "./integrations/sf-symbols": "./src/integrations/sf-symbols.ts",
+    "./utils/*": "./src/utils/*.ts",
+    "./scripts/*": "./src/scripts/*.ts",
+    "./fonts/*": "./src/fonts/*",
+    "./src/*": "./src/*"
   },
   "files": [
     "src",
