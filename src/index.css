@@ -10,6 +10,7 @@
 @import './tokens/effects.css';
 
 /* Base */
+@import './base/fonts.css';
 @import './base/reset.css';
 
 /* Components */

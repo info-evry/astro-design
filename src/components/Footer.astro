@@ -23,6 +23,8 @@ interface Props {
   organizationName?: string;
 }
 
+import { withBase } from '../utils/base';
+
 const {
   homeUrl = "/",
   tagline = "",
@@ -32,6 +34,7 @@ const {
 } = Astro.props;
 
 const currentYear = new Date().getFullYear();
+const logoHref = withBase('/favicon.svg');
 ---
 
 <footer class="footer">
@@ -39,7 +42,7 @@ const currentYear = new Date().getFullYear();
     <div class="footer-content">
       <div class="footer-brand">
         <a href={homeUrl} class="footer-logo">
-          <img src="/favicon.svg" alt="" class="footer-logo-icon" width="32" height="32" />
+          <img src={logoHref} alt="" class="footer-logo-icon" width="32" height="32" />
           <span class="logo-text">Association d'Informatique d'Évry</span>
         </a>
         {tagline && <p class="footer-tagline">{tagline}</p>}

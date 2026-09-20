@@ -9,6 +9,8 @@
  * - Favicon configuration
  */
 
+import { withBase } from '../utils/base';
+
 interface Props {
   title: string;
   description?: string;
@@ -40,6 +42,9 @@ const {
 // Resolve image URL relative to canonical URL base
 const siteBase = new URL('./', canonicalUrl).href;
 const ogImageUrl = new URL(image, siteBase).href;
+const base = import.meta.env.BASE_URL;
+const faviconHref = withBase('/favicon.svg', base);
+const appleTouchIconHref = withBase('/apple-touch-icon.png', base);
 ---
 
 <meta charset="UTF-8">
@@ -84,8 +89,11 @@ const ogImageUrl = new URL(image, siteBase).href;
     return <link rel="preload" href={href} as="font" type={type} crossorigin />;
   }
 })}
-<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml">
+<link rel="preload" href={faviconHref} as="image" type="image/svg+xml">
 
 <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href={faviconHref}>
+<link rel="apple-touch-icon" sizes="180x180" href={appleTouchIconHref}>
+
+<!-- Base URL (consumed by shared client scripts, e.g. scripts/api-client.ts) -->
+<meta name="base-url" content={base}>

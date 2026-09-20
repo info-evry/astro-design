@@ -1,0 +1,137 @@
+/* ===========================================
+   Archives - Info Evry Design System
+   Yearly archive listing & GDPR anonymisation notices
+   =========================================== */
+
+.archives-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.archive-card {
+  background: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.archive-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.archive-card-info {
+  flex: 1;
+}
+
+.archive-card-year {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+
+.archive-card-stats {
+  display: flex;
+  gap: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.archive-card-stats span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.archive-card-date {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.archive-card-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.archive-card.expired {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
+.archive-card.expired .archive-card-year::after {
+  content: " (anonymisée)";
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-warning);
+}
+
+.archive-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.archive-stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.archive-stat-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.archive-stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.archive-section {
+  margin-top: var(--space-6);
+}
+
+.archive-section h3 {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.archive-gdpr-notice {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.archive-gdpr-notice p {
+  margin: 0;
+  color: var(--color-warning);
+}
+
+.archive-gdpr-notice p:first-child {
+  margin-bottom: var(--space-2);
+}
+
+/* Archive Info Box */
+.archive-info {
+  background: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.archive-info p {
+  margin: var(--space-2) 0;
+}

@@ -362,3 +362,261 @@
   background: rgba(0, 27, 165, 0.1);
   color: var(--color-primary);
 }
+
+/* ===========================================
+   Search Input (SearchInput.astro)
+   =========================================== */
+
+.search-input-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-3);
+  pointer-events: none;
+  font-size: var(--text-sm);
+  opacity: 0.5;
+}
+
+.search-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-8);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: var(--text-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  width: 100%;
+  min-width: 200px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-input:hover {
+  border-color: var(--border-hover);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
+}
+
+.search-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Clear button styling for search inputs */
+.search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23666' d='M7 5.586L10.536 2.05a1 1 0 011.414 1.414L8.414 7l3.536 3.536a1 1 0 01-1.414 1.414L7 8.414l-3.536 3.536a1 1 0 01-1.414-1.414L5.586 7 2.05 3.464A1 1 0 013.464 2.05L7 5.586z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Size variants */
+.search-input-sm {
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-6);
+  font-size: var(--text-xs);
+  min-width: 150px;
+}
+
+.search-input-sm + .search-icon,
+.search-input-wrapper:has(.search-input-sm) .search-icon {
+  left: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.search-input-lg {
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+  font-size: var(--text-base);
+  min-width: 280px;
+}
+
+.search-input-wrapper:has(.search-input-lg) .search-icon {
+  left: var(--space-4);
+  font-size: var(--text-base);
+}
+
+/* Alias: some pages build their own search input without SearchInput.astro */
+.filter-search {
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: var(--text-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.filter-search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
+}
+
+.filter-search::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ===========================================
+   Filter Bar - toolbar row of filter controls
+   `.attendance-filters` is kept as an alias for markup written before
+   `.filter-bar` existed.
+   =========================================== */
+
+.filter-bar,
+.attendance-filters {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.filter-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* ===========================================
+   Members Toolbar - search + filters + bulk actions row
+   =========================================== */
+
+.members-toolbar {
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: rgba(0, 27, 165, 0.1);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+}
+
+.bulk-actions span {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-right: var(--space-2);
+}
+
+.bulk-actions.hidden {
+  display: none;
+}
+
+/* ===========================================
+   Form Hints & Settings Description
+   =========================================== */
+
+.form-hint {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.settings-description {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ===========================================
+   Toggle Switch
+   =========================================== */
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--border-default);
+  border-radius: 12px;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.toggle-label input:checked + .toggle-switch {
+  background: var(--color-primary);
+}
+
+.toggle-label input:checked + .toggle-switch::after {
+  transform: translateX(20px);
+}
+
+@media (max-width: 768px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-search {
+    max-width: none;
+  }
+
+  .bulk-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -2,6 +2,15 @@
 /**
  * DataTable - Reusable data table component with search and sort
  *
+ * Styling (including the sort/search/empty-state rules) lives in
+ * admin/tables.css (single source of truth) — this component must not
+ * carry a scoped <style> since its class names are also produced by JS
+ * templates that render rows dynamically.
+ *
+ * Sort contract: sortable headers get `class="sortable"` and, once sorted,
+ * a `data-sort="asc"|"desc"` attribute; the `.sort-indicator` span shows
+ * the arrow via `::after`.
+ *
  * @prop {Array<{key: string, label: string, sortable?: boolean, width?: string, class?: string}>} columns - Column definitions
  * @prop {string} [id] - Table container ID for JavaScript targeting
  * @prop {string} [tableId] - Table element ID
@@ -85,54 +94,3 @@ const {
     </slot>
   </div>
 </div>
-
-<style>
-  .table-wrapper {
-    width: 100%;
-  }
-  
-  .table-search {
-    margin-bottom: var(--space-3);
-  }
-  
-  .table-search input {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .sortable {
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .sortable:hover {
-    background: var(--color-bg-muted, var(--color-bg));
-  }
-  
-  .sort-indicator::after {
-    content: '↕';
-    margin-left: var(--space-1);
-    opacity: 0.3;
-    font-size: 0.8em;
-  }
-  
-  .sortable[data-sort="asc"] .sort-indicator::after {
-    content: '↑';
-    opacity: 1;
-  }
-  
-  .sortable[data-sort="desc"] .sort-indicator::after {
-    content: '↓';
-    opacity: 1;
-  }
-  
-  .table-empty {
-    padding: var(--space-6);
-    text-align: center;
-    color: var(--color-text-muted);
-  }
-  
-  .table-empty.hidden {
-    display: none;
-  }
-</style>

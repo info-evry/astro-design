@@ -2,15 +2,36 @@
 /**
  * AdminSidebar - Vertical navigation sidebar for admin panels
  *
- * @prop {Array<{id: string, label: string, icon?: string}>} tabs - Navigation tabs
+ * Renders `role="tab"` buttons meant to be driven by `scripts/tabs.ts`
+ * (`initTabs`, `switchTab`, `setTabBadge`). All styling lives in
+ * `admin/layout.css` (single source of truth) — this component must not
+ * carry a scoped `<style>` because its class names (`admin-sidebar-item`,
+ * `admin-sidebar-icon`, `admin-sidebar-badge`, ...) are also produced by
+ * hand-written markup and by JS templates (see scripts/templates.ts) that
+ * rely on the global rules.
+ *
+ * Contract:
+ * - Each tab renders as
+ *   `<button type="button" role="tab" class="admin-sidebar-item [active]"
+ *      data-tab={id} aria-controls="panel-{id}">`
+ * - The icon (if provided) is looked up via `getSymbol()` and rendered in
+ *   `<span class="admin-sidebar-icon sf-symbol">`.
+ * - The badge (if `badge` is set) renders as
+ *   `<span id="{id}-badge" class="admin-sidebar-badge [hidden]">` so that
+ *   `scripts/tabs.ts#setTabBadge(id, count)` can update it by ID.
+ *
+ * @prop {Array<{id: string, label: string, icon?: string, badge?: number|string, badgeHidden?: boolean}>} tabs - Navigation tabs
  * @prop {string} [activeTab] - Initially active tab ID
  * @prop {string} [id='admin-sidebar'] - Container ID
  */
+import { getSymbol } from '../../utils/symbols';
 
 interface Tab {
   id: string;
   label: string;
   icon?: string;
+  badge?: number | string;
+  badgeHidden?: boolean;
 }
 
 interface Props {
@@ -28,108 +49,24 @@ const { tabs, activeTab = tabs[0]?.id, id = 'admin-sidebar' } = Astro.props;
       <li>
         <button
           type="button"
-          class={`admin-sidebar-item ${tab.id === activeTab ? 'active' : ''}`}
+          role="tab"
+          class:list={['admin-sidebar-item', { active: tab.id === activeTab }]}
           data-tab={tab.id}
+          aria-controls={`panel-${tab.id}`}
+          aria-selected={tab.id === activeTab}
         >
-          {tab.icon && <span class="admin-sidebar-icon">{tab.icon}</span>}
+          {tab.icon && <span class="admin-sidebar-icon sf-symbol">{getSymbol(tab.icon)}</span>}
           <span class="admin-sidebar-label">{tab.label}</span>
+          {tab.badge !== undefined && (
+            <span
+              id={`${tab.id}-badge`}
+              class:list={['admin-sidebar-badge', { hidden: tab.badgeHidden }]}
+            >
+              {tab.badge ?? 0}
+            </span>
+          )}
         </button>
       </li>
     ))}
   </ul>
 </nav>
-
-<style>
-  .admin-sidebar {
-    width: 220px;
-    min-width: 220px;
-    background: var(--color-surface);
-    border-right: 1px solid var(--border-subtle);
-    padding: var(--space-4);
-    height: 100%;
-    overflow-y: auto;
-  }
-
-  .admin-sidebar-nav {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .admin-sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: 100%;
-    padding: var(--space-3) var(--space-4);
-    border: none;
-    border-radius: var(--radius);
-    background: transparent;
-    color: var(--color-text-muted);
-    font: inherit;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    text-align: left;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .admin-sidebar-item:hover {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
-  }
-
-  .admin-sidebar-item.active {
-    background: rgba(0, 27, 165, 0.1);
-    color: var(--color-primary);
-  }
-
-  .admin-sidebar-icon {
-    font-size: 1.125rem;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .admin-sidebar-label {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Mobile: Convert to horizontal tabs */
-  @media (max-width: 768px) {
-    .admin-sidebar {
-      width: 100%;
-      min-width: unset;
-      height: auto;
-      border-right: none;
-      border-bottom: 1px solid var(--border-subtle);
-      padding: var(--space-2);
-      overflow-x: auto;
-    }
-
-    .admin-sidebar-nav {
-      flex-direction: row;
-      gap: var(--space-1);
-      min-width: max-content;
-    }
-
-    .admin-sidebar-item {
-      padding: var(--space-2) var(--space-3);
-      flex-direction: column;
-      gap: var(--space-1);
-    }
-
-    .admin-sidebar-icon {
-      font-size: 1.25rem;
-    }
-
-    .admin-sidebar-label {
-      font-size: var(--text-xs);
-    }
-  }
-</style>

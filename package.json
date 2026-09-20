@@ -27,6 +27,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^20.14.5",
     "@types/bun": "latest",
     "@vitest/coverage-v8": "^4.1.11",
     "husky": "^9.1.7",

@@ -17,6 +17,8 @@ interface Props {
   mobileCta?: string;
 }
 
+import { withBase } from '../utils/base';
+
 const {
   homeUrl = "/",
   navLinks = [],
@@ -24,12 +26,14 @@ const {
   ctaLabel = "Adhérer",
   mobileCta = "Adhérer à l'association"
 } = Astro.props;
+
+const logoHref = withBase('/favicon.svg');
 ---
 
 <header class="header">
   <div class="header-container container">
     <a href={homeUrl} class="logo" aria-label="Asso Info Évry">
-      <img src="/favicon.svg" alt="Asso Info Évry" class="logo-icon" width="36" height="36" />
+      <img src={logoHref} alt="Asso Info Évry" class="logo-icon" width="36" height="36" />
     </a>
 
     <nav class="nav">

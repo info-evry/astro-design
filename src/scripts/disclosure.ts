@@ -1,11 +1,21 @@
 /**
  * Disclosure component - toggle functionality
- * Handles click events on disclosure headers to toggle open/closed state
+ * Handles click events on disclosure headers to toggle open/closed state.
+ *
+ * This module has no side effects on import: call `initDisclosures()`
+ * explicitly once the DOM is ready.
  */
 
 /**
- * Initialize all disclosure toggle handlers
- * Call this function after DOM is ready
+ * Toggle a disclosure group's open state by its `data-disclosure` id.
+ */
+export function toggleDisclosure(id: string): void {
+  document.querySelector(`[data-disclosure="${id}"]`)?.classList.toggle('open');
+}
+
+/**
+ * Initialize all disclosure toggle handlers.
+ * Call this function after DOM is ready.
  */
 export function initDisclosures(): void {
   for (const header of document.querySelectorAll('[data-disclosure-toggle]')) {
@@ -14,19 +24,7 @@ export function initDisclosures(): void {
       if ((e.target as Element).closest('.header-actions')) return;
 
       const id = header.getAttribute('data-disclosure-toggle');
-      const group = document.querySelector(`[data-disclosure="${id}"]`);
-      if (group) {
-        group.classList.toggle('open');
-      }
+      if (id) toggleDisclosure(id);
     });
-  }
-}
-
-// Auto-initialize when DOM is ready
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDisclosures);
-  } else {
-    initDisclosures();
   }
 }

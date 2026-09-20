@@ -43,7 +43,13 @@ const groupClass = ['disclosure-group', open && 'open', className].filter(Boolea
 </div>
 
 <script>
-  import '../scripts/disclosure';
+  import { initDisclosures } from '../scripts/disclosure';
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDisclosures);
+  } else {
+    initDisclosures();
+  }
 </script>
 
 <style>

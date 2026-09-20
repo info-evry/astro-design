@@ -245,13 +245,178 @@ For dynamic icon names (e.g., in MobileNav), use template expressions:
 
 The shortcode will be resolved after SSR when the actual symbol name is known.
 
+## Admin Dashboard
+
+The admin dashboard classes are the single source of truth for the NDI and
+Join admin panels. They live in `src/components/admin/*.css` (all imported
+from `admin/index.css`, which is imported from the main `index.css`), and
+are also produced by hand-written admin page markup and by JS-rendered
+(`innerHTML`) rows. **Components whose class names appear in JS templates
+must not use scoped `<style>` blocks** — see `CLAUDE.md`.
+
+### Layout
+
+- `.admin-layout` — sidebar + main content grid (`AdminSidebar` + `.admin-main`).
+- `.admin-page-header` / `.admin-page-header-content` / `.admin-page-title` /
+  `.admin-page-subtitle` / `.admin-breadcrumb` — `AdminPageHeader.astro`
+  (`admin/page-header.css`). The header is full-width (no `.container`
+  class); wrap page content in `.admin-main` for the padded layout.
+- `.tab-panel` / `.tab-panel.hidden` — panel shown/hidden by tab id.
+
+### AdminSidebar / tabs / badge contract
+
+`AdminSidebar.astro` renders one `role="tab"` button per entry in `tabs`:
+
+```astro
+<AdminSidebar
+  id="admin-sidebar"
+  activeTab="members"
+  tabs={[
+    { id: 'members', label: 'Membres', icon: 'person.2', badge: 0 },
+    { id: 'pending', label: 'En attente', icon: 'person.badge.clock' },
+  ]}
+/>
+```
+
+Renders (per tab):
+
+```html
+<button type="button" role="tab" class="admin-sidebar-item [active]"
+        data-tab="members" aria-controls="panel-members" aria-selected="true">
+  <span class="admin-sidebar-icon sf-symbol">…</span>
+  <span class="admin-sidebar-label">Membres</span>
+  <span id="members-badge" class="admin-sidebar-badge [hidden]">0</span>
+</button>
+```
+
+`TabNav.astro` renders the same `[data-tab]`/`role="tab"` contract for a
+horizontal tab bar (`.tab-nav`/`.tab-item`/`.tab-icon`/`.tab-badge`,
+variants: `default`, `pills`, `underline`).
+
+Both are driven by `scripts/tabs.ts`:
+
+```js
+import { initTabs, switchTab, setTabBadge } from '@info-evry/astro-design/scripts/tabs';
+
+initTabs({ onChange: (id) => loadTabData(id) });
+setTabBadge('pending', 3); // shows "3"; hides the badge automatically at 0
+```
+
+### Tables
+
+- `.data-table` / `.members-table` — full-width tables with fixed column
+  helpers (`.checkbox-col`, `.actions-col`, `.status-col`, `.time-col`,
+  `.badge-col`, `.team-col`) and a `.table-container` scroll wrapper.
+- Sort contract: sortable `<th>` gets `class="sortable"`; once sorted, a
+  `data-sort="asc"|"desc"` attribute on the same `<th>` drives the arrow
+  shown by the nested `<span class="sort-indicator">` (`::after` content).
+  `.sortable-header` + `[data-sort-dir="asc"|"desc"]` are kept as aliases
+  for markup written before this contract existed.
+- `.table-wrapper`, `.table-search`, `.table-empty` / `.empty-state`
+  (alias `.no-archives`) — `DataTable.astro`'s search/empty-state areas.
+- `tr.selected` / `.member-row.selected` — selected row highlight.
+- `.contact-cell` — stacked contact info inside a table cell.
+- `.loading-placeholder` — centered loading text while data is fetched.
+
+### Badges
+
+One `.badge` / `.badge-<variant>` system, shared by `Badge.astro` and the
+admin tables:
+
+- Color variants (compact, for table cells): `primary`, `leader`,
+  `secondary`, `bac`, `success`, `warning`, `error`, `info`, `muted`.
+- Layout variants (pill look, for `Badge.astro`): `default`, `hero`
+  (larger, for hero sections), `count` (compact, for numbers), `status`.
+- `showDot` renders a `.badge-dot` pulsing dot; `animated` adds an
+  entrance animation.
+
+### Filters, forms & toolbars
+
+- `.filter-bar` / `.filter-label` (alias `.attendance-filters`) — a row of
+  filter checkboxes/pills above a table.
+- `.members-toolbar` / `.filters-row` / `.filter-search` — search input +
+  filter selects toolbar above a member list.
+- `.bulk-actions` — the bar shown when rows are selected.
+- `.form-hint`, `.settings-description` — small helper/description text
+  under form fields and settings sections.
+- `.toggle-label` / `.toggle-switch` — a checkbox-driven toggle switch.
+- `SearchInput.astro` → `.search-input-wrapper` / `.search-icon` /
+  `.search-input` (sizes: `sm`, `default`, `lg`).
+
+### Danger zone & archives
+
+- `admin/danger.css`: `.danger-zone`, `.reset-safety-check[.safe|.warning]`,
+  `.result-text[.success|.warning]`, `.warning-text`.
+- `admin/archives.css`: `.archives-container`, `.archive-card[.expired]`
+  (+ `.archive-card-*` sub-parts), `.archive-stats-grid` /
+  `.archive-stat-card` / `.archive-stat-value` / `.archive-stat-label`,
+  `.archive-section`, `.archive-gdpr-notice`, `.archive-info`.
+
+### Shared client scripts
+
+DOM-only TypeScript, framework-free, importable as
+`@info-evry/astro-design/scripts/<name>`:
+
+| Module | Exports |
+|---|---|
+| `dom.ts` | `$`, `escapeHtml`, `truncateText`, `debounce`, `formatCurrency`, `formatDate` |
+| `toast.ts` | `showToast(message, type?, duration?)`, `toastSuccess/Error/Info/Warning` |
+| `modal.ts` | `openModal(id)`, `closeModal(id)`, `initModals({ backdrop?, escape? })` (delegates `[data-modal-open]`/`[data-modal-close]`) |
+| `tabs.ts` | `switchTab(id)`, `initTabs({ onChange? })`, `setTabBadge(id, count, { hideWhenZero? })` |
+| `api-client.ts` | `readBaseUrl()`, `createApiClient({ baseUrl?, tokenKey })` → `{ api, setToken, getToken, clearToken }`, `ApiError` |
+| `templates.ts` | `statCardHtml(options)`, `badgeHtml(text, variant)`, `emptyStateHtml(icon, title, hint?)` |
+| `disclosure.ts` | `initDisclosures()`, `toggleDisclosure(id)` (no auto-init on import) |
+
+Example:
+
+```js
+import { createApiClient } from '@info-evry/astro-design/scripts/api-client';
+import { toastError } from '@info-evry/astro-design/scripts/toast';
+
+const client = createApiClient({ tokenKey: 'ndi_admin_token' });
+
+try {
+  const members = await client.api('/members');
+} catch (err) {
+  toastError(err.message);
+}
+```
+
+## Base-Aware Assets
+
+Sites can be deployed under a sub-path (e.g. `astro-ndi` under
+`/nuit-de-linfo`, `astro-join` under `/adhesion`) or at the root
+(`astro-asso`). `src/utils/base.ts` exports `withBase(path, base?)`, which
+joins a path with the site's `import.meta.env.BASE_URL` without producing
+doubled slashes:
+
+```ts
+import { withBase } from '@info-evry/astro-design/utils/base';
+
+withBase('/favicon.svg'); // '/nuit-de-linfo/favicon.svg' under astro-ndi
+```
+
+`Head.astro` uses it for the favicon/apple-touch-icon links and also emits
+`<meta name="base-url" content="...">`, which `scripts/api-client.ts`
+reads via `readBaseUrl()`. `Header.astro`/`Footer.astro` use it for the
+logo image.
+
+The SF Pro font (`@font-face`, both the `Cupertino` and `SF Symbols`
+families) lives in `src/base/fonts.css` and is imported with a relative
+`url()`, so Vite copies and hashes it under each site's own base path.
+Sites may delete any leftover copy under their own `public/fonts/` — it is
+no longer referenced.
+
 ## Testing
 
 ```bash
 bun test
 ```
 
-Tests cover SF Symbols mapping and CSS token existence.
+Tests cover SF Symbols mapping, CSS token existence, and the shared client
+scripts (DOM helpers, toast, modal, tabs, API client, templates, base
+utility). DOM-touching tests run against `happy-dom`, registered globally
+via `bunfig.toml`'s `[test].preload` (`test/setup-dom.ts`).
 
 ## Development
 

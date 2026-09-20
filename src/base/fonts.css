@@ -1,0 +1,26 @@
+/* ===========================================
+   Fonts - Info Evry Design System
+   =========================================== */
+
+/*
+ * The font file is imported with a relative url() so that Vite copies it
+ * into each consuming site's build output (hashed) under that site's
+ * configured `base` path. Sites that previously shipped a copy of the
+ * font under `public/fonts/` may delete it; it is no longer referenced.
+ */
+
+/* Cupertino Font (main text font) */
+@font-face {
+  font-family: 'Cupertino';
+  src: url('../fonts/Cupertino-Pro-Full.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SF Symbols Font (for icons - same file, different name for semantic use) */
+@font-face {
+  font-family: 'SF Symbols';
+  src: url('../fonts/Cupertino-Pro-Full.woff2') format('woff2');
+  font-display: swap;
+}

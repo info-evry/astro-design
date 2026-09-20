@@ -1,39 +1,8 @@
 /* ===========================================
-   Stats Grid & Cards - Info Evry Design System
+   Stats Cards - Additive Admin Variants
+   Base .stats-grid/.stat-card/.stat-value/.stat-label are defined once
+   in components/kpi-stats.css (single source of truth).
    =========================================== */
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--space-4);
-}
-
-.stat-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  text-align: center;
-  transition: all var(--transition-base);
-}
-
-.stat-card:hover {
-  border-color: var(--color-primary);
-  background: rgba(0, 27, 165, 0.05);
-}
-
-.stat-value {
-  display: block;
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: var(--space-1);
-}
-
-.stat-label {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
 
 /* Stat card variants */
 .stat-card-highlight {
