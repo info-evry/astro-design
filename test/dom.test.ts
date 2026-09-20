@@ -70,3 +70,11 @@ describe('$', () => {
     expect($('does-not-exist')).toBeNull();
   });
 });
+
+describe('formatDate with time', () => {
+  it('accepts dateStyle + timeStyle without throwing', () => {
+    const out = formatDate(new Date('2026-12-03T15:34:00Z'), { dateStyle: 'short', timeStyle: 'short' });
+    expect(out).toContain('2026');
+    expect(out).toMatch(/\d{1,2}:\d{2}/);
+  });
+});

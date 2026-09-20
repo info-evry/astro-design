@@ -75,5 +75,6 @@ export function formatDate(
   const formatOptions: Intl.DateTimeFormatOptions = options ?? { dateStyle: 'medium' };
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleDateString('fr-FR', formatOptions);
+  // toLocaleDateString rejects timeStyle; Intl.DateTimeFormat accepts both.
+  return new Intl.DateTimeFormat('fr-FR', formatOptions).format(date);
 }
