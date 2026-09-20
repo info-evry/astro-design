@@ -3,7 +3,7 @@
  */
 
 import { describe, test, expect } from 'vitest';
-import { escapeHtml, truncateText, debounce, formatCurrency, $ } from '../src/scripts/dom';
+import { escapeHtml, truncateText, debounce, formatCurrency, formatDate, $ } from '../src/scripts/dom';
 
 describe('escapeHtml', () => {
   test('escapes &, <, >, ", and \'', () => {
@@ -72,7 +72,7 @@ describe('$', () => {
 });
 
 describe('formatDate with time', () => {
-  it('accepts dateStyle + timeStyle without throwing', () => {
+  test('accepts dateStyle + timeStyle without throwing', () => {
     const out = formatDate(new Date('2026-12-03T15:34:00Z'), { dateStyle: 'short', timeStyle: 'short' });
     expect(out).toContain('2026');
     expect(out).toMatch(/\d{1,2}:\d{2}/);
