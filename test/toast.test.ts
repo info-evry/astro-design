@@ -11,7 +11,7 @@ beforeEach(() => {
 
 describe('showToast', () => {
   test('appends a .toast element with the message and type class', () => {
-    showToast('Hello', 'success', 10000);
+    showToast('Hello', 'success', 10_000);
     const toast = document.querySelector('.toast');
     expect(toast).not.toBeNull();
     expect(toast?.textContent).toBe('Hello');
@@ -19,8 +19,8 @@ describe('showToast', () => {
   });
 
   test('replaces an existing toast instead of stacking', () => {
-    showToast('First', 'info', 10000);
-    showToast('Second', 'error', 10000);
+    showToast('First', 'info', 10_000);
+    showToast('Second', 'error', 10_000);
     const toasts = document.querySelectorAll('.toast');
     expect(toasts.length).toBe(1);
     expect(toasts[0].textContent).toBe('Second');
@@ -39,12 +39,12 @@ describe('showToast', () => {
 
 describe('toastSuccess / toastError', () => {
   test('toastSuccess renders the success variant', () => {
-    toastSuccess('Saved', 10000);
+    toastSuccess('Saved', 10_000);
     expect(document.querySelector('.toast.success')?.textContent).toBe('Saved');
   });
 
   test('toastError renders the error variant', () => {
-    toastError('Failed', 10000);
+    toastError('Failed', 10_000);
     expect(document.querySelector('.toast.error')?.textContent).toBe('Failed');
   });
 });

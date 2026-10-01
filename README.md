@@ -359,13 +359,18 @@ DOM-only TypeScript, framework-free, importable as
 
 | Module | Exports |
 |---|---|
-| `dom.ts` | `$`, `escapeHtml`, `truncateText`, `debounce`, `formatCurrency`, `formatDate` |
+| `dom.ts` | `$`, `escapeHtml` (canonical: `& < > " '` -> `&#39;`), `numberOrNull`, `truncateText`, `debounce`, `formatCurrency`, `formatDate` (`''` for invalid/empty) |
 | `toast.ts` | `showToast(message, type?, duration?)`, `toastSuccess/Error/Info/Warning` |
 | `modal.ts` | `openModal(id)`, `closeModal(id)`, `initModals({ backdrop?, escape? })` (delegates `[data-modal-open]`/`[data-modal-close]`) |
 | `tabs.ts` | `switchTab(id)`, `initTabs({ onChange? })`, `setTabBadge(id, count, { hideWhenZero? })` |
-| `api-client.ts` | `readBaseUrl()`, `createApiClient({ baseUrl?, tokenKey })` → `{ api, setToken, getToken, clearToken }`, `ApiError` |
+| `api-client.ts` | `readBaseUrl()`, `createApiClient({ baseUrl?, tokenKey })` → `{ api, setToken, getToken, clearToken }`, `ApiError` (`status`, `code?`) |
 | `templates.ts` | `statCardHtml(options)`, `badgeHtml(text, variant)`, `emptyStateHtml(icon, title, hint?)` |
 | `disclosure.ts` | `initDisclosures()`, `toggleDisclosure(id)` (no auto-init on import) |
+| `delegation.ts` | `bindDelegation(actions, changes, { root?, attrs?, onError? })` → `unbind()` |
+| `admin-shell.ts` | `createAdminShell({ api?, tokenKey?, selectors, load, afterLogin? })` → `{ init, login, reload, logout, getToken }` |
+| `download.ts` | `downloadBlob(blob \| string, filename, mime?)`, `downloadFromApi(api, endpoint, filename)`, `safeFilename(name)` |
+| `public-client.ts` | `createPublicClient({ baseUrl? })` → `{ get, post }` (always `ApiError`, never `SyntaxError`) |
+| `confirm.ts` | `confirmAction({ title?, message, confirmLabel, onConfirm, variant? })` |
 
 Example:
 
@@ -381,6 +386,70 @@ try {
   toastError(err.message);
 }
 ```
+
+### Delegation, admin shell and friends
+
+**`bindDelegation(actions, changes, { root = document, attrs, onError })`**
+replaces inline handlers with `data-action` (click) / `data-change` (change)
+attributes. Handlers receive `(el, event)`.
+
+- Handlers are looked up with `Object.hasOwn`: `data-action="constructor"` or
+  `"__proto__"` is inert. The innermost `[data-action]` wins.
+- `[data-stop]` marks a zone: a click inside it on an element with no action
+  of its own does not trigger an ancestor's action (e.g. buttons inside a
+  clickable disclosure header). An action element carrying `data-stop` also
+  stops propagation to `window`.
+- `preventDefault()` is called only for `<button>` and `<a>` actions, never for
+  inputs/selects/checkboxes.
+- Sync throws and async rejections go to `onError(err, el)` (default
+  `console.error`), so they never become unhandled rejections.
+- Idempotent per root: binding a root twice adds no second listener; the
+  latest maps/options replace the earlier ones. `unbind()` removes the
+  listeners.
+
+```js
+const unbind = bindDelegation(
+  { 'edit-member': (el) => editMember(Number(el.dataset.memberId)) },
+  { 'toggle-select': (el) => select(el.checked) },
+  { onError: (err) => toastError(err.message) }
+);
+```
+
+**`createAdminShell({ api, tokenKey, selectors, load, afterLogin })`**
+implements the login flow shared by the dashboards. `selectors` are CSS
+selectors (`'#auth-section'`) for `authSection`, `adminContent`, `tokenInput`,
+`authBtn` and `authError`. Pass an existing `createApiClient()` as `api` (or
+only `tokenKey` to have one created). `load()` must throw on failure and must
+not handle auth itself.
+
+- `await shell.init()` binds the button and Enter key and tries the stored
+  token. The token is cleared **only on a 401**; on a network error or 5xx it
+  is kept, a retry message is shown and clicking the login button with an empty
+  input retries with the stored token.
+- `afterLogin()` runs exactly once (first successful login, by either path),
+  after the dashboard is visible.
+- `shell.reload()` never throws and resolves to a boolean: 401 clears the
+  token and returns to the login screen, anything else shows a toast.
+- `shell.logout()`, `shell.getToken()` (always the live token).
+
+**`downloadBlob(blob | string, filename, mime?)`** creates and revokes the
+object URL and clicks a temporary anchor; filenames go through `safeFilename`.
+**`downloadFromApi(api, endpoint, filename)`** takes the client's `api`
+function and saves the `text/csv` `Response` it returns (JSON results are saved
+pretty-printed).
+
+**`createPublicClient({ baseUrl? })`** gives `get(endpoint)` /
+`post(endpoint, body)` for unauthenticated forms. Failures are always an
+`ApiError`: `message` is the server's `error` field, `code` its `code` field,
+and non-JSON answers (a 502 HTML page) get `Service momentanément
+indisponible`. Network failures have `status` 0 and `code: 'network_error'`.
+
+**`confirmAction({ title?, message, confirmLabel, onConfirm, variant })`**
+drives the `#confirm-modal` / `#confirm-message` / `#confirm-delete-btn`
+markup (`#confirm-btn` is accepted too). It sets the message as text, installs
+exactly one click listener on the button (earlier calls' handlers are
+replaced), closes the modal once `onConfirm` resolves and toasts errors,
+leaving the modal open.
 
 ## Base-Aware Assets
 

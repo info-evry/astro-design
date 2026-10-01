@@ -17,7 +17,8 @@
  * @returns The joined path (e.g. '/nuit-de-linfo/favicon.svg')
  */
 export function withBase(path: string, base: string = import.meta.env.BASE_URL): string {
-  const normalizedBase = (base || '/').replace(/\/+$/, '');
+  let normalizedBase = base || '/';
+  while (normalizedBase.endsWith('/')) normalizedBase = normalizedBase.slice(0, -1);
   const normalizedPath = `/${(path || '').replace(/^\/+/, '')}`;
 
   if (!normalizedBase) {

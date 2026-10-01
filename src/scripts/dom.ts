@@ -14,16 +14,34 @@ export function $<T extends HTMLElement = HTMLElement>(id: string): T | null {
 /**
  * Escape HTML special characters to prevent XSS when interpolating
  * untrusted strings into markup (text nodes and attributes alike).
- * @param str - String to escape
+ * This is the canonical implementation: `&`, `<`, `>`, `"` and `'`
+ * (as `&#39;`) are escaped.
+ *
+ * `null`, `undefined` and `false` yield `''`; every other value is
+ * stringified first, so `0` becomes `'0'` rather than disappearing.
+ * @param value - Value to escape
  */
-export function escapeHtml(str: unknown): string {
-  if (!str) return '';
-  return String(str)
+export function escapeHtml(value: unknown): string {
+  if (value === null || value === undefined || value === false) return '';
+  return String(value)
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+/**
+ * Parse a form/input value into a finite number, or `null` when it is
+ * empty, blank, missing or not numeric (never `NaN`, never `0` by accident).
+ * Strings are trimmed; only numbers and strings are accepted.
+ * @param value - Raw value (e.g. `input.value`)
+ */
+export function numberOrNull(value: unknown): number | null {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
 /**
@@ -65,13 +83,15 @@ export function formatCurrency(cents: number): string {
 
 /**
  * Format a date (or ISO date string) using the fr-FR locale.
+ * Returns `''` for invalid, empty, `null` or `undefined` input.
  * @param value - Date, ISO string, or timestamp
  * @param options - Intl.DateTimeFormat options
  */
 export function formatDate(
-  value: Date | string | number,
+  value: Date | string | number | null | undefined,
   options?: Intl.DateTimeFormatOptions
 ): string {
+  if (value === null || value === undefined || value === '') return '';
   const formatOptions: Intl.DateTimeFormatOptions = options ?? { dateStyle: 'medium' };
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return '';

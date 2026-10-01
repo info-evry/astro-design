@@ -4,14 +4,19 @@
  * JSON/CSV response handling, and a typed 401 error.
  */
 
-/** Thrown when a request fails; carries the HTTP status when available. */
+/**
+ * Thrown when a request fails; carries the HTTP status when available and,
+ * when the server supplied one, a machine-readable `code`.
+ */
 export class ApiError extends Error {
   status?: number;
+  code?: string;
 
-  constructor(message: string, status?: number) {
+  constructor(message: string, status?: number, code?: string) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.code = code;
   }
 }
 
