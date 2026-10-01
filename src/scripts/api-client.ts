@@ -101,7 +101,7 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
 
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
-      throw new ApiError(data.error || 'Request failed', response.status);
+      throw new ApiError(data.error || 'Request failed', response.status, typeof data.code === 'string' ? data.code : undefined);
     }
 
     return (await response.json()) as T;

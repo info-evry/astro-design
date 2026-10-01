@@ -107,3 +107,18 @@ describe('createApiClient', () => {
     expect(result).toBe(csvResponse);
   });
 });
+
+describe('ApiError.code', () => {
+  test('is filled from the server error body', async () => {
+    const fetchMock = async () =>
+      new Response(JSON.stringify({ error: 'Doublon', code: 'conflict' }), { status: 409, headers: { 'Content-Type': 'application/json' } });
+    const original = globalThis.fetch;
+    globalThis.fetch = fetchMock as typeof fetch;
+    try {
+      const client = createApiClient({ baseUrl: '', tokenKey: 'code_test' });
+      await expect(client.api('/x')).rejects.toMatchObject({ status: 409, code: 'conflict', message: 'Doublon' });
+    } finally {
+      globalThis.fetch = original;
+    }
+  });
+});
