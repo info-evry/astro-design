@@ -11,6 +11,13 @@
   padding: 0;
 }
 
+/* The base reset clips html and body with `overflow-x: hidden`, which makes
+   body a scroll container: `position: sticky` inside the dashboard would then
+   stick to a body that never scrolls. `clip` clips the same way without that. */
+body:has(.admin-layout) {
+  overflow-x: clip;
+}
+
 /* Grid Layout Container */
 .admin-layout {
   display: grid;
@@ -106,6 +113,9 @@
 .admin-main {
   padding: var(--space-6);
   overflow-x: hidden;
+  /* `clip` does not create a scroll container (unlike `hidden`), which would
+     break `position: sticky` descendants; browsers without it keep `hidden`. */
+  overflow-x: clip;
 }
 
 /* Tab panel visibility */
@@ -228,13 +238,42 @@
    Settings Panel Header
    =========================================== */
 
+/* Sticky: the save button stays reachable while editing a card further down.
+   (.admin-main clips its horizontal overflow with `clip`, not `hidden`, so it
+   is not the scroll container and the header sticks to the viewport.) */
 .settings-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
+  padding: var(--space-3) 0;
+  background: var(--color-bg);
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.settings-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Pizza catalogue: inline edit and locked entry */
+.pizza-item-editing .pizza-item-info {
+  flex: 1;
+  flex-wrap: nowrap;
+}
+
+.pizza-item-editing input {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.pizza-item-lock {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 
 .settings-header h2 {
@@ -312,5 +351,10 @@
 
   .admin-main {
     padding: var(--space-4);
+  }
+
+  /* Sit below the sticky tab bar */
+  .settings-header {
+    top: var(--admin-tabbar-height, 4.75rem);
   }
 }
