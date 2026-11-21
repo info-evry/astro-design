@@ -26,11 +26,11 @@ interface Props {
 }
 
 const {
-  homeUrl = '/',
-  tagline = '',
+  homeUrl = "/",
+  tagline = "",
   footerLinks = [],
   socialLinks = [],
-  organizationName = 'Association Info Evry'
+  organizationName = "Association Info Evry"
 } = Astro.props;
 
 const currentYear = new Date().getFullYear();
@@ -52,7 +52,7 @@ const logoHref = withBase('/favicon.svg');
         <div class="footer-links">
           <span class="footer-heading">Liens utiles</span>
           <nav class="footer-nav" aria-label="Liens utiles">
-            {footerLinks.map((link) => (
+            {footerLinks.map(link => (
               <a href={link.href} class="footer-link" target="_blank" rel="noopener noreferrer">
                 {link.label}
               </a>
@@ -65,7 +65,7 @@ const logoHref = withBase('/favicon.svg');
         <div class="footer-connect">
           <span class="footer-heading">Réseaux</span>
           <div class="connect-grid">
-            {socialLinks.map((social) => (
+            {socialLinks.map(social => (
               <a
                 href={social.href}
                 class="connect-item"

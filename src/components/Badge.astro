@@ -26,7 +26,7 @@ interface Props {
 const { text, variant = 'default', showDot = false, animated = false } = Astro.props;
 ---
 
-<span class:list={['badge', `badge-${variant}`, { animated }]}>
+<span class:list={["badge", `badge-${variant}`, { animated }]}>
   {showDot && <span class="badge-dot"></span>}
   <span>{text}</span>
 </span>

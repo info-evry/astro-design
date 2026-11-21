@@ -19,21 +19,24 @@ interface Props {
   valueId?: string;
 }
 
-const { value, label, sublabel, variant = 'default', id, valueId } = Astro.props;
+const {
+  value,
+  label,
+  sublabel,
+  variant = 'default',
+  id,
+  valueId
+} = Astro.props;
 
 const cardClasses = [
   'stat-card',
   variant === 'highlight' && 'stat-card-highlight',
-  variant === 'small' && 'stat-card-sm'
-]
-  .filter(Boolean)
-  .join(' ');
+  variant === 'small' && 'stat-card-sm',
+].filter(Boolean).join(' ');
 ---
 
 <div class={cardClasses} id={id}>
-  <div class="stat-value" id={valueId}>
-    {value}
-  </div>
+  <div class="stat-value" id={valueId}>{value}</div>
   <div class="stat-label">{label}</div>
   {sublabel && <div class="stat-sublabel">{sublabel}</div>}
 </div>

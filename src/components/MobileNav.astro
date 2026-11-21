@@ -17,7 +17,7 @@ import { getSymbol } from '../utils/symbols';
 interface NavItem {
   href: string;
   label: string;
-  icon: string; // SF Symbol name (e.g., 'house', 'info.circle')
+  icon: string;  // SF Symbol name (e.g., 'house', 'info.circle')
   active?: boolean;
 }
 
@@ -28,7 +28,12 @@ interface Props {
   ctaIcon?: string;
 }
 
-const { items, ctaHref, ctaLabel, ctaIcon = 'plus.circle.fill' } = Astro.props;
+const {
+  items,
+  ctaHref,
+  ctaLabel,
+  ctaIcon = 'plus.circle.fill'
+} = Astro.props;
 
 // Get current URL to highlight active item
 const currentPath = Astro.url.pathname;
@@ -37,26 +42,23 @@ const currentPath = Astro.url.pathname;
 <nav class="mobile-nav-bar" aria-label="Navigation mobile">
   <div class="mobile-nav-items">
     {items.map((item) => {
-      const isActive =
-        item.active === undefined ? currentPath === item.href || currentPath.startsWith(item.href + '/') : item.active;
+      const isActive = item.active === undefined
+        ? currentPath === item.href || currentPath.startsWith(item.href + '/')
+        : item.active;
       return (
         <a
           href={item.href}
           class:list={['mobile-nav-item', { active: isActive }]}
           aria-current={isActive ? 'page' : undefined}
         >
-          <span class="mobile-nav-icon" aria-hidden="true">
-            {getSymbol(item.icon)}
-          </span>
+          <span class="mobile-nav-icon" aria-hidden="true">{getSymbol(item.icon)}</span>
           <span class="mobile-nav-label">{item.label}</span>
         </a>
       );
     })}
     {ctaHref && (
       <a href={ctaHref} class="mobile-nav-item mobile-nav-cta">
-        <span class="mobile-nav-icon" aria-hidden="true">
-          {getSymbol(ctaIcon)}
-        </span>
+        <span class="mobile-nav-icon" aria-hidden="true">{getSymbol(ctaIcon)}</span>
         <span class="mobile-nav-label">{ctaLabel}</span>
       </a>
     )}

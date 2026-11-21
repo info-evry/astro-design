@@ -12,7 +12,7 @@ import { getSymbol } from '../utils/symbols';
 export interface Tab {
   id: string;
   label: string;
-  icon?: string; // SF Symbol name (e.g., 'house', 'info.circle')
+  icon?: string;  // SF Symbol name (e.g., 'house', 'info.circle')
   badge?: number | string;
 }
 
@@ -24,7 +24,12 @@ export interface Props {
   variant?: 'default' | 'pills' | 'underline';
 }
 
-const { tabs, activeTab = tabs[0]?.id, class: className = '', variant = 'default' } = Astro.props;
+const {
+  tabs,
+  activeTab = tabs[0]?.id,
+  class: className = '',
+  variant = 'default',
+} = Astro.props;
 
 const navClass = ['tab-nav', `tab-nav-${variant}`, className].filter(Boolean).join(' ');
 ---
@@ -42,7 +47,9 @@ const navClass = ['tab-nav', `tab-nav-${variant}`, className].filter(Boolean).jo
     >
       {tab.icon && <span class="tab-icon">{getSymbol(tab.icon)}</span>}
       <span class="tab-label">{tab.label}</span>
-      {tab.badge !== undefined && <span class="tab-badge">{tab.badge}</span>}
+      {tab.badge !== undefined && (
+        <span class="tab-badge">{tab.badge}</span>
+      )}
     </button>
   ))}
 </nav>

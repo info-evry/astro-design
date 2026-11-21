@@ -16,7 +16,13 @@ export interface Props {
   class?: string;
 }
 
-const { id, title, open = false, badge, class: className = '' } = Astro.props;
+const {
+  id,
+  title,
+  open = false,
+  badge,
+  class: className = '',
+} = Astro.props;
 
 const groupClass = ['disclosure-group', open && 'open', className].filter(Boolean).join(' ');
 ---
@@ -24,9 +30,7 @@ const groupClass = ['disclosure-group', open && 'open', className].filter(Boolea
 <div class={groupClass} data-disclosure={id}>
   <div class="disclosure-header" data-disclosure-toggle={id}>
     <h2>
-      <span class="disclosure-chevron sf-symbol" aria-hidden="true">
-        {getSymbol('chevron.right')}
-      </span>
+      <span class="disclosure-chevron sf-symbol" aria-hidden="true">{getSymbol('chevron.right')}</span>
       {title}
       {badge !== undefined && <span class="disclosure-badge">{badge}</span>}
     </h2>

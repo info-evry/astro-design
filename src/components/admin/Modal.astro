@@ -20,23 +20,30 @@ interface Props {
   hidden?: boolean;
 }
 
-const { id, title, subtitle, size = 'default', hidden = true } = Astro.props;
+const {
+  id,
+  title,
+  subtitle,
+  size = 'default',
+  hidden = true
+} = Astro.props;
 
-const modalClasses = ['modal', hidden && 'hidden'].filter(Boolean).join(' ');
+const modalClasses = [
+  'modal',
+  hidden && 'hidden'
+].filter(Boolean).join(' ');
 
-const contentClasses = ['modal-content', size === 'lg' && 'modal-lg', size === 'sm' && 'modal-sm']
-  .filter(Boolean)
-  .join(' ');
+const contentClasses = [
+  'modal-content',
+  size === 'lg' && 'modal-lg',
+  size === 'sm' && 'modal-sm'
+].filter(Boolean).join(' ');
 ---
 
 <div id={id} class={modalClasses}>
   <div class={contentClasses}>
     {title && <h3>{title}</h3>}
-    {subtitle && (
-      <p class="modal-subtitle" id={`${id}-subtitle`}>
-        {subtitle}
-      </p>
-    )}
+    {subtitle && <p class="modal-subtitle" id={`${id}-subtitle`}>{subtitle}</p>}
 
     <slot />
 
