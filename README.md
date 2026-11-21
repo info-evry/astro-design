@@ -66,11 +66,6 @@ src/
 │   ├── MobileNav.astro   # Mobile tab bar navigation
 │   ├── HeroBackground.astro # Animated hero background
 │   ├── SectionHeader.astro # Section title component
-│   ├── FormInput.astro   # Form input with label
-│   ├── FormSelect.astro  # Form select with label
-│   ├── FormTextarea.astro # Form textarea with label
-│   ├── FilterSelect.astro # Filter dropdown
-│   ├── DataTable.astro   # Data table component
 │   └── Badge.astro       # Status badge
 ├── integrations/
 │   └── sf-symbols.ts     # Vite plugin for SF Symbols shortcodes
@@ -313,7 +308,7 @@ setTabBadge('pending', 3); // shows "3"; hides the badge automatically at 0
   `.sortable-header` + `[data-sort-dir="asc"|"desc"]` are kept as aliases
   for markup written before this contract existed.
 - `.table-wrapper`, `.table-search`, `.table-empty` / `.empty-state`
-  (alias `.no-archives`) — `DataTable.astro`'s search/empty-state areas.
+  (alias `.no-archives`) — table wrapper, search and empty-state areas.
 - `tr.selected` / `.member-row.selected` — selected row highlight.
 - `.contact-cell` — stacked contact info inside a table cell.
 - `.loading-placeholder` — centered loading text while data is fetched.

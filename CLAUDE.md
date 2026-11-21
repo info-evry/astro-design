@@ -14,7 +14,7 @@ another file imported from `src/index.css`), not in a component's
 `<style>` block.
 
 This currently applies to (non-exhaustive): `AdminSidebar.astro`,
-`admin/DataTable.astro`, `admin/AdminPageHeader.astro`, `Badge.astro`,
+`admin/AdminPageHeader.astro`, `Badge.astro`,
 `TabNav.astro`, `SearchInput.astro`.
 
 ## Admin class contracts

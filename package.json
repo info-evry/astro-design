@@ -23,15 +23,12 @@
   "scripts": {
     "generate-colors": "bun run tools/generate-colors.ts",
     "generate-colors:apply": "bun run tools/generate-colors.ts --output src/tokens/colors.css",
-    "test": "bun test",
-    "prepare": "husky"
+    "test": "bun test"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^20.14.5",
-    "@types/bun": "^1.3.3",
-    "@vitest/coverage-v8": "^4.1.11",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7"
+    "@happy-dom/global-registrator": "^21.0.4",
+    "@types/bun": "^1.4.5",
+    "@vitest/coverage-v8": "^4.1.12"
   },
   "keywords": [
     "design-system",

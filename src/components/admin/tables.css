@@ -336,8 +336,7 @@ tr.selected td {
 }
 
 /* ===========================================
-   DataTable.astro - wrapper, search & empty state
-   (moved out of the component's former scoped <style>)
+   Table wrapper, search & empty state
    =========================================== */
 
 .table-wrapper {
@@ -372,7 +371,7 @@ tr.selected td {
 }
 
 /* ===========================================
-   Sortable Headers - DataTable.astro contract
+   Sortable Headers - contract
    Sortable <th> gets class="sortable"; once sorted, `data-sort="asc"|"desc"`
    drives the arrow shown by .sort-indicator::after.
    `.sortable-header` + `[data-sort-dir]` are kept as aliases for markup

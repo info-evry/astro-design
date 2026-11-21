@@ -9,6 +9,8 @@
  * - socialLinks: Array of { name, href, icon } for social media
  * - organizationName: Full organization name for copyright
  */
+import { withBase } from '../utils/base';
+
 interface SocialLink {
   name: string;
   href: string;
@@ -22,8 +24,6 @@ interface Props {
   socialLinks?: SocialLink[];
   organizationName?: string;
 }
-
-import { withBase } from '../utils/base';
 
 const {
   homeUrl = "/",
