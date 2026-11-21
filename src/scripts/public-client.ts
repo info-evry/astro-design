@@ -20,6 +20,8 @@ export interface PublicClient {
   get<T = unknown>(endpoint: string): Promise<T>;
   /** `POST ${baseUrl}/api${endpoint}` with a JSON body -> parsed JSON. */
   post<T = unknown>(endpoint: string, body?: unknown): Promise<T>;
+  /** `PUT ${baseUrl}/api${endpoint}` with a JSON body -> parsed JSON. */
+  put<T = unknown>(endpoint: string, body?: unknown): Promise<T>;
 }
 
 export const MSG_SERVICE_UNAVAILABLE = 'Service momentanément indisponible';
@@ -85,14 +87,19 @@ export function createPublicClient(options: CreatePublicClientOptions = {}): Pub
     throw new ApiError(MSG_SERVICE_UNAVAILABLE, response.status, 'invalid_response');
   }
 
+  const withBody =
+    (method: 'POST' | 'PUT') =>
+    <T = unknown>(endpoint: string, body?: unknown) =>
+      request<T>(endpoint, {
+        method,
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: body === undefined ? undefined : JSON.stringify(body),
+      });
+
   return {
     get: <T = unknown>(endpoint: string) =>
       request<T>(endpoint, { method: 'GET', headers: { Accept: 'application/json' } }),
-    post: <T = unknown>(endpoint: string, body?: unknown) =>
-      request<T>(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: body === undefined ? undefined : JSON.stringify(body),
-      }),
+    post: withBody('POST'),
+    put: withBody('PUT'),
   };
 }

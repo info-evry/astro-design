@@ -63,6 +63,23 @@ describe('createPublicClient', () => {
     expect(fetchMock.mock.calls[1][1].method).toBe('GET');
   });
 
+  test('put sends a JSON body with the PUT method and reports failures as ApiError', async () => {
+    const fetchMock = mockFetch(json({ success: true }));
+    const client = createPublicClient({ baseUrl: '/nuit-de-linfo/' });
+
+    expect(await client.put('/teams/3/members/9/pizza', { foodDiet: 'reine' })).toEqual({ success: true });
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe('/nuit-de-linfo/api/teams/3/members/9/pizza');
+    expect(init.method).toBe('PUT');
+    expect(init.body).toBe('{"foodDiet":"reine"}');
+    expect(init.headers['Content-Type']).toBe('application/json');
+
+    mockFetch(json({ error: 'Code secret incorrect', code: 'forbidden' }, 403));
+    const error = await rejection(createPublicClient({ baseUrl: '' }).put('/x', {}));
+    expect(error).toBeInstanceOf(ApiError);
+    expect([error.message, error.status, error.code]).toEqual(['Code secret incorrect', 403, 'forbidden']);
+  });
+
   test('defaults the base URL to the base-url meta tag', async () => {
     const meta = document.createElement('meta');
     meta.name = 'base-url';
