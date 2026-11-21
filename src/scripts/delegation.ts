@@ -150,7 +150,7 @@ export function bindDelegation(
     changes,
     clickAttr: options.attrs?.click ?? DEFAULT_CLICK_ATTR,
     changeAttr: options.attrs?.change ?? DEFAULT_CHANGE_ATTR,
-    onError: options.onError ?? defaultOnError,
+    onError: options.onError ?? defaultOnError
   };
 
   const existing = bindings.get(root);
@@ -170,7 +170,7 @@ export function bindDelegation(
       root.removeEventListener('click', onClick);
       root.removeEventListener('change', onChange);
       bindings.delete(root);
-    },
+    }
   };
 
   bindings.set(root, binding);

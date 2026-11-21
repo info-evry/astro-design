@@ -11,7 +11,7 @@ const selectors = {
   adminContent: '#admin-content',
   tokenInput: '#admin-token',
   authBtn: '#auth-btn',
-  authError: '#auth-error',
+  authError: '#auth-error'
 };
 
 function fakeApi(initial = ''): ApiClient & { store: { token: string } } {
@@ -20,8 +20,12 @@ function fakeApi(initial = ''): ApiClient & { store: { token: string } } {
     store,
     api: vi.fn() as unknown as ApiClient['api'],
     getToken: () => store.token,
-    setToken: (t: string) => { store.token = t; },
-    clearToken: () => { store.token = ''; },
+    setToken: (t: string) => {
+      store.token = t;
+    },
+    clearToken: () => {
+      store.token = '';
+    }
   };
 }
 
@@ -83,8 +87,10 @@ describe('auto-login with a stored token', () => {
     const api = fakeApi('stale');
     const afterLogin = vi.fn();
     const shell = createAdminShell({
-      api, selectors, afterLogin,
-      load: () => Promise.reject(new ApiError('Unauthorized', 401)),
+      api,
+      selectors,
+      afterLogin,
+      load: () => Promise.reject(new ApiError('Unauthorized', 401))
     });
 
     await shell.init();
@@ -99,8 +105,9 @@ describe('auto-login with a stored token', () => {
   test('network error keeps the token and shows a retry message', async () => {
     const api = fakeApi('keep');
     const shell = createAdminShell({
-      api, selectors,
-      load: () => Promise.reject(new TypeError('Failed to fetch')),
+      api,
+      selectors,
+      load: () => Promise.reject(new TypeError('Failed to fetch'))
     });
 
     await shell.init();
@@ -114,8 +121,9 @@ describe('auto-login with a stored token', () => {
   test('5xx keeps the token', async () => {
     const api = fakeApi('keep');
     const shell = createAdminShell({
-      api, selectors,
-      load: () => Promise.reject(new ApiError('Request failed', 503)),
+      api,
+      selectors,
+      load: () => Promise.reject(new ApiError('Request failed', 503))
     });
     await shell.init();
     expect(api.store.token).toBe('keep');
@@ -124,9 +132,7 @@ describe('auto-login with a stored token', () => {
 
   test('retry after a network error works with the kept token and an empty input', async () => {
     const api = fakeApi('keep');
-    const load = vi.fn()
-      .mockRejectedValueOnce(new TypeError('Failed to fetch'))
-      .mockResolvedValueOnce();
+    const load = vi.fn().mockRejectedValueOnce(new TypeError('Failed to fetch')).mockResolvedValueOnce();
     const afterLogin = vi.fn();
     const shell = createAdminShell({ api, selectors, load, afterLogin });
 
@@ -212,8 +218,9 @@ describe('interactive login', () => {
   test('401 shows "Token invalide" and clears the token', async () => {
     const api = fakeApi();
     const shell = createAdminShell({
-      api, selectors,
-      load: () => Promise.reject(new ApiError('Unauthorized', 401)),
+      api,
+      selectors,
+      load: () => Promise.reject(new ApiError('Unauthorized', 401))
     });
     await shell.init();
     input().value = 'bad';
@@ -227,7 +234,8 @@ describe('interactive login', () => {
 
   test('a 4xx error shows the server message; 5xx a generic one, token kept', async () => {
     const api = fakeApi();
-    const load = vi.fn()
+    const load = vi
+      .fn()
       .mockRejectedValueOnce(new ApiError('Trop de tentatives', 429))
       .mockRejectedValueOnce(new ApiError('Request failed', 500));
     const shell = createAdminShell({ api, selectors, load });
@@ -242,9 +250,7 @@ describe('interactive login', () => {
   });
 
   test('a successful login hides a previous error', async () => {
-    const load = vi.fn()
-      .mockRejectedValueOnce(new ApiError('Unauthorized', 401))
-      .mockResolvedValueOnce();
+    const load = vi.fn().mockRejectedValueOnce(new ApiError('Unauthorized', 401)).mockResolvedValueOnce();
     const shell = createAdminShell({ api: fakeApi(), selectors, load });
     input().value = 'x';
     await shell.login();
@@ -256,7 +262,12 @@ describe('interactive login', () => {
 
   test('concurrent logins share one in-flight request', async () => {
     let release!: () => void;
-    const load = vi.fn(() => new Promise<void>((resolve) => { release = resolve; }));
+    const load = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          release = resolve;
+        })
+    );
     const shell = createAdminShell({ api: fakeApi(), selectors, load });
     input().value = 'x';
 
@@ -302,8 +313,9 @@ describe('reload', () => {
     document.getElementById('auth-section')!.classList.add('hidden');
     document.getElementById('admin-content')!.classList.remove('hidden');
     const shell = createAdminShell({
-      api, selectors,
-      load: () => Promise.reject(new ApiError('Unauthorized', 401)),
+      api,
+      selectors,
+      load: () => Promise.reject(new ApiError('Unauthorized', 401))
     });
 
     expect(await shell.reload()).toBe(false);
@@ -318,8 +330,9 @@ describe('reload', () => {
     const api = fakeApi('t');
     document.getElementById('admin-content')!.classList.remove('hidden');
     const shell = createAdminShell({
-      api, selectors,
-      load: () => Promise.reject(new ApiError('Request failed', 500)),
+      api,
+      selectors,
+      load: () => Promise.reject(new ApiError('Request failed', 500))
     });
 
     expect(await shell.reload()).toBe(false);
@@ -330,9 +343,7 @@ describe('reload', () => {
   });
 
   test('a 4xx error toasts the server message; non-ApiError uses the generic one', async () => {
-    const load = vi.fn()
-      .mockRejectedValueOnce(new ApiError('Interdit', 403))
-      .mockRejectedValueOnce(new Error('boom'));
+    const load = vi.fn().mockRejectedValueOnce(new ApiError('Interdit', 403)).mockRejectedValueOnce(new Error('boom'));
     const shell = createAdminShell({ api: fakeApi('t'), selectors, load });
     await shell.reload();
     expect(toastText()).toBe('Interdit');
@@ -367,7 +378,11 @@ describe('logout and getToken', () => {
 
   test('tolerates missing elements', async () => {
     document.body.innerHTML = '';
-    const shell = createAdminShell({ api: fakeApi('t'), selectors, load: vi.fn().mockRejectedValue(new ApiError('x', 401)) });
+    const shell = createAdminShell({
+      api: fakeApi('t'),
+      selectors,
+      load: vi.fn().mockRejectedValue(new ApiError('x', 401))
+    });
     await shell.init();
     shell.logout();
     expect(await shell.login()).toBe(false);

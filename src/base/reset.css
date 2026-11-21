@@ -33,14 +33,34 @@
 }
 
 /* Size variants */
-.sfs-xs::before, [data-sfs-size="xs"]::before { font-size: 0.75rem; }
-.sfs-sm::before, [data-sfs-size="sm"]::before { font-size: 0.875rem; }
-.sfs-md::before, [data-sfs-size="md"]::before { font-size: 1rem; }
-.sfs-lg::before, [data-sfs-size="lg"]::before { font-size: 1.25rem; }
-.sfs-xl::before, [data-sfs-size="xl"]::before { font-size: 1.5rem; }
-.sfs-2xl::before, [data-sfs-size="2xl"]::before { font-size: 2rem; }
+.sfs-xs::before,
+[data-sfs-size='xs']::before {
+  font-size: 0.75rem;
+}
+.sfs-sm::before,
+[data-sfs-size='sm']::before {
+  font-size: 0.875rem;
+}
+.sfs-md::before,
+[data-sfs-size='md']::before {
+  font-size: 1rem;
+}
+.sfs-lg::before,
+[data-sfs-size='lg']::before {
+  font-size: 1.25rem;
+}
+.sfs-xl::before,
+[data-sfs-size='xl']::before {
+  font-size: 1.5rem;
+}
+.sfs-2xl::before,
+[data-sfs-size='2xl']::before {
+  font-size: 2rem;
+}
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -53,7 +73,8 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
 }
@@ -68,12 +89,17 @@ body {
 }
 
 /* Prevent common overflow issues */
-img, video, iframe, embed, object {
+img,
+video,
+iframe,
+embed,
+object {
   max-width: 100%;
   height: auto;
 }
 
-pre, code {
+pre,
+code {
   max-width: 100%;
   overflow-x: auto;
   word-wrap: break-word;
@@ -86,22 +112,41 @@ table {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   color: var(--color-text);
 }
 
-h1 { font-size: var(--text-5xl); }
-h2 { font-size: var(--text-4xl); }
-h3 { font-size: var(--text-2xl); }
-h4 { font-size: var(--text-xl); }
+h1 {
+  font-size: var(--text-5xl);
+}
+h2 {
+  font-size: var(--text-4xl);
+}
+h3 {
+  font-size: var(--text-2xl);
+}
+h4 {
+  font-size: var(--text-xl);
+}
 
 @media (max-width: 768px) {
-  h1 { font-size: var(--text-4xl); }
-  h2 { font-size: var(--text-3xl); }
-  h3 { font-size: var(--text-xl); }
+  h1 {
+    font-size: var(--text-4xl);
+  }
+  h2 {
+    font-size: var(--text-3xl);
+  }
+  h3 {
+    font-size: var(--text-xl);
+  }
 }
 
 p {

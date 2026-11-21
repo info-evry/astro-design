@@ -21,22 +21,22 @@ interface Props {
   author?: string;
   themeColor?: string;
   locale?: string;
-  preloadFonts?: Array<{ href: string; type?: string; }|string>;
+  preloadFonts?: Array<{ href: string; type?: string } | string>;
   colorScheme?: string;
 }
 
 const {
   title,
   description = "Asso Info Evry – Association des Étudiants en Informatique de l'Université d'Évry Val-d'Essonne",
-  image = "og.jpg",
+  image = 'og.jpg',
   noindex = false,
   canonicalUrl,
-  siteName = "Asso Info Evry",
+  siteName = 'Asso Info Evry',
   author = "Association des Étudiants en Informatique de l'Université d'Évry Val-d'Essonne",
-  themeColor = "#001BA5",
-  locale = "fr_FR",
+  themeColor = '#001BA5',
+  locale = 'fr_FR',
   preloadFonts = [],
-  colorScheme = "dark"
+  colorScheme = 'dark'
 } = Astro.props;
 
 // Resolve image URL relative to canonical URL base
@@ -47,53 +47,53 @@ const faviconHref = withBase('/favicon.svg', base);
 const appleTouchIconHref = withBase('/apple-touch-icon.png', base);
 ---
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
-<meta name="title" content={title}>
-<meta name="description" content={description}>
-<meta name="author" content={author}>
-<meta name="theme-color" content={themeColor}>
-<meta name="color-scheme" content={colorScheme}>
-{noindex && <meta name="robots" content="noindex, nofollow">}
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+<meta name="theme-color" content={themeColor} />
+<meta name="color-scheme" content={colorScheme} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalUrl}>
+<link rel="canonical" href={canonicalUrl} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content={canonicalUrl}>
-<meta property="og:title" content={title}>
-<meta property="og:description" content={description}>
-<meta property="og:image" content={ogImageUrl}>
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content={locale}>
-<meta property="og:site_name" content={siteName}>
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={locale} />
+<meta property="og:site_name" content={siteName} />
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content={canonicalUrl}>
-<meta name="twitter:title" content={title}>
-<meta name="twitter:description" content={description}>
-<meta name="twitter:image" content={ogImageUrl}>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
 
 <!-- Preload critical assets -->
-{preloadFonts.map(font => {
-  if (typeof font === "string") {
+{preloadFonts.map((font) => {
+  if (typeof font === 'string') {
     return <link rel="preload" href={font} as="font" type="font/woff2" crossorigin />;
   } else {
-    const { href, type = "font/woff2" } = font;
+    const { href, type = 'font/woff2' } = font;
     return <link rel="preload" href={href} as="font" type={type} crossorigin />;
   }
 })}
-<link rel="preload" href={faviconHref} as="image" type="image/svg+xml">
+<link rel="preload" href={faviconHref} as="image" type="image/svg+xml" />
 
 <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href={faviconHref}>
-<link rel="apple-touch-icon" sizes="180x180" href={appleTouchIconHref}>
+<link rel="icon" type="image/svg+xml" href={faviconHref} />
+<link rel="apple-touch-icon" sizes="180x180" href={appleTouchIconHref} />
 
 <!-- Base URL (consumed by shared client scripts, e.g. scripts/api-client.ts) -->
-<meta name="base-url" content={base}>
+<meta name="base-url" content={base} />

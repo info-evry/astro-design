@@ -26,9 +26,7 @@ export class ApiError extends Error {
  * directly onto `/api/...` endpoints.
  */
 export function readBaseUrl(): string {
-  const content = document
-    .querySelector('meta[name="base-url"]')
-    ?.getAttribute('content');
+  const content = document.querySelector('meta[name="base-url"]')?.getAttribute('content');
   let base = content ?? '';
   while (base.endsWith('/')) base = base.slice(0, -1);
   return base;
@@ -87,8 +85,8 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        ...requestOptions.headers,
-      },
+        ...requestOptions.headers
+      }
     });
 
     if (response.status === 401) {
@@ -101,7 +99,11 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
 
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
-      throw new ApiError(data.error || 'Request failed', response.status, typeof data.code === 'string' ? data.code : undefined);
+      throw new ApiError(
+        data.error || 'Request failed',
+        response.status,
+        typeof data.code === 'string' ? data.code : undefined
+      );
     }
 
     return (await response.json()) as T;

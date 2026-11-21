@@ -98,7 +98,9 @@ describe('downloadBlob', () => {
   });
 
   test('cleans up even if click throws', () => {
-    HTMLAnchorElement.prototype.click = () => { throw new Error('blocked'); };
+    HTMLAnchorElement.prototype.click = () => {
+      throw new Error('blocked');
+    };
     expect(() => downloadBlob('x', 'a.txt')).toThrow('blocked');
     expect(revokeSpy).toHaveBeenCalledTimes(1);
     expect(document.querySelector('a')).toBeNull();
@@ -107,9 +109,7 @@ describe('downloadBlob', () => {
 
 describe('downloadFromApi', () => {
   test('downloads the Response blob returned for text/csv', async () => {
-    const api = vi.fn().mockResolvedValue(
-      new Response('a,b\n1,2', { headers: { 'Content-Type': 'text/csv' } })
-    );
+    const api = vi.fn().mockResolvedValue(new Response('a,b\n1,2', { headers: { 'Content-Type': 'text/csv' } }));
 
     await downloadFromApi(api, '/admin/export', 'participants.csv');
 

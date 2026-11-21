@@ -22,7 +22,7 @@ interface Props {
 const { label, title, description, centered = true } = Astro.props;
 ---
 
-<header class:list={["section-header", { centered }]}>
+<header class:list={['section-header', { centered }]}>
   {label && <span class="section-label">{label}</span>}
   <h2 class="section-title">{title}</h2>
   {description && <p class="section-description">{description}</p>}

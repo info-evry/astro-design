@@ -23,8 +23,8 @@ interface HSL {
 }
 
 interface ColorScheme {
-  brand: string;        // Original brand color (for icons, logos)
-  primary: string;      // Contrast-adjusted for dark theme
+  brand: string; // Original brand color (for icons, logos)
+  primary: string; // Contrast-adjusted for dark theme
   primaryLight: string;
   primaryDark: string;
   primaryGlow: string;
@@ -51,7 +51,7 @@ function hexToRgb(hex: string): RGB {
   return {
     r: Number.parseInt(result[1], 16),
     g: Number.parseInt(result[2], 16),
-    b: Number.parseInt(result[3], 16),
+    b: Number.parseInt(result[3], 16)
   };
 }
 
@@ -59,7 +59,9 @@ function hexToRgb(hex: string): RGB {
  * Convert a single channel value to hex
  */
 function channelToHex(n: number): string {
-  return Math.round(Math.max(0, Math.min(255, n))).toString(16).padStart(2, '0');
+  return Math.round(Math.max(0, Math.min(255, n)))
+    .toString(16)
+    .padStart(2, '0');
 }
 
 /**
@@ -138,7 +140,7 @@ function hslToRgb(hsl: HSL): RGB {
   return {
     r: Math.round(hue2rgb(p, q, hNorm + 1 / 3) * 255),
     g: Math.round(hue2rgb(p, q, hNorm) * 255),
-    b: Math.round(hue2rgb(p, q, hNorm - 1 / 3) * 255),
+    b: Math.round(hue2rgb(p, q, hNorm - 1 / 3) * 255)
   };
 }
 
@@ -216,7 +218,7 @@ function hexToRgba(hex: string, alpha: number): string {
  */
 function getLuminance(hex: string): number {
   const rgb = hexToRgb(hex);
-  const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(v => {
+  const [r, g, b] = [rgb.r, rgb.g, rgb.b].map((v) => {
     v /= 255;
     return v <= 0.039_28 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
   });
@@ -290,7 +292,7 @@ export function generateColorScheme(primaryHex: string): ColorScheme {
     glowPrimary: `0 0 80px ${hexToRgba(primary, 0.4)}`,
     glowBlue: `0 0 80px ${hexToRgba(primary, 0.35)}`,
     glowPurple: `0 0 80px ${hexToRgba(purple, 0.3)}`,
-    themeColor: brandColor,  // Use brand color for meta theme-color
+    themeColor: brandColor // Use brand color for meta theme-color
   };
 }
 
@@ -365,15 +367,19 @@ export function generateCSS(scheme: ColorScheme): string {
  * Generate JSON configuration
  */
 export function generateJSON(scheme: ColorScheme): string {
-  return JSON.stringify({
-    brand: scheme.brand,
-    primary: scheme.primary,
-    primaryLight: scheme.primaryLight,
-    primaryDark: scheme.primaryDark,
-    purple: scheme.purple,
-    indigo: scheme.indigo,
-    themeColor: scheme.themeColor,
-  }, null, 2);
+  return JSON.stringify(
+    {
+      brand: scheme.brand,
+      primary: scheme.primary,
+      primaryLight: scheme.primaryLight,
+      primaryDark: scheme.primaryDark,
+      purple: scheme.purple,
+      indigo: scheme.indigo,
+      themeColor: scheme.themeColor
+    },
+    null,
+    2
+  );
 }
 
 // CLI entry point

@@ -51,7 +51,9 @@
   border-radius: var(--radius);
   cursor: pointer;
   color: var(--color-text-muted);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .btn-icon:hover {
@@ -92,7 +94,7 @@
   line-height: 1;
 }
 
-.checkbox-label input[type="checkbox"] {
+.checkbox-label input[type='checkbox'] {
   margin: 0;
   align-self: center;
 }
@@ -117,7 +119,9 @@
   background-position: right var(--space-3) center;
   background-size: 12px;
   cursor: pointer;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   min-width: 140px;
 }
 
@@ -352,8 +356,8 @@
   color: var(--color-primary);
 }
 
-.filter-pill input[type="radio"],
-.filter-pill input[type="checkbox"] {
+.filter-pill input[type='radio'],
+.filter-pill input[type='checkbox'] {
   display: none;
 }
 
@@ -394,7 +398,9 @@
   color: var(--color-text);
   width: 100%;
   min-width: 200px;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .search-input::placeholder {
@@ -463,7 +469,9 @@
   font-size: var(--text-sm);
   background-color: var(--color-surface);
   color: var(--color-text);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .filter-search:focus {
@@ -499,7 +507,7 @@
   cursor: pointer;
 }
 
-.filter-label input[type="checkbox"] {
+.filter-label input[type='checkbox'] {
   margin: 0;
 }
 
@@ -571,7 +579,7 @@
   user-select: none;
 }
 
-.toggle-label input[type="checkbox"] {
+.toggle-label input[type='checkbox'] {
   display: none;
 }
 

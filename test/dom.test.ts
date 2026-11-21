@@ -11,9 +11,7 @@ describe('escapeHtml', () => {
   });
 
   test('escapes text embedded in a larger string', () => {
-    expect(escapeHtml('<script>alert("x")</script>')).toBe(
-      '&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;'
-    );
+    expect(escapeHtml('<script>alert("x")</script>')).toBe('&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;');
   });
 
   test('returns empty string for falsy input', () => {
@@ -49,7 +47,9 @@ describe('truncateText', () => {
 describe('debounce', () => {
   test('only invokes the wrapped function once after the delay', async () => {
     let calls = 0;
-    const fn = debounce(() => { calls++; }, 10);
+    const fn = debounce(() => {
+      calls++;
+    }, 10);
     fn();
     fn();
     fn();

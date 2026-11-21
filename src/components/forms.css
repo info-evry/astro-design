@@ -51,7 +51,7 @@
 }
 
 /* Inputs, Selects, Textareas */
-.form-group input:not([type="checkbox"]):not([type="radio"]),
+.form-group input:not([type='checkbox']):not([type='radio']),
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -62,7 +62,9 @@
   font-size: var(--text-base);
   background-color: var(--color-surface);
   color: var(--color-text);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .form-group input::placeholder,
@@ -92,7 +94,7 @@
 }
 
 /* Custom Checkbox */
-input[type="checkbox"] {
+input[type='checkbox'] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -105,25 +107,27 @@ input[type="checkbox"] {
   cursor: pointer;
   position: relative;
   flex-shrink: 0;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
 }
 
-input[type="checkbox"]:hover {
+input[type='checkbox']:hover {
   border-color: var(--color-primary);
 }
 
-input[type="checkbox"]:focus {
+input[type='checkbox']:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   background: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-input[type="checkbox"]:checked::after {
+input[type='checkbox']:checked::after {
   content: '';
   position: absolute;
   left: 5px;
@@ -135,13 +139,13 @@ input[type="checkbox"]:checked::after {
   transform: rotate(45deg);
 }
 
-input[type="checkbox"]:disabled {
+input[type='checkbox']:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* Custom Radio */
-input[type="radio"] {
+input[type='radio'] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -154,24 +158,26 @@ input[type="radio"] {
   cursor: pointer;
   position: relative;
   flex-shrink: 0;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
 }
 
-input[type="radio"]:hover {
+input[type='radio']:hover {
   border-color: var(--color-primary);
 }
 
-input[type="radio"]:focus {
+input[type='radio']:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
-input[type="radio"]:checked {
+input[type='radio']:checked {
   border-color: var(--color-primary);
 }
 
-input[type="radio"]:checked::after {
+input[type='radio']:checked::after {
   content: '';
   position: absolute;
   left: 3px;
@@ -182,7 +188,7 @@ input[type="radio"]:checked::after {
   background: var(--color-primary);
 }
 
-input[type="radio"]:disabled {
+input[type='radio']:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -270,7 +276,7 @@ input[type="radio"]:disabled {
   cursor: pointer;
 }
 
-.toggle-label input[type="checkbox"] {
+.toggle-label input[type='checkbox'] {
   /* Hide default checkbox but keep it accessible */
   position: absolute;
   opacity: 0;
@@ -302,19 +308,19 @@ input[type="radio"]:disabled {
   box-shadow: var(--shadow-sm);
 }
 
-.toggle-label input[type="checkbox"]:checked + .toggle-switch {
+.toggle-label input[type='checkbox']:checked + .toggle-switch {
   background: var(--color-primary);
 }
 
-.toggle-label input[type="checkbox"]:checked + .toggle-switch::before {
+.toggle-label input[type='checkbox']:checked + .toggle-switch::before {
   transform: translateX(20px);
 }
 
-.toggle-label input[type="checkbox"]:focus + .toggle-switch {
+.toggle-label input[type='checkbox']:focus + .toggle-switch {
   box-shadow: 0 0 0 3px rgba(0, 27, 165, 0.2);
 }
 
-.toggle-label input[type="checkbox"]:disabled + .toggle-switch {
+.toggle-label input[type='checkbox']:disabled + .toggle-switch {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -561,7 +567,7 @@ select + .select-chevron,
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-.option-card input[type="radio"] {
+.option-card input[type='radio'] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -612,7 +618,7 @@ select + .select-chevron,
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-.pizza-option input[type="radio"] {
+.pizza-option input[type='radio'] {
   position: absolute;
   opacity: 0;
   width: 0;

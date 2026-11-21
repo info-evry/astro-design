@@ -29,9 +29,7 @@ export function statCardHtml(options: StatCardHtmlOptions): string {
 
   const idAttr = id ? ` id="${escapeHtml(id)}"` : '';
   const valueIdAttr = valueId ? ` id="${escapeHtml(valueId)}"` : '';
-  const sublabelHtml = sublabel
-    ? `<div class="stat-sublabel">${escapeHtml(sublabel)}</div>`
-    : '';
+  const sublabelHtml = sublabel ? `<div class="stat-sublabel">${escapeHtml(sublabel)}</div>` : '';
 
   return (
     `<div class="${classes.join(' ')}"${idAttr}>` +

@@ -13,7 +13,9 @@
   box-shadow: var(--shadow-lg);
   z-index: 2000;
   animation: slideInRight 0.3s ease-out;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 @keyframes slideInRight {
@@ -358,7 +360,7 @@
   background: rgba(0, 27, 165, 0.1);
 }
 
-.payment-option input[type="radio"] {
+.payment-option input[type='radio'] {
   margin: 0;
   flex-shrink: 0;
 }

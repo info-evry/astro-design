@@ -58,10 +58,7 @@ const { tabs, activeTab = tabs[0]?.id, id = 'admin-sidebar' } = Astro.props;
           {tab.icon && <span class="admin-sidebar-icon sf-symbol">{getSymbol(tab.icon)}</span>}
           <span class="admin-sidebar-label">{tab.label}</span>
           {tab.badge !== undefined && (
-            <span
-              id={`${tab.id}-badge`}
-              class:list={['admin-sidebar-badge', { hidden: tab.badgeHidden }]}
-            >
+            <span id={`${tab.id}-badge`} class:list={['admin-sidebar-badge', { hidden: tab.badgeHidden }]}>
               {tab.badge ?? 0}
             </span>
           )}

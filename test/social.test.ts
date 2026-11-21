@@ -42,7 +42,7 @@ describe('buildSocialLinks', () => {
     telegram: { url: 'https://t.me/test' },
     instagram: { url: 'https://instagram.com/test' },
     github: { url: 'https://github.com/test' },
-    linkedin: { url: 'https://linkedin.com/in/test' },
+    linkedin: { url: 'https://linkedin.com/in/test' }
   };
 
   test('should build links from social object', () => {
@@ -83,11 +83,11 @@ describe('buildSocialLinks', () => {
     const partialSocial = {
       discord: { url: 'https://discord.gg/test' },
       telegram: { url: '' },
-      instagram: { url: 'https://instagram.com/test' },
+      instagram: { url: 'https://instagram.com/test' }
     };
     const links = buildSocialLinks(partialSocial, ['discord', 'telegram', 'instagram']);
     expect(links).toHaveLength(2);
-    expect(links.map(l => l.name)).toEqual(['Discord', 'Instagram']);
+    expect(links.map((l) => l.name)).toEqual(['Discord', 'Instagram']);
   });
 
   test('should handle empty social object', () => {
@@ -97,7 +97,7 @@ describe('buildSocialLinks', () => {
 
   test('should handle missing icons in social object', () => {
     const sparseSocial = {
-      discord: { url: 'https://discord.gg/test' },
+      discord: { url: 'https://discord.gg/test' }
     };
     const links = buildSocialLinks(sparseSocial, ['discord', 'github', 'twitter']);
     expect(links).toHaveLength(1);
@@ -113,9 +113,18 @@ describe('buildSocialLinks', () => {
       linkedin: { url: 'https://linkedin.com/test' },
       twitter: { url: 'https://twitter.com/test' },
       youtube: { url: 'https://youtube.com/test' },
-      facebook: { url: 'https://facebook.com/test' },
+      facebook: { url: 'https://facebook.com/test' }
     };
-    const allIcons: SocialIconName[] = ['discord', 'telegram', 'instagram', 'github', 'linkedin', 'twitter', 'youtube', 'facebook'];
+    const allIcons: SocialIconName[] = [
+      'discord',
+      'telegram',
+      'instagram',
+      'github',
+      'linkedin',
+      'twitter',
+      'youtube',
+      'facebook'
+    ];
     const links = buildSocialLinks(fullSocial, allIcons);
     expect(links).toHaveLength(8);
   });

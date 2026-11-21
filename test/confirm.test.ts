@@ -37,7 +37,12 @@ describe('confirmAction', () => {
 
   test('closes the modal after onConfirm resolves', async () => {
     let release!: () => void;
-    const onConfirm = vi.fn(() => new Promise<void>((resolve) => { release = resolve; }));
+    const onConfirm = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          release = resolve;
+        })
+    );
     confirmAction({ message: 'm', confirmLabel: 'ok', onConfirm });
 
     button().click();
@@ -54,7 +59,12 @@ describe('confirmAction', () => {
 
   test('a second click while onConfirm runs is ignored', async () => {
     let release!: () => void;
-    const onConfirm = vi.fn(() => new Promise<void>((resolve) => { release = resolve; }));
+    const onConfirm = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          release = resolve;
+        })
+    );
     confirmAction({ message: 'm', confirmLabel: 'ok', onConfirm });
 
     button().click();
@@ -138,8 +148,6 @@ describe('confirmAction', () => {
 
   test('throws when the markup is missing', () => {
     document.body.innerHTML = '';
-    expect(() => confirmAction({ message: 'm', confirmLabel: 'ok', onConfirm: vi.fn() })).toThrow(
-      /#confirm-modal/
-    );
+    expect(() => confirmAction({ message: 'm', confirmLabel: 'ok', onConfirm: vi.fn() })).toThrow(/#confirm-modal/);
   });
 });

@@ -59,10 +59,7 @@ export function truncateText(str: string | null | undefined, maxLength = 40): st
  * @param fn - Function to debounce
  * @param wait - Delay in ms (default 300)
  */
-export function debounce<Args extends unknown[]>(
-  fn: (...args: Args) => void,
-  wait = 300
-): (...args: Args) => void {
+export function debounce<Args extends unknown[]>(fn: (...args: Args) => void, wait = 300): (...args: Args) => void {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   return (...args: Args) => {
     if (timeoutId !== undefined) clearTimeout(timeoutId);
@@ -77,7 +74,7 @@ export function debounce<Args extends unknown[]>(
 export function formatCurrency(cents: number): string {
   return (cents / 100).toLocaleString('fr-FR', {
     style: 'currency',
-    currency: 'EUR',
+    currency: 'EUR'
   });
 }
 

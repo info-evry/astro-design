@@ -45,7 +45,7 @@ describe('createApiClient', () => {
     const fetchMock = mockFetch(
       new Response(JSON.stringify({ ok: true }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       })
     );
 
@@ -54,7 +54,7 @@ describe('createApiClient', () => {
     expect(fetchMock).toHaveBeenCalledWith(
       '/api/members',
       expect.objectContaining({
-        headers: expect.objectContaining({ Authorization: 'Bearer abc123' }),
+        headers: expect.objectContaining({ Authorization: 'Bearer abc123' })
       })
     );
   });
@@ -76,7 +76,7 @@ describe('createApiClient', () => {
     await expect(client.api('/secret')).rejects.toMatchObject({
       name: 'ApiError',
       status: 401,
-      message: 'Unauthorized',
+      message: 'Unauthorized'
     });
   });
 
@@ -85,7 +85,7 @@ describe('createApiClient', () => {
     const errorResponse = () =>
       new Response(JSON.stringify({ error: 'Nope' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       });
 
     mockFetch(errorResponse());
@@ -99,7 +99,7 @@ describe('createApiClient', () => {
     const client = createApiClient({ baseUrl: '', tokenKey: TOKEN_KEY });
     const csvResponse = new Response('a,b,c', {
       status: 200,
-      headers: { 'Content-Type': 'text/csv' },
+      headers: { 'Content-Type': 'text/csv' }
     });
     mockFetch(csvResponse);
 
@@ -111,7 +111,10 @@ describe('createApiClient', () => {
 describe('ApiError.code', () => {
   test('is filled from the server error body', async () => {
     const fetchMock = async () =>
-      new Response(JSON.stringify({ error: 'Doublon', code: 'conflict' }), { status: 409, headers: { 'Content-Type': 'application/json' } });
+      new Response(JSON.stringify({ error: 'Doublon', code: 'conflict' }), {
+        status: 409,
+        headers: { 'Content-Type': 'application/json' }
+      });
     const original = globalThis.fetch;
     globalThis.fetch = fetchMock as typeof fetch;
     try {

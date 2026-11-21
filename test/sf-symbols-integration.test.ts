@@ -39,8 +39,12 @@ describe('vite plugin', () => {
   test('replaces shortcodes in client js, astro and query-suffixed ids', () => {
     const { plugin } = setup();
     const gear = loadSymbolsMap().get('gear')!;
-    for (const id of ['/p/src/client/a.js', '/p/src/pages/x.astro', '/p/src/pages/x.astro?astro&type=script&index=0&lang.ts']) {
-      const out = plugin.transform("`<i>@sfs:gear@</i>`", id);
+    for (const id of [
+      '/p/src/client/a.js',
+      '/p/src/pages/x.astro',
+      '/p/src/pages/x.astro?astro&type=script&index=0&lang.ts'
+    ]) {
+      const out = plugin.transform('`<i>@sfs:gear@</i>`', id);
       expect(out.code).toContain(gear);
       expect(out.code).not.toContain('@sfs:');
     }

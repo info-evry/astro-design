@@ -42,8 +42,7 @@ describe('click delegation', () => {
   });
 
   test('innermost data-action wins', () => {
-    document.body.innerHTML =
-      '<div data-action="outer"><button data-action="inner"><i id="t"></i></button></div>';
+    document.body.innerHTML = '<div data-action="outer"><button data-action="inner"><i id="t"></i></button></div>';
     const outer = vi.fn();
     const inner = vi.fn();
     unbind = bindDelegation({ outer, inner }, {});
@@ -120,8 +119,7 @@ describe('click delegation', () => {
   });
 
   test('a matching ancestor outside a custom root is ignored', () => {
-    document.body.innerHTML =
-      '<div data-action="go"><section id="root"><span id="in">x</span></section></div>';
+    document.body.innerHTML = '<div data-action="go"><section id="root"><span id="in">x</span></section></div>';
     const go = vi.fn();
     unbind = bindDelegation({ go }, {}, { root: document.getElementById('root')! });
     click(document.getElementById('in')!);
@@ -193,7 +191,8 @@ describe('data-stop', () => {
   });
 
   test('data-stop on an action element stops the event reaching window', () => {
-    document.body.innerHTML = '<button id="b" data-action="go" data-stop></button><button id="n" data-action="go"></button>';
+    document.body.innerHTML =
+      '<button id="b" data-action="go" data-stop></button><button id="n" data-action="go"></button>';
     const go = vi.fn();
     const atWindow = vi.fn();
     unbind = bindDelegation({ go }, {});
@@ -214,7 +213,15 @@ describe('error handling', () => {
     document.body.innerHTML = '<button data-action="boom"></button>';
     const err = new Error('nope');
     const onError = vi.fn();
-    unbind = bindDelegation({ boom: async () => { throw err; } }, {}, { onError });
+    unbind = bindDelegation(
+      {
+        boom: async () => {
+          throw err;
+        }
+      },
+      {},
+      { onError }
+    );
 
     click(document.querySelector('button')!);
     await flush();
@@ -227,7 +234,15 @@ describe('error handling', () => {
   test('sync throws go to onError too', () => {
     document.body.innerHTML = '<button data-action="boom"></button>';
     const onError = vi.fn();
-    unbind = bindDelegation({ boom: () => { throw new Error('sync'); } }, {}, { onError });
+    unbind = bindDelegation(
+      {
+        boom: () => {
+          throw new Error('sync');
+        }
+      },
+      {},
+      { onError }
+    );
     click(document.querySelector('button')!);
     expect(onError).toHaveBeenCalledTimes(1);
   });
@@ -246,9 +261,17 @@ describe('error handling', () => {
     document.body.innerHTML = '<button data-action="boom"></button>';
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     unbind = bindDelegation(
-      { boom: async () => { throw new Error('x'); } },
+      {
+        boom: async () => {
+          throw new Error('x');
+        }
+      },
       {},
-      { onError: () => { throw new Error('cb'); } }
+      {
+        onError: () => {
+          throw new Error('cb');
+        }
+      }
     );
     click(document.querySelector('button')!);
     await flush();

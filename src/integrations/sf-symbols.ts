@@ -128,9 +128,9 @@ function sfSymbolsVitePlugin(): Plugin {
       const transformed = replaceShortcodes(code, symbolsMap);
       return {
         code: transformed,
-        map: null,
+        map: null
       };
-    },
+    }
   };
 }
 
@@ -145,8 +145,8 @@ export function sfSymbols(): AstroIntegration {
         symbolsMap = loadSymbolsMap();
         updateConfig({
           vite: {
-            plugins: [sfSymbolsVitePlugin()],
-          },
+            plugins: [sfSymbolsVitePlugin()]
+          }
         });
       },
 
@@ -202,8 +202,8 @@ export function sfSymbols(): AstroIntegration {
         if (totalReplacements > 0) {
           console.log(`[sf-symbols] Replaced ${totalReplacements} shortcodes in HTML files`);
         }
-      },
-    },
+      }
+    }
   };
 }
 

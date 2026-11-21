@@ -40,7 +40,7 @@ describe('SF Symbols JSON mapping', () => {
       'star.fill',
       'book',
       'folder',
-      'paperplane',
+      'paperplane'
     ];
 
     for (const name of commonSymbols) {
@@ -75,7 +75,7 @@ describe('SF Symbols JSON mapping', () => {
       'envelope.fill',
       'clock.fill',
       'star.fill',
-      'calendar',
+      'calendar'
     ];
 
     for (const name of usedSymbols) {

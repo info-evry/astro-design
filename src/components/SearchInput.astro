@@ -24,14 +24,16 @@ const {
   value = '',
   disabled = false,
   class: className = '',
-  size = 'default',
+  size = 'default'
 } = Astro.props;
 
 const inputClass = ['search-input', `search-input-${size}`, className].filter(Boolean).join(' ');
 ---
 
 <div class="search-input-wrapper">
-  <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+  <span class="search-icon" aria-hidden="true">
+    &#x1F50D;
+  </span>
   <input
     type="search"
     id={id}

@@ -20,10 +20,10 @@ interface Props {
 }
 
 const {
-  homeUrl = "/",
+  homeUrl = '/',
   navLinks = [],
-  ctaHref = "#",
-  ctaLabel = "Adhérer",
+  ctaHref = '#',
+  ctaLabel = 'Adhérer',
   mobileCta = "Adhérer à l'association"
 } = Astro.props;
 
@@ -37,13 +37,17 @@ const logoHref = withBase('/favicon.svg');
     </a>
 
     <nav class="nav">
-      {navLinks.map(link => (
-        <a href={link.href} class="nav-link">{link.label}</a>
+      {navLinks.map((link) => (
+        <a href={link.href} class="nav-link">
+          {link.label}
+        </a>
       ))}
     </nav>
 
     <div class="header-actions">
-      <a href={ctaHref} class="btn btn-primary btn-header">{ctaLabel}</a>
+      <a href={ctaHref} class="btn btn-primary btn-header">
+        {ctaLabel}
+      </a>
     </div>
 
     <!-- CSS-only mobile menu -->
@@ -54,10 +58,14 @@ const logoHref = withBase('/favicon.svg');
 
     <div class="mobile-nav">
       <nav class="mobile-nav-links">
-        {navLinks.map(link => (
-          <a href={link.href} class="mobile-nav-link">{link.label}</a>
+        {navLinks.map((link) => (
+          <a href={link.href} class="mobile-nav-link">
+            {link.label}
+          </a>
         ))}
-        <a href={ctaHref} class="btn btn-primary mobile-cta">{mobileCta}</a>
+        <a href={ctaHref} class="btn btn-primary mobile-cta">
+          {mobileCta}
+        </a>
       </nav>
     </div>
   </div>
@@ -260,11 +268,21 @@ const logoHref = withBase('/favicon.svg');
     transform: translateY(0);
   }
 
-  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(1) { transition-delay: 100ms; }
-  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(2) { transition-delay: 150ms; }
-  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(3) { transition-delay: 200ms; }
-  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(4) { transition-delay: 250ms; }
-  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-cta { transition-delay: 300ms; }
+  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(1) {
+    transition-delay: 100ms;
+  }
+  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(2) {
+    transition-delay: 150ms;
+  }
+  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(3) {
+    transition-delay: 200ms;
+  }
+  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-nav-link:nth-child(4) {
+    transition-delay: 250ms;
+  }
+  .mobile-menu-checkbox:checked ~ .mobile-nav .mobile-cta {
+    transition-delay: 300ms;
+  }
 
   /* Responsive */
   @media (max-width: 768px) {

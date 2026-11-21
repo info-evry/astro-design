@@ -65,7 +65,7 @@
 }
 
 .archive-card.expired .archive-card-year::after {
-  content: " (anonymisée)";
+  content: ' (anonymisée)';
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--color-warning);

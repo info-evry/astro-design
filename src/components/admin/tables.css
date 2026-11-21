@@ -41,7 +41,7 @@
   padding-right: var(--space-2);
 }
 
-.data-table .checkbox-col input[type="checkbox"] {
+.data-table .checkbox-col input[type='checkbox'] {
   vertical-align: middle;
 }
 
@@ -91,7 +91,7 @@
   padding-right: var(--space-2);
 }
 
-.members-table .checkbox-col input[type="checkbox"] {
+.members-table .checkbox-col input[type='checkbox'] {
   vertical-align: middle;
 }
 
@@ -222,8 +222,15 @@
 }
 
 @keyframes badgePulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.9); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
 }
 
 @keyframes badgeFadeInUp {
@@ -383,7 +390,9 @@ th.sortable,
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
 }
 
 th.sortable:hover,
@@ -403,23 +412,23 @@ th.sortable:hover,
   content: '↕';
 }
 
-th.sortable[data-sort="asc"] .sort-indicator,
-.sortable-header[data-sort-dir="asc"] .sort-indicator {
+th.sortable[data-sort='asc'] .sort-indicator,
+.sortable-header[data-sort-dir='asc'] .sort-indicator {
   opacity: 1;
   color: var(--color-primary);
 }
 
-th.sortable[data-sort="asc"] .sort-indicator::after {
+th.sortable[data-sort='asc'] .sort-indicator::after {
   content: '↑';
 }
 
-th.sortable[data-sort="desc"] .sort-indicator,
-.sortable-header[data-sort-dir="desc"] .sort-indicator {
+th.sortable[data-sort='desc'] .sort-indicator,
+.sortable-header[data-sort-dir='desc'] .sort-indicator {
   opacity: 1;
   color: var(--color-primary);
 }
 
-th.sortable[data-sort="desc"] .sort-indicator::after {
+th.sortable[data-sort='desc'] .sort-indicator::after {
   content: '↓';
 }
 

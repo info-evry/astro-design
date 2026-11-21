@@ -52,7 +52,7 @@ describe('SF Symbols usage across the platform', () => {
     const used = new Map([
       ...collect(/getSymbol\(\s*['"]([a-zA-Z0-9._-]+)['"]\s*\)/g),
       ...collect(/\bicon:\s*['"]([a-zA-Z0-9._-]+)['"]/g),
-      ...collect(/ctaIcon=["{']+([a-zA-Z0-9._-]+)/g),
+      ...collect(/ctaIcon=["{']+([a-zA-Z0-9._-]+)/g)
     ]);
     const missing = [...used].filter(([n]) => !names.has(n)).map(([n, f]) => `${n} (${[...new Set(f)].join(', ')})`);
     expect(missing).toEqual([]);
@@ -61,7 +61,10 @@ describe('SF Symbols usage across the platform', () => {
   test('client JS modules that use shortcodes are covered by the transform id filter', async () => {
     const { shouldTransformId } = await import('../src/integrations/sf-symbols');
     const clientWithShortcodes = files.filter(
-      (f) => /\.(js|mjs|ts)$/.test(f) && /@sfs:[a-z0-9.]+@/.test(readFileSync(f, 'utf-8')) && !f.includes('astro-design/src/integrations'),
+      (f) =>
+        /\.(js|mjs|ts)$/.test(f) &&
+        /@sfs:[a-z0-9.]+@/.test(readFileSync(f, 'utf-8')) &&
+        !f.includes('astro-design/src/integrations')
     );
     for (const f of clientWithShortcodes) expect(shouldTransformId(f)).toBe(true);
   });
@@ -75,7 +78,8 @@ describe('SF Symbols usage across the platform', () => {
         for (const entry of readdirSync(dir)) {
           const full = join(dir, entry);
           if (statSync(full).isDirectory()) scan(full);
-          else if (/\.(js|mjs|html)$/.test(entry) && /@sfs:[a-z0-9.]+@/.test(readFileSync(full, 'utf-8'))) leaks.push(full.replace(projectsDir + '/', ''));
+          else if (/\.(js|mjs|html)$/.test(entry) && /@sfs:[a-z0-9.]+@/.test(readFileSync(full, 'utf-8')))
+            leaks.push(full.replace(projectsDir + '/', ''));
         }
       };
       scan(dist);

@@ -15,11 +15,11 @@
  *   bun run tools/subset-font.ts ../astro-ndi
  */
 
-import { $ } from "bun";
-import { readdir } from "node:fs/promises";
-import { join, resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-import symbolsMap from "../src/symbols/sfsymbols.json";
+import { $ } from 'bun';
+import { readdir } from 'node:fs/promises';
+import { join, resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import symbolsMap from '../src/symbols/sfsymbols.json';
 
 // Matches @sfs:symbol.name@ shortcode pattern
 // Example matched strings:
@@ -29,12 +29,10 @@ import symbolsMap from "../src/symbols/sfsymbols.json";
 const SFS_SHORTCODE_REGEX = /@sfs:([a-zA-Z0-9._-]+)@/g;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const designRoot = resolve(__dirname, "..");
+const designRoot = resolve(__dirname, '..');
 
 // Convert symbols map to lookup
-const symbolsLookup = new Map<string, string>(
-  (symbolsMap as [string, string][]).map(([name, char]) => [name, char])
-);
+const symbolsLookup = new Map<string, string>((symbolsMap as [string, string][]).map(([name, char]) => [name, char]));
 
 async function findSourceFiles(dir: string): Promise<string[]> {
   const files: string[] = [];
@@ -44,9 +42,13 @@ async function findSourceFiles(dir: string): Promise<string[]> {
       const entries = await readdir(currentDir, { withFileTypes: true });
       for (const entry of entries) {
         const fullPath = join(currentDir, entry.name);
-        if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
+        if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           await scan(fullPath);
-        } else if (entry.isFile() && /\.(astro|tsx|jsx|html|js|mjs|ts)$/.test(entry.name) && !entry.name.endsWith(".d.ts")) {
+        } else if (
+          entry.isFile() &&
+          /\.(astro|tsx|jsx|html|js|mjs|ts)$/.test(entry.name) &&
+          !entry.name.endsWith('.d.ts')
+        ) {
           // Client-side .js/.ts modules build admin markup in template
           // literals and reference symbols too; they must be scanned or
           // their glyphs are missing from the subset.
@@ -65,25 +67,25 @@ async function findSourceFiles(dir: string): Promise<string[]> {
 
 // Admin action symbols that are always needed (used inline in JS templates)
 const ADMIN_SYMBOLS = [
-  'pencil',           // Edit action
-  'trash',            // Delete action
-  'trash.fill',       // Delete action (filled)
-  'xmark',            // Close/remove
-  'xmark.circle',     // Close/remove (circled)
+  'pencil', // Edit action
+  'trash', // Delete action
+  'trash.fill', // Delete action (filled)
+  'xmark', // Close/remove
+  'xmark.circle', // Close/remove (circled)
   'xmark.circle.fill', // Close/remove (filled)
-  'checkmark',        // Approve/confirm
+  'checkmark', // Approve/confirm
   'checkmark.circle', // Approve (circled)
   'checkmark.circle.fill', // Approve (filled)
-  'plus',             // Add
-  'plus.circle',      // Add (circled)
+  'plus', // Add
+  'plus.circle', // Add (circled)
   'plus.circle.fill', // Add (filled)
-  'chevron.right',    // Disclosure indicator
-  'chevron.down',     // Disclosure indicator
-  'chevron.left',     // Back
-  'chevron.up',       // Collapse
-  'gear',             // Settings
-  'person',           // User
-  'person.fill',      // User (filled)
+  'chevron.right', // Disclosure indicator
+  'chevron.down', // Disclosure indicator
+  'chevron.left', // Back
+  'chevron.up', // Collapse
+  'gear', // Settings
+  'person', // User
+  'person.fill' // User (filled)
 ];
 
 // Additional patterns to scan for (used in MobileNav items, etc.)
@@ -140,21 +142,21 @@ function getLatinChars(): string {
   const chars: string[] = [];
 
   // ASCII printable (0x0020-0x007E)
-  for (let i = 0x00_20; i <= 0x00_7E; i++) {
+  for (let i = 0x00_20; i <= 0x00_7e; i++) {
     chars.push(String.fromCharCode(i));
   }
 
   // Latin-1 Supplement (0x00A0-0x00FF) - includes é, è, à, ç, etc.
-  for (let i = 0x00_A0; i <= 0x00_FF; i++) {
+  for (let i = 0x00_a0; i <= 0x00_ff; i++) {
     chars.push(String.fromCharCode(i));
   }
 
   // Latin Extended-A (0x0100-0x017F) - includes œ, Œ, etc.
-  for (let i = 0x01_00; i <= 0x01_7F; i++) {
+  for (let i = 0x01_00; i <= 0x01_7f; i++) {
     chars.push(String.fromCharCode(i));
   }
 
-  return chars.join("");
+  return chars.join('');
 }
 
 function symbolsToChars(symbolNames: Set<string>, includeLatinText: boolean = false): string {
@@ -175,16 +177,16 @@ function symbolsToChars(symbolNames: Set<string>, includeLatinText: boolean = fa
   }
 
   // Always include space
-  if (!chars.includes(" ")) {
-    chars.push(" ");
+  if (!chars.includes(' ')) {
+    chars.push(' ');
   }
 
-  return chars.join("");
+  return chars.join('');
 }
 
 async function subsetFont(characters: string, outputPath: string) {
-  const inputFont = join(designRoot, "src/fonts/Cupertino-Pro-Full.woff2");
-  const charFile = join(designRoot, "tools/.subset-chars.txt");
+  const inputFont = join(designRoot, 'src/fonts/Cupertino-Pro-Full.woff2');
+  const charFile = join(designRoot, 'tools/.subset-chars.txt');
 
   // Write characters to temp file
   await Bun.write(charFile, characters);
@@ -197,17 +199,18 @@ async function subsetFont(characters: string, outputPath: string) {
     // Get file sizes
     const originalSize = (await Bun.file(inputFont).arrayBuffer()).byteLength;
     const subsetSize = (await Bun.file(outputPath).arrayBuffer()).byteLength;
-    const reduction = ((originalSize - subsetSize) / originalSize * 100).toFixed(1);
+    const reduction = (((originalSize - subsetSize) / originalSize) * 100).toFixed(1);
 
     console.log(`✅ Font subset created: ${outputPath}`);
-    console.log(`   ${(originalSize / 1024).toFixed(1)}KB → ${(subsetSize / 1024).toFixed(1)}KB (${reduction}% reduction)`);
+    console.log(
+      `   ${(originalSize / 1024).toFixed(1)}KB → ${(subsetSize / 1024).toFixed(1)}KB (${reduction}% reduction)`
+    );
 
     // Clean up temp file
-    await Bun.write(charFile, "");
-
+    await Bun.write(charFile, '');
   } catch (error: any) {
-    console.error("❌ Failed to create font subset.");
-    console.error("   Make sure pyftsubset is installed: pip install fonttools brotli");
+    console.error('❌ Failed to create font subset.');
+    console.error('   Make sure pyftsubset is installed: pip install fonttools brotli');
     throw error;
   }
 }
@@ -216,31 +219,31 @@ async function main() {
   const projectPath = process.argv[2];
 
   if (!projectPath) {
-    console.log("Usage: bun run tools/subset-font.ts <project-path>");
-    console.log("Example: bun run tools/subset-font.ts ../astro-ndi");
+    console.log('Usage: bun run tools/subset-font.ts <project-path>');
+    console.log('Example: bun run tools/subset-font.ts ../astro-ndi');
     process.exit(1);
   }
 
   const targetDir = resolve(process.cwd(), projectPath);
-  const outputPath = join(targetDir, "public/fonts/Cupertino-Pro.woff2");
+  const outputPath = join(targetDir, 'public/fonts/Cupertino-Pro.woff2');
 
   console.log(`🔍 Scanning for @sfs:xxx@ shortcodes in ${targetDir}...`);
 
   // Find all source files in the project and design system
   const projectFiles = await findSourceFiles(targetDir);
-  const designFiles = await findSourceFiles(join(designRoot, "src"));
+  const designFiles = await findSourceFiles(join(designRoot, 'src'));
   const allFiles = [...projectFiles, ...designFiles];
 
   console.log(`   Found ${allFiles.length} files to scan`);
 
   // Extract symbol names from shortcodes
   const symbolNames = await extractSymbolNames(allFiles);
-  console.log(`   Found ${symbolNames.size} unique symbols: ${[...symbolNames].join(", ")}`);
+  console.log(`   Found ${symbolNames.size} unique symbols: ${[...symbolNames].join(', ')}`);
 
   if (symbolNames.size === 0) {
-    console.log("⚠️  No @sfs:xxx@ shortcodes found. Copying full font instead.");
-    await $`mkdir -p ${join(targetDir, "public/fonts")}`;
-    await $`cp ${join(designRoot, "src/fonts/Cupertino-Pro-Full.woff2")} ${outputPath}`;
+    console.log('⚠️  No @sfs:xxx@ shortcodes found. Copying full font instead.');
+    await $`mkdir -p ${join(targetDir, 'public/fonts')}`;
+    await $`cp ${join(designRoot, 'src/fonts/Cupertino-Pro-Full.woff2')} ${outputPath}`;
     return;
   }
 
@@ -249,7 +252,7 @@ async function main() {
   console.log(`   Character set includes: Latin + ${symbolNames.size} SF Symbols`);
 
   // Create output directory
-  await $`mkdir -p ${join(targetDir, "public/fonts")}`.quiet();
+  await $`mkdir -p ${join(targetDir, 'public/fonts')}`.quiet();
 
   // Create subset font
   await subsetFont(chars, outputPath);

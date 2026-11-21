@@ -77,8 +77,7 @@ export function createPublicClient(options: CreatePublicClientOptions = {}): Pub
     const data = parsed.ok ? asObject(parsed.value) : undefined;
 
     if (!response.ok) {
-      const message =
-        stringField(data, 'error') ?? (parsed.ok ? MSG_GENERIC_ERROR : MSG_SERVICE_UNAVAILABLE);
+      const message = stringField(data, 'error') ?? (parsed.ok ? MSG_GENERIC_ERROR : MSG_SERVICE_UNAVAILABLE);
       throw new ApiError(message, response.status, stringField(data, 'code'));
     }
 
@@ -93,13 +92,13 @@ export function createPublicClient(options: CreatePublicClientOptions = {}): Pub
       request<T>(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: body === undefined ? undefined : JSON.stringify(body),
+        body: body === undefined ? undefined : JSON.stringify(body)
       });
 
   return {
     get: <T = unknown>(endpoint: string) =>
       request<T>(endpoint, { method: 'GET', headers: { Accept: 'application/json' } }),
     post: withBody('POST'),
-    put: withBody('PUT'),
+    put: withBody('PUT')
   };
 }

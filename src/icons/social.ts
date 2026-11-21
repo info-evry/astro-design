@@ -34,8 +34,8 @@ export function buildSocialLinks(
   icons: SocialIconName[] = ['discord', 'telegram', 'instagram', 'github']
 ) {
   return icons
-    .filter(name => social[name]?.url)
-    .map(name => ({
+    .filter((name) => social[name]?.url)
+    .map((name) => ({
       name: name.charAt(0).toUpperCase() + name.slice(1),
       href: social[name].url,
       icon: socialIcons[name]
