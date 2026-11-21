@@ -22,7 +22,7 @@ describe('showToast', () => {
     showToast('First', 'info', 10_000);
     showToast('Second', 'error', 10_000);
     const toasts = document.querySelectorAll('.toast');
-    expect(toasts.length).toBe(1);
+    expect(toasts).toHaveLength(1);
     expect(toasts[0].textContent).toBe('Second');
     expect(toasts[0].classList.contains('error')).toBe(true);
   });

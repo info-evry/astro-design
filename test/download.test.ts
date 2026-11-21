@@ -53,11 +53,11 @@ describe('safeFilename', () => {
 
   test('shortens long names but keeps a short extension', () => {
     const long = safeFilename(`${'a'.repeat(300)}.csv`);
-    expect(long.length).toBe(150);
+    expect(long).toHaveLength(150);
     expect(long.endsWith('.csv')).toBe(true);
-    expect(safeFilename('b'.repeat(300)).length).toBe(150);
+    expect(safeFilename('b'.repeat(300))).toHaveLength(150);
     // a "extension" that is too long to be one is not preserved
-    expect(safeFilename(`${'c'.repeat(200)}.${'x'.repeat(40)}`).length).toBe(150);
+    expect(safeFilename(`${'c'.repeat(200)}.${'x'.repeat(40)}`)).toHaveLength(150);
   });
 });
 

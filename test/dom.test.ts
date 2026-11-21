@@ -39,7 +39,7 @@ describe('truncateText', () => {
 
   test('truncates long strings with an ellipsis', () => {
     const result = truncateText('a'.repeat(50), 10);
-    expect(result.length).toBe(10);
+    expect(result).toHaveLength(10);
     expect(result.endsWith('…')).toBe(true);
   });
 });

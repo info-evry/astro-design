@@ -100,7 +100,9 @@ describe('astro:build:done post-processing', () => {
 
   test('does nothing for a missing or empty output directory', async () => {
     const { hooks } = setup();
-    await hooks['astro:build:done']({ dir: pathToFileURL(join(dir, 'missing') + '/') });
-    await hooks['astro:build:done']({ dir: pathToFileURL(dir + '/') });
+    await expect(
+      hooks['astro:build:done']({ dir: pathToFileURL(join(dir, 'missing') + '/') })
+    ).resolves.toBeUndefined();
+    await expect(hooks['astro:build:done']({ dir: pathToFileURL(dir + '/') })).resolves.toBeUndefined();
   });
 });
